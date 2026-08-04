@@ -8,14 +8,19 @@
   --ink-2:#1A1F21;
   --ink-3:#242A2C;
   --blue:#079DE0;
-  --blue-text:#067EB3;
-  --grey:#E6E6E6;
-  --paper:#F4F4F3;
+  --blue-text:#056C9B;      /* 4.61:1 on Soft Silver, 5.79:1 on white */
+  --orange-text:#A44D00;   /* 4.59:1 on Soft Silver, 5.77:1 on white */
+  --grey:#E5E5E9;          /* Soft Silver Gray */
+  --paper:#E5E5E9;         /* Soft Silver Gray */
+  --carbon:#111111;        /* Carbon Gray */
+  --void:#030204;          /* Ink Black */
+  --teal:#09D0DC;          /* Teal Blue    9.33:1 on ink */
+  --orange:#F97400;        /* Strong Orange 6.35:1 on ink */
   --white:#FFFFFF;
   --on-dark:rgba(255,255,255,.68);
   --on-dark-dim:rgba(255,255,255,.44);
   --line-dark:rgba(255,255,255,.12);
-  --line-light:#DCDDDC;
+  --line-light:#D2D3D8;
   --ink-soft:#4A5154;
 
   /* grid */
@@ -48,6 +53,8 @@
 @font-face{font-family:Poppins;src:url(../fonts/poppins-regular.woff2)format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:Poppins;src:url(../fonts/poppins-medium.woff2)format("woff2");font-weight:500;font-display:swap}
 @font-face{font-family:Poppins;src:url(../fonts/poppins-semibold.woff2)format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Azeret;src:url(../fonts/azeret-400.woff2)format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Azeret;src:url(../fonts/azeret-500.woff2)format("woff2");font-weight:500;font-display:swap}
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -641,3 +648,34 @@ ul{margin:0;padding:0;list-style:none}
   .marq-in{animation:none}
   .scrollcue i::after{animation:none;transform:none}
 }
+
+/* ============ SECONDARY TYPEFACE ============
+   Azeret Mono carries the data layer: indices, labels, measurements, prices.
+   Aloevera carries voice. The split is by role, never by decoration. */
+.label,.eyeline b,.eyeline span,.snum,.step-n,.case-n,.rung .num,.faq .qn,
+.spec dt,.spec dd,.spin-deg,.hero-bar dt,.ftr h4,.buy-price b,.buy-price span,
+.opt-lbl,.demo-tag,.figure figcaption,.turn-deg,.marq-set span,.cmp thead th,
+.band .attr,.spin-hint,.scrollcue,.ftr-btm{
+  font-family:Azeret,ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-feature-settings:"tnum" 1;
+}
+.label,.eyeline span,.step-n,.hero-bar dt,.ftr h4,.opt-lbl,.demo-tag,
+.figure figcaption,.band .attr,.spin-hint,.scrollcue,.cmp thead th{letter-spacing:.1em}
+.marq-set span{letter-spacing:-.005em;font-weight:400}
+.buy-price b{letter-spacing:-.02em}
+.spec dd{letter-spacing:0}
+
+/* ============ COLOUR ROLES ============
+   Blue marks what is structural. Teal marks what is proven.
+   Orange marks what is not yet verified. Colour carries meaning here. */
+.spec dd:not(.pending){color:var(--white)}
+.light .spec dd:not(.pending),.paper .spec dd:not(.pending){color:var(--ink)}
+.pending{color:var(--orange);font-style:normal;font-weight:400;opacity:.95}
+.light .pending,.paper .pending{color:var(--orange-text)}
+.cmp .yes{color:var(--blue-text)}
+.marq-set span{color:var(--white)}
+.dg-key i{background:var(--blue)}
+.dg-key i.b{background:var(--orange);opacity:.7}
+.empty .mk{opacity:.55}
+.empty .why{color:var(--orange)}
+.light .empty .why,.paper .empty .why{color:var(--orange-text)}
