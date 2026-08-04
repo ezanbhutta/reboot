@@ -62,15 +62,29 @@ should be treated as a real brand asset** — favicon, loading indicator, sectio
 markers, scroll cues — not just an app icon. It is the most ownable element in the
 package.
 
-Supplied variants: full colour on dark, on white, on black, on brand blue, on light
-grey; monogram in white-on-blue and blue-on-grey.
+**Master artwork received 4 August** — five assets in SVG, PNG and PDF:
 
-### Colour, as supplied
-Sampled directly from the delivered artwork:
+| Asset | Lockup | Use |
+|---|---|---|
+| 1 | Wordmark, white with blue `oo` | Dark grounds — the primary lockup |
+| 2 | Monogram, blue | Favicon, app icon, accent |
+| 3 | Wordmark, ink with blue `oo` | Light grounds |
+| 4 | Wordmark, single-colour white | Reversed, single-ink applications |
+| 5 | Monogram, single-colour white | Reversed monogram |
+
+**The SVGs are the significant delivery.** Each is 1.4–2.6 KB, so the logo can be
+inlined directly in the theme at effectively zero network cost and stays sharp at any
+density. Wordmark viewBox `1330 × 376.94`; monogram `953.33 × 553.48`. This closes the
+gap left by the original package, which contained only outlined `.ai` artwork and a
+raster mockup sheet.
+
+### Colour, authoritative
+Taken from the master SVG fills — not sampled from the mockup, whose JPEG compression
+shifted every channel by one unit:
 
 | Role | Hex | Notes |
 |---|---|---|
-| Brand blue | `#089DE1` | Bright cyan-leaning blue. H 199° S 93% L 46% |
+| Brand blue | `#079DE0` | Bright cyan-leaning blue. H 199° S 93% L 46% |
 | Ink | `#15191A` | Near-black, very slightly cool |
 | Light grey | `#E6E6E6` | Background tone |
 | White | `#FFFFFF` | |
@@ -85,10 +99,10 @@ Measured against WCAG 2.2 AA:
 | Ink on white | **17.71:1** | PASS | PASS |
 | White on ink | **17.71:1** | PASS | PASS |
 | Ink on light grey | **14.19:1** | PASS | PASS |
-| Brand blue on **ink** | **5.84:1** | PASS | PASS |
-| Brand blue on white | **3.03:1** | **FAIL** | PASS |
-| White on brand blue | **3.03:1** | **FAIL** | PASS |
-| Brand blue on light grey | **2.43:1** | **FAIL** | **FAIL** |
+| Brand blue on **ink** | **5.83:1** | PASS | PASS |
+| Brand blue on white | **3.04:1** | **FAIL** | PASS |
+| White on brand blue | **3.04:1** | **FAIL** | PASS |
+| Brand blue on light grey | **2.44:1** | **FAIL** | **FAIL** |
 
 Three consequences, and they shape the entire visual system:
 
@@ -98,13 +112,13 @@ Three consequences, and they shape the entire visual system:
    inaccessible. It has to be designed around, not discovered at QA.
 2. **Brand blue on the light grey fails even the 3:1 UI threshold.** That combination
    is prohibited outright.
-3. **The blue is at its strongest on ink — 5.84:1.** The palette, unprompted, is
+3. **The blue is at its strongest on ink — 5.83:1.** The palette, unprompted, is
    telling us it wants a dark canvas. This is developed in
    [`08-strategy.md`](08-strategy.md).
 
-**Derived token, computed not guessed:** `#067EB4` — the same hue and saturation
+**Derived token, computed not guessed:** `#067EB3` — the same hue and saturation
 darkened to L 36.5% — reaches **4.52:1 on white**, making it the accessible variant
-for links and blue text at body size on light backgrounds. The supplied `#089DE1`
+for links and blue text at body size on light backgrounds. The supplied `#079DE0`
 remains the display/accent blue.
 
 Primary CTA resolves to **ink with white text at 17.71:1** — which is both the

@@ -80,8 +80,8 @@ Direction and rationale only. Layouts follow once the blockers in
 [`06-phase1-extraction.md §4`](06-phase1-extraction.md) clear.
 
 ### The dark canvas — argued, not assumed
-The contrast audit found the brand blue reaches only **3.03:1 on white** (failing AA
-for body text and for white-on-blue buttons) but **5.84:1 on ink**. The palette as
+The contrast audit found the brand blue reaches only **3.04:1 on white** (failing AA
+for body text and for white-on-blue buttons) but **5.83:1 on ink**. The palette as
 delivered performs properly on a dark ground.
 
 Four independent reasons converge on the same answer:
@@ -109,11 +109,11 @@ Light sections are used deliberately for contrast — editorial passages, FAQ, p
 |---|---|---|---|
 | `ink` | `#15191A` | Primary canvas, primary CTA fill | 17.71:1 with white |
 | `white` | `#FFFFFF` | Primary text on ink, light canvas | |
-| `blue-display` | `#089DE1` | Accent on ink, large display type, the mark | 5.84:1 on ink |
-| `blue-text` | `#067EB4` | Links and blue text at body size on light | 4.52:1 on white — derived |
+| `blue-display` | `#079DE0` | Accent on ink, large display type, the mark | 5.83:1 on ink |
+| `blue-text` | `#067EB3` | Links and blue text at body size on light | 4.52:1 on white — derived |
 | `grey-light` | `#E6E6E6` | Light section grounds, dividers | 14.19:1 with ink |
 
-**Prohibited:** brand blue on light grey (2.43:1 — fails even 3:1); brand blue body
+**Prohibited:** brand blue on light grey (2.44:1 — fails even 3:1); brand blue body
 text on white; white text on a brand-blue fill.
 
 **Primary CTA:** ink fill, white label — 17.71:1. Accessible, and more premium than a

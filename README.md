@@ -44,11 +44,11 @@ Full detail: [`06-phase1-extraction.md §4`](docs/06-phase1-extraction.md).
 
 ## The three findings that shape everything
 
-**1. The brand blue fails WCAG on white.** `#089DE1` measures **3.03:1** on white —
+**1. The brand blue fails WCAG on white.** `#079DE0` measures **3.04:1** on white —
 failing AA for body text, and failing for white text on a blue button. On ink it
-reaches **5.84:1**. The palette as delivered wants a dark canvas, and that finding
+reaches **5.83:1**. The palette as delivered wants a dark canvas, and that finding
 converges with product presentation, differentiation from a uniformly white category,
-and the logo's strongest treatment. Derived accessible variant `#067EB4` (4.52:1 on
+and the logo's strongest treatment. Derived accessible variant `#067EB3` (4.52:1 on
 white) covers blue text on light grounds. Full audit in
 [`06-phase1-extraction.md §2`](docs/06-phase1-extraction.md).
 
