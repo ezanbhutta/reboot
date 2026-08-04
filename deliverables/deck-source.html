@@ -1,0 +1,715 @@
+<meta charset="utf-8">
+<title>reboot — Design Direction &amp; Site Architecture</title>
+<style>
+  @page { size: 13.333in 7.5in; margin: 0; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  html,body { background:#fff; }
+  body { font-family:'Poppins', sans-serif; color:#15191A; font-weight:400; }
+
+  .s { width:13.333in; height:7.5in; page-break-after:always; position:relative; overflow:hidden;
+       padding:0.8in 0.95in 0.7in; background:#fff; }
+  .s:last-child { page-break-after:auto; }
+  .dark { background:#15191A; color:#fff; }
+  .grey { background:#E6E6E6; }
+
+  .num { position:absolute; right:0.95in; bottom:0.42in; font-size:8.5pt; color:#9AA0A3; letter-spacing:.06em; }
+  .dark .num { color:rgba(255,255,255,.42); }
+  .brandline { position:absolute; left:0.95in; bottom:0.42in; font-size:8.5pt; color:#9AA0A3; letter-spacing:.06em; }
+  .dark .brandline { color:rgba(255,255,255,.42); }
+
+  .lab { font-size:8.5pt; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:#067EB4; margin-bottom:.30in; }
+  .dark .lab { color:#089DE1; }
+
+  h1 { font-size:40pt; font-weight:600; line-height:1.08; letter-spacing:-.018em; }
+  h2 { font-size:25pt; font-weight:600; line-height:1.16; letter-spacing:-.012em; }
+  h3 { font-size:13.5pt; font-weight:600; line-height:1.3; }
+  p  { font-size:12pt; line-height:1.62; color:#3C4245; font-weight:300; }
+  .dark p { color:rgba(255,255,255,.72); }
+  .lead { font-size:15pt; line-height:1.55; font-weight:300; }
+
+  .rule { height:1px; background:#E6E6E6; margin:.26in 0; }
+  .dark .rule { background:rgba(255,255,255,.16); }
+
+  .cols { display:flex; gap:.55in; }
+  .col { flex:1; }
+  .c3 > .col { flex:1; }
+
+  table { width:100%; border-collapse:collapse; }
+  td,th { text-align:left; vertical-align:top; padding:.115in .28in .115in 0; border-bottom:1px solid #E6E6E6; font-size:11pt; font-weight:300; color:#3C4245; }
+  th { font-size:8.5pt; font-weight:600; letter-spacing:.13em; text-transform:uppercase; color:#15191A; border-bottom:1px solid #15191A; padding-bottom:.09in; }
+  td.k { color:#15191A; font-weight:500; width:2.5in; }
+  .dark td,.dark th { border-color:rgba(255,255,255,.16); color:rgba(255,255,255,.72); }
+  .dark th { color:#fff; border-color:rgba(255,255,255,.5); }
+  .dark td.k { color:#fff; font-weight:500; }
+  table.tight td, table.tight th { padding:.085in .24in .085in 0; font-size:10pt; }
+  td.n { width:.42in; color:#089DE1; font-weight:600; }
+
+  ul { list-style:none; }
+  li { font-size:11.5pt; line-height:1.5; font-weight:300; color:#3C4245; padding-left:.26in; position:relative; margin-bottom:.115in; }
+  .dark li { color:rgba(255,255,255,.72); }
+  li:before { content:""; position:absolute; left:0; top:.093in; width:.078in; height:.078in; background:#089DE1; }
+  li b { font-weight:600; color:#15191A; }
+  .dark li b { color:#fff; }
+
+  .swatch { height:1.35in; border:1px solid #E6E6E6; }
+  .sw-meta { font-size:9.5pt; margin-top:.1in; font-weight:500; }
+  .sw-sub  { font-size:9pt; color:#6E7579; font-weight:300; }
+
+  .pill { display:inline-block; font-size:9pt; font-weight:500; padding:.05in .16in; border:1px solid #E6E6E6; color:#3C4245; margin:0 .07in .09in 0; }
+  .dark .pill { border-color:rgba(255,255,255,.28); color:rgba(255,255,255,.8); }
+
+  .big { font-size:34pt; font-weight:600; letter-spacing:-.015em; line-height:1; }
+  .big span { color:#089DE1; }
+  .stat { font-size:26pt; font-weight:600; letter-spacing:-.01em; color:#15191A; }
+  .dark .stat { color:#fff; }
+  .stat-l { font-size:9.5pt; color:#6E7579; font-weight:300; line-height:1.4; margin-top:.06in; }
+  .dark .stat-l { color:rgba(255,255,255,.6); }
+
+  .quote { font-size:14pt; line-height:1.5; font-weight:300; color:#15191A; border-left:2px solid #089DE1; padding-left:.24in; }
+  .dark .quote { color:#fff; }
+
+  .box { border:1px solid #E6E6E6; padding:.26in .28in; }
+  .dark .box { border-color:rgba(255,255,255,.18); }
+  .box-a { border:1px solid #089DE1; padding:.26in .28in; }
+
+  .map { position:relative; height:3.5in; border-left:1px solid #C9CFD2; border-bottom:1px solid #C9CFD2; margin:.3in 0 .12in; }
+  .dot { position:absolute; width:.13in; height:.13in; background:#15191A; }
+  .dot.open { background:#fff; border:2px solid #089DE1; width:.16in; height:.16in; }
+  .dot-l { position:absolute; font-size:9.5pt; font-weight:500; white-space:nowrap; }
+  .dot-s { font-size:8.5pt; font-weight:300; color:#6E7579; display:block; }
+  .ax { position:absolute; font-size:8pt; letter-spacing:.13em; text-transform:uppercase; color:#6E7579; font-weight:500; }
+
+  .kick { font-size:9pt; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:#6E7579; }
+  .dark .kick { color:rgba(255,255,255,.5); }
+</style>
+
+<!-- 1 COVER -->
+<div class="s dark" style="padding:0;">
+  <div style="position:absolute; left:.95in; top:1.5in;">
+    <img src="{{LOGO}}" style="height:.92in; display:block;">
+  </div>
+  <div style="position:absolute; left:.95in; top:3.1in; right:.95in;">
+    <div style="height:1px; background:rgba(255,255,255,.22); margin-bottom:.42in;"></div>
+    <h1 style="font-size:44pt; max-width:8.6in;">Shopify Store<br><span style="color:#089DE1;">Design Direction</span> &amp; Site Architecture</h1>
+  </div>
+  <div style="position:absolute; left:.95in; bottom:.85in; display:flex; gap:1.1in;">
+    <div><div class="kick">Prepared for</div><div style="font-size:11.5pt; margin-top:.07in;">Muhammad Shah</div></div>
+    <div><div class="kick">Product</div><div style="font-size:11.5pt; margin-top:.07in;">Water Flosser — Launch</div></div>
+    <div><div class="kick">Date</div><div style="font-size:11.5pt; margin-top:.07in;">August 2026</div></div>
+    <div><div class="kick">Version</div><div style="font-size:11.5pt; margin-top:.07in;">1.0</div></div>
+  </div>
+</div>
+
+<!-- 2 CONTENTS -->
+<div class="s">
+  <div class="lab">Contents</div>
+  <div class="cols">
+    <div class="col">
+      <table class="tight">
+        <tr><td class="n">01</td><td class="k">The Brief</td><td>What the specification asks for</td></tr>
+        <tr><td class="n">02</td><td class="k">Audience</td><td>Who we are designing for</td></tr>
+        <tr><td class="n">03</td><td class="k">Market</td><td>Category structure and leadership</td></tr>
+        <tr><td class="n">04</td><td class="k">Competitors</td><td>What works, what fails</td></tr>
+        <tr><td class="n">05</td><td class="k">Customer Insight</td><td>What buyers actually say</td></tr>
+        <tr><td class="n">06</td><td class="k">The Opportunity</td><td>Where the gap is</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <table class="tight">
+        <tr><td class="n">07</td><td class="k">Positioning</td><td>The argument the site makes</td></tr>
+        <tr><td class="n">08</td><td class="k">Brand System</td><td>Logo, colour, typography</td></tr>
+        <tr><td class="n">09</td><td class="k">Visual Direction</td><td>How the store will feel</td></tr>
+        <tr><td class="n">10</td><td class="k">Architecture</td><td>Pages and navigation</td></tr>
+        <tr><td class="n">11</td><td class="k">Page Structure</td><td>Home and product page</td></tr>
+        <tr><td class="n">12</td><td class="k">Standards</td><td>Performance and accessibility</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="rule" style="margin-top:.5in;"></div>
+  <p style="max-width:9in;">This document sets the strategy, structure and design direction for the reboot store. It precedes visual design and governs it. Every recommendation is traceable to the specification, to category research, or to evidence from real buyers.</p>
+  <div class="brandline">reboot — Design Direction</div><div class="num">02</div>
+</div>
+
+<!-- 3 THE BRIEF -->
+<div class="s">
+  <div class="lab">01 — The Brief</div>
+  <h2 style="max-width:8in;">A first product, a new brand,<br>and one page that has to do the work.</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <table class="tight">
+        <tr><td class="k">Brand</td><td>reboot — consumer electronics, tech-lifestyle</td></tr>
+        <tr><td class="k">Product</td><td>Water Flosser — first product</td></tr>
+        <tr><td class="k">Catalogue at launch</td><td>1 product, 2 colourways</td></tr>
+        <tr><td class="k">Pages</td><td>Home, Product, About, Contact, Warranty Claim, Policies</td></tr>
+        <tr><td class="k">Functional</td><td>SEO basics, GA4, Meta Pixel, email capture, reviews</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <h3 style="margin-bottom:.16in;">Required throughout</h3>
+      <ul>
+        <li>Sleek, minimal, premium visual design</li>
+        <li>High-quality, glossy product visuals</li>
+        <li>Detailed product presentation — multiple angles, features, benefits</li>
+        <li>Smooth animation — transitions, hover, scroll reveals</li>
+        <li><b>An animation demonstrating how the product is used</b></li>
+        <li>Fully mobile-responsive, fast loading</li>
+        <li>Room for future product launches</li>
+      </ul>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">03</div>
+</div>
+
+<!-- 4 AUDIENCE -->
+<div class="s dark">
+  <div class="lab">02 — Audience</div>
+  <div class="cols" style="align-items:flex-start;">
+    <div class="col" style="flex:1.25;">
+      <h2 style="max-width:5.4in;">Digitally native, health-conscious, and sceptical by default.</h2>
+      <p style="margin-top:.26in; max-width:5.2in;">The specification describes a Gen Z, tech-savvy, wellness-minded buyer <b style="color:#fff; font-weight:500;">evaluating a new brand</b>. That last phrase is the whole design problem.</p>
+      <p style="margin-top:.16in; max-width:5.2in;">reboot arrives with no reputation, no reviews, no press and no trading history. This audience is also the most practised in the world at detecting inauthenticity — inflated claims, bought reviews, borrowed credibility.</p>
+      <div class="box-a" style="margin-top:.3in; max-width:5.2in;">
+        <p style="color:#fff; font-size:12.5pt; font-weight:400;">Every design decision on this site is ultimately answering one question: <span style="color:#089DE1;">why should I believe you?</span></p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.2in;">What this rules out</div>
+      <ul>
+        <li>Claims we cannot substantiate</li>
+        <li>Reviews or press we do not have</li>
+        <li>Manufactured urgency and countdowns</li>
+        <li>Stock imagery standing in for real product</li>
+        <li>Invented heritage for a new brand</li>
+      </ul>
+      <div class="rule"></div>
+      <div class="kick" style="margin-bottom:.2in;">What it demands</div>
+      <ul>
+        <li>Verifiable facts, stated plainly</li>
+        <li>Honesty about what the product is not</li>
+        <li>Warranty and returns made prominent</li>
+        <li>Real expertise, properly credited</li>
+      </ul>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">04</div>
+</div>
+
+<!-- 5 MARKET -->
+<div class="s">
+  <div class="lab">03 — Market</div>
+  <h2 style="max-width:8.4in;">A mature category with an entrenched leader — and a crowded floor.</h2>
+  <div class="rule"></div>
+  <div class="cols" style="margin-bottom:.34in;">
+    <div class="col"><div class="stat">$1.1bn</div><div class="stat-l">Global water flosser market,<br>growing around 5% annually</div></div>
+    <div class="col"><div class="stat">~40%</div><div class="stat-l">Waterpik's share — the brand<br>is the category's generic name</div></div>
+    <div class="col"><div class="stat">46%</div><div class="stat-l">Cordless share of product mix,<br>and still rising</div></div>
+    <div class="col"><div class="stat">Crowded</div><div class="stat-l">Manufacturer-derived brands<br>competing on price alone</div></div>
+  </div>
+  <div class="cols">
+    <div class="col">
+      <h3 style="margin-bottom:.14in;">What this means</h3>
+      <p>We are not creating demand — we are taking it. Buyers already know what a water flosser is and most are choosing between named alternatives. The site's job is comparative, not educational about the category.</p>
+    </div>
+    <div class="col">
+      <h3 style="margin-bottom:.14in;">The default assumption</h3>
+      <p>The floor of this market is full of near-identical products from the same manufacturing base, differentiated only by price. A new brand will be assumed to be another one. <b>Overcoming that assumption is the central design problem.</b></p>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">05</div>
+</div>
+
+<!-- 6 COMPETITORS -->
+<div class="s">
+  <div class="lab">04 — Competitors</div>
+  <h2>What works, and what fails.</h2>
+  <div class="rule"></div>
+  <div class="cols c3">
+    <div class="col">
+      <div class="kick" style="color:#067EB4;">Premium reference</div>
+      <h3 style="margin:.1in 0 .16in;">Connected oral-care brands</h3>
+      <p style="font-size:10.5pt;">Excellent structure: offer presented early, honest FAQ that volunteers who the product is <i>not</i> for, and named practitioners with full credentials.</p>
+      <div style="height:1px; background:#E6E6E6; margin:.2in 0;"></div>
+      <div class="kick" style="font-size:8pt;">Where it fails</div>
+      <p style="font-size:10.5pt; margin-top:.08in;">Technology-led identity that dates quickly. Every section shouts, so hierarchy flattens. Duplicated markup makes it heavy.</p>
+    </div>
+    <div class="col">
+      <div class="kick" style="color:#067EB4;">Direct competitor</div>
+      <h3 style="margin:.1in 0 .16in;">Value water flosser brands</h3>
+      <p style="font-size:10.5pt;">Warranty, free shipping and returns stated site-wide — their single best decision. Colourways surfaced before the click.</p>
+      <div style="height:1px; background:#E6E6E6; margin:.2in 0;"></div>
+      <div class="kick" style="font-size:8pt;">Where it fails</div>
+      <p style="font-size:10.5pt; margin-top:.08in;">A catalogue dump, not an argument. Marketplace-style product naming. Positioning is price-led, which caps the brand permanently.</p>
+    </div>
+    <div class="col">
+      <div class="kick" style="color:#067EB4;">Category leader</div>
+      <h3 style="margin:.1in 0 .16in;">The established default</h3>
+      <p style="font-size:10.5pt;">Clinical credibility, dentist familiarity, retail ubiquity and editorial dominance. When people decide to buy, they often mean this brand.</p>
+      <div style="height:1px; background:#E6E6E6; margin:.2in 0;"></div>
+      <div class="kick" style="font-size:8pt;">Where it fails</div>
+      <p style="font-size:10.5pt; margin-top:.08in;">Medical-device design language. Loud. A legacy manufacturer website. No relationship with a young buyer.</p>
+    </div>
+  </div>
+  <div class="box" style="margin-top:.34in;">
+    <p style="font-size:12pt;">The leader owns <b>efficacy</b> and <b>authority</b>. It does not own <b>desire</b>. There is no premium, design-led, lifestyle-positioned brand in this category — as there is in almost every adjacent one.</p>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">06</div>
+</div>
+
+<!-- 7 CUSTOMER INSIGHT -->
+<div class="s dark">
+  <div class="lab">05 — Customer Insight</div>
+  <h2 style="max-width:8.6in;">The category is manufacturing its own disappointment.</h2>
+  <p style="margin-top:.2in; max-width:8.2in;">Drawn from unprompted buyer discussion rather than marketing research. The dominant objection is not price.</p>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <div class="quote">"I have never seen anything come out of my teeth using this water flosser."</div>
+      <h3 style="margin:.24in 0 .1in;">01 — No visible payoff</h3>
+      <p style="font-size:10.5pt;">Marketing promises debris flying out. For many people, nothing visible happens. Conclusion: it is a gimmick.</p>
+    </div>
+    <div class="col">
+      <div class="quote">"Water flossers are not meant to replace flossing, but aid in gum health."</div>
+      <h3 style="margin:.24in 0 .1in;">02 — Replace or supplement?</h3>
+      <p style="font-size:10.5pt;">The category sells replacement. Dentists and experienced users describe a complement. That gap becomes distrust.</p>
+    </div>
+    <div class="col">
+      <div class="quote">"Run along the gum line and in between teeth, not along the middle of the teeth."</div>
+      <h3 style="margin:.24in 0 .1in;">03 — Technique</h3>
+      <p style="font-size:10.5pt;">People fail because they use it wrong — aiming at the tooth face instead of tracing the gumline.</p>
+    </div>
+  </div>
+  <div class="box-a" style="margin-top:.32in;">
+    <p style="color:#fff; font-size:12.5pt;">Every competitor makes all three worse. This is why the specification's required <span style="color:#089DE1;">how-to-use animation</span> is not a nice-to-have — it is the direct remedy for the category's primary failure, and the strategic centre of the product page.</p>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">07</div>
+</div>
+
+<!-- 8 OPPORTUNITY -->
+<div class="s">
+  <div class="lab">06 — The Opportunity</div>
+  <h2>An empty quadrant.</h2>
+  <div class="cols" style="margin-top:.2in;">
+    <div class="col" style="flex:1.5;">
+      <div class="map">
+        <div class="ax" style="top:-.24in; left:0;">High design conviction</div>
+        <div class="ax" style="bottom:-.26in; left:0;">Low price</div>
+        <div class="ax" style="bottom:-.26in; right:0;">High price</div>
+        <div class="ax" style="bottom:-.26in; left:50%; transform:translateX(-50%); color:#C9CFD2;">— Low design conviction —</div>
+
+        <div class="dot open" style="left:1.05in; top:.75in;"></div>
+        <div class="dot-l" style="left:1.35in; top:.62in; color:#067EB4;">reboot<span class="dot-s">the open position</span></div>
+
+        <div class="dot" style="left:4.15in; top:.5in;"></div>
+        <div class="dot-l" style="left:4.45in; top:.37in;">Premium connected<span class="dot-s">design-led, tech-framed</span></div>
+
+        <div class="dot" style="left:.75in; top:2.55in;"></div>
+        <div class="dot-l" style="left:1.05in; top:2.42in;">Value brands<span class="dot-s">price-led, no conviction</span></div>
+
+        <div class="dot" style="left:3.6in; top:2.9in;"></div>
+        <div class="dot-l" style="left:3.9in; top:2.77in;">Category leader<span class="dot-s">authority without desire</span></div>
+      </div>
+    </div>
+    <div class="col">
+      <h3 style="margin-bottom:.14in;">Attainable price, genuine conviction</h3>
+      <p>No brand in this category occupies the upper-left. The premium reference proves a design-led oral care brand can command attention — but at a price and with a technology framing that excludes most buyers.</p>
+      <div class="rule"></div>
+      <p>The product is likely comparable to competitors on paper. <b>Specification will not win this.</b> Whatever reboot claims about pressure or capacity, a value brand claims too, for less, with hundreds of reviews.</p>
+      <p style="margin-top:.16in;"><b>The experience is the differentiator</b> — which is precisely why this work matters more here than in a category where the hardware speaks for itself.</p>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">08</div>
+</div>
+
+<!-- 9 POSITIONING -->
+<div class="s dark">
+  <div class="lab">07 — Positioning</div>
+  <div style="margin-top:.5in;">
+    <div class="kick">The position</div>
+    <div class="big" style="margin-top:.26in; max-width:10.4in;">reboot makes the water flosser<br>you'll <span>actually still be using</span><br>in six months.</div>
+    <p style="margin-top:.34in; max-width:7.6in; font-size:13pt;">Honest about what it does and doesn't do. Obvious about how to use it properly. Designed well enough that you're happy to leave it on the counter.</p>
+  </div>
+  <div class="rule" style="margin-top:.44in;"></div>
+  <div class="cols">
+    <div class="col"><div class="kick">Not</div><p style="font-size:10.5pt; margin-top:.1in;">Loudest, strongest, most modes. A specification race we cannot win and buyers do not believe.</p></div>
+    <div class="col"><div class="kick">Not</div><p style="font-size:10.5pt; margin-top:.1in;">Clinical authority. The category leader owns it, and reboot has no evidence base yet.</p></div>
+    <div class="col"><div class="kick">Not</div><p style="font-size:10.5pt; margin-top:.1in;">Cheapest. Value brands own it, and it caps the brand permanently.</p></div>
+    <div class="col"><div class="kick">Not</div><p style="font-size:10.5pt; margin-top:.1in;">Technology-framed. It dates the brand, and it is the trap the premium reference fell into.</p></div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">09</div>
+</div>
+
+<!-- 10 PILLARS -->
+<div class="s">
+  <div class="lab">07 — Positioning</div>
+  <h2>Three pillars, each grounded in evidence.</h2>
+  <div class="rule"></div>
+  <div class="cols c3">
+    <div class="col">
+      <div style="font-size:30pt; font-weight:600; color:#089DE1; line-height:1;">01</div>
+      <h3 style="margin:.16in 0 .14in; font-size:16pt;">Honesty as the premium signal</h3>
+      <p style="font-size:10.5pt;">Say plainly that this works alongside string floss, not instead of it. Say plainly that it is exceptional at the gumline and where floss cannot reach — braces, retainers, implants, gum pockets — and that it is not a magic trick.</p>
+      <p style="font-size:10.5pt; margin-top:.14in;">A brand willing to tell you what its product <i>isn't</i> becomes believable about what it is. This is the cheapest credibility available to a brand with no reviews, and it costs nothing but nerve.</p>
+    </div>
+    <div class="col">
+      <div style="font-size:30pt; font-weight:600; color:#089DE1; line-height:1;">02</div>
+      <h3 style="margin:.16in 0 .14in; font-size:16pt;">Technique as the product</h3>
+      <p style="font-size:10.5pt;">The specification already requires a how-to-use animation. The research elevates it from requirement to centrepiece — it is the direct remedy for why people abandon this category.</p>
+      <p style="font-size:10.5pt; margin-top:.14in;">reboot should be the brand that actually teaches you to use the thing properly: visibly, on the product page, before purchase. A content investment rather than a hardware feature — and a genuine competitive moat.</p>
+    </div>
+    <div class="col">
+      <div style="font-size:30pt; font-weight:600; color:#089DE1; line-height:1;">03</div>
+      <h3 style="margin:.16in 0 .14in; font-size:16pt;">An object, not equipment</h3>
+      <p style="font-size:10.5pt;">The category leader's products look like medical devices. For a young buyer in a small or shared bathroom, how the object looks — and how loud it is — are real considerations, not secondary ones.</p>
+      <p style="font-size:10.5pt; margin-top:.14in;">The tech-lifestyle framing in the specification is the whole opening, provided the site treats the product as a designed object rather than an appliance.</p>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">10</div>
+</div>
+
+<!-- 11 LOGO -->
+<div class="s dark">
+  <div class="lab">08 — Brand System</div>
+  <div class="cols" style="align-items:center;">
+    <div class="col" style="flex:1.15;">
+      <img src="{{LOGO}}" style="height:1.15in; display:block; margin-bottom:.5in;">
+      <h2 style="font-size:21pt; max-width:5in;">The mark is the strongest asset in the package.</h2>
+      <p style="margin-top:.2in; max-width:5in;">The double-<b style="color:#fff; font-weight:500;">o</b> is drawn as two counter-rotating half-discs that lock together — a restart idea expressed without illustrating a power symbol literally. It is symmetrical, works at favicon scale, and is genuinely distinctive in a category of generic wordmarks.</p>
+    </div>
+    <div class="col" style="flex:.85;">
+      <img src="{{MONO}}" style="width:2.1in; display:block; margin-bottom:.34in;">
+      <div class="kick" style="margin-bottom:.16in;">Recommendation</div>
+      <ul>
+        <li>Treat the monogram as a working brand asset, not only an app icon</li>
+        <li>Favicon, loading indicator, scroll cues, section markers</li>
+        <li>Its counter-rotation becomes the one signature motion on the site</li>
+        <li>Reversed on ink is its strongest treatment</li>
+      </ul>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">11</div>
+</div>
+
+<!-- 12 COLOUR -->
+<div class="s">
+  <div class="lab">08 — Brand System</div>
+  <h2>Colour — and one finding that shapes everything.</h2>
+  <div class="cols" style="margin-top:.3in; gap:.3in;">
+    <div class="col"><div class="swatch" style="background:#15191A; border-color:#15191A;"></div><div class="sw-meta">Ink · #15191A</div><div class="sw-sub">Primary canvas, primary button</div></div>
+    <div class="col"><div class="swatch" style="background:#089DE1; border-color:#089DE1;"></div><div class="sw-meta">Brand Blue · #089DE1</div><div class="sw-sub">Accent on ink, display type, the mark</div></div>
+    <div class="col"><div class="swatch" style="background:#067EB4; border-color:#067EB4;"></div><div class="sw-meta">Deep Blue · #067EB4</div><div class="sw-sub">Links and blue text on light — derived</div></div>
+    <div class="col"><div class="swatch" style="background:#E6E6E6;"></div><div class="sw-meta">Light Grey · #E6E6E6</div><div class="sw-sub">Light grounds, dividers</div></div>
+    <div class="col"><div class="swatch" style="background:#FFFFFF;"></div><div class="sw-meta">White · #FFFFFF</div><div class="sw-sub">Text on ink, light canvas</div></div>
+  </div>
+  <div class="rule" style="margin-top:.36in;"></div>
+  <div class="cols">
+    <div class="col" style="flex:1.1;">
+      <h3 style="margin-bottom:.14in;">The brand blue fails on white</h3>
+      <p style="font-size:11pt;">Measured against the international accessibility standard, <b>#089DE1 reaches only 3.03:1 on white</b> — below the 4.5:1 required for body text. A white label on a brand-blue button fails the same test. On ink it reaches <b>5.84:1</b> and performs properly.</p>
+      <p style="font-size:11pt; margin-top:.14in;">This is not a stylistic preference. Left undiscovered, it would have shipped as an inaccessible primary button on every page.</p>
+    </div>
+    <div class="col">
+      <table class="tight">
+        <tr><th>Pair</th><th style="text-align:right;">Ratio</th><th style="text-align:right;">Body text</th></tr>
+        <tr><td class="k">Ink on white</td><td style="text-align:right;">17.71:1</td><td style="text-align:right; color:#067EB4;">Pass</td></tr>
+        <tr><td class="k">Brand blue on ink</td><td style="text-align:right;">5.84:1</td><td style="text-align:right; color:#067EB4;">Pass</td></tr>
+        <tr><td class="k">Deep blue on white</td><td style="text-align:right;">4.52:1</td><td style="text-align:right; color:#067EB4;">Pass</td></tr>
+        <tr><td class="k">Brand blue on white</td><td style="text-align:right;">3.03:1</td><td style="text-align:right;">Fail</td></tr>
+        <tr><td class="k">Brand blue on grey</td><td style="text-align:right;">2.43:1</td><td style="text-align:right;">Fail</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">12</div>
+</div>
+
+<!-- 13 TYPOGRAPHY -->
+<div class="s">
+  <div class="lab">08 — Brand System</div>
+  <h2>Typography.</h2>
+  <div class="rule"></div>
+  <div style="font-size:56pt; font-weight:600; letter-spacing:-.02em; line-height:1;">Aa</div>
+  <div style="font-size:15pt; font-weight:300; color:#6E7579; margin-top:.12in;">abcdefghijklmnopqrstuvwxyz &nbsp; ABCDEFGHIJKLMNOPQRSTUVWXYZ &nbsp; 1234567890</div>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <h3 style="margin-bottom:.14in;">A geometric sans, matched to the mark</h3>
+      <p style="font-size:11pt;">The brand typeface is a geometric sans with a single-storey <i>a</i> and circular bowls — the same construction as the logo. Modern, warm, and correct for this audience without being informal.</p>
+      <p style="font-size:11pt; margin-top:.14in;">Six weights exist. <b>The build will use three at most.</b> Each additional weight is a file the browser must download before text appears, and the specification demands fast loading. Restraint here is a performance decision, not an aesthetic one.</p>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">Applied scale</div>
+      <table class="tight">
+        <tr><td class="k">Display</td><td>Semibold — hero and section openers</td></tr>
+        <tr><td class="k">Heading</td><td>Semibold — section titles</td></tr>
+        <tr><td class="k">Body</td><td>Light or Regular — 16px minimum</td></tr>
+        <tr><td class="k">Interface</td><td>Medium — buttons, labels, navigation</td></tr>
+      </table>
+      <p style="font-size:10pt; margin-top:.2in; color:#6E7579;">With minimal photography at launch, the type scale carries the composition — large display against quiet body text is what produces presence without imagery.</p>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">13</div>
+</div>
+
+<!-- 14 VISUAL DIRECTION -->
+<div class="s dark">
+  <div class="lab">09 — Visual Direction</div>
+  <h2 style="max-width:8.6in;">A dark canvas — arrived at by evidence, not taste.</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">Four reasons converge</div>
+      <ul>
+        <li><b>Accessibility</b> — the brand blue is only fully usable on ink</li>
+        <li><b>Product</b> — glossy consumer electronics read best against dark; it is what "sleek, minimal, premium, glossy" looks like when executed</li>
+        <li><b>Differentiation</b> — competitors are uniformly bright, white and clinical</li>
+        <li><b>The mark</b> — strongest reversed</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">The critical distinction</div>
+      <p>Dark here means <b style="color:#fff; font-weight:500;">product stage</b> — a photographer's sweep, deep neutral ink, one precise accent. Reference points are premium consumer-electronics presentation and gallery lighting.</p>
+      <div style="margin-top:.2in;">
+        <span class="pill">No glows</span><span class="pill">No gradients</span><span class="pill">No glassmorphism</span><span class="pill">No grid overlays</span><span class="pill">No particle fields</span><span class="pill">No neon</span>
+      </div>
+      <p style="margin-top:.16in; font-size:10.5pt;">Light sections are used deliberately for contrast — editorial passages, FAQ, policies — so the dark reads as a decision rather than a default.</p>
+    </div>
+  </div>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col"><div class="kick">Motion</div><p style="font-size:10.5pt; margin-top:.1in;">Sections resolve; they do not perform. One signature interaction — the mark's counter-rotation — used sparingly.</p></div>
+    <div class="col"><div class="kick">Space</div><p style="font-size:10.5pt; margin-top:.1in;">Generous and asymmetric, with a strict spatial scale. Whitespace is a material, not a gap.</p></div>
+    <div class="col"><div class="kick">Restraint</div><p style="font-size:10.5pt; margin-top:.1in;">If an element cannot be justified in one sentence about what the visitor understands better because of it, it does not ship.</p></div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">14</div>
+</div>
+
+<!-- 15 PRODUCT ASSETS -->
+<div class="s">
+  <div class="lab">09 — Visual Direction</div>
+  <h2>Product imagery: the asset we need already exists.</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <p>The specification asks for glossy visuals, multiple angles and an animation showing the product in use. The supplied files confirm a <b>manufacturing-grade 3D model</b> is already available — geometry derived from the engineering CAD, not a placeholder.</p>
+      <table class="tight" style="margin-top:.24in;">
+        <tr><td class="k" style="width:2.1in;">Source</td><td>Engineering CAD, converted for 3D rendering</td></tr>
+        <tr><td class="k">Geometry</td><td>34 components, ~172,000 surfaces</td></tr>
+        <tr><td class="k">Materials</td><td>A black colourway is already set up</td></tr>
+        <tr><td class="k">Product size</td><td>69 × 76 × 215 mm</td></tr>
+        <tr><td class="k">Packaging</td><td>71 × 78 × 217 mm</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">One model, the whole site</div>
+      <ul>
+        <li><b>Hero and gallery</b> — any angle, at no cost per view</li>
+        <li><b>Both colourways</b> — a material change, not a second shoot</li>
+        <li><b>The usage animation</b> — from the same asset as the stills, which is what makes the page feel coherent</li>
+        <li><b>Exploded views and tank cutaway</b> — only possible with a 3D asset, and something no competitor in this tier offers</li>
+        <li><b>Future products</b> — the lighting and pipeline are reusable</li>
+      </ul>
+      <div class="box" style="margin-top:.22in;">
+        <p style="font-size:10.5pt;">Two things rendering cannot do: show real scale in a real hand, and show the product in a real bathroom. A short, small photography session covers both.</p>
+      </div>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">15</div>
+</div>
+
+<!-- 15 ARCHITECTURE -->
+<div class="s">
+  <div class="lab">10 — Architecture</div>
+  <h2>One product changes everything about the structure.</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <p>Almost every convention of e-commerce architecture assumes a catalogue. Here there is nothing to browse, nothing to filter and no meaningful search.</p>
+      <p style="margin-top:.14in;">That is an advantage. It removes the hardest problem in e-commerce — getting the right person to the right product — and leaves only persuasion. <b>Every visitor knows what we sell within one second of arrival.</b></p>
+      <div class="box" style="margin-top:.24in;">
+        <p style="font-size:11pt;">The characteristic failure of a single-product store is padding — inventing collections and bestsellers to look like a bigger shop. A confident single-product site reads as focused. A padded one reads as a reseller.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">Pages</div>
+      <table class="tight">
+        <tr><td class="k">Home</td><td>The case for the brand</td></tr>
+        <tr><td class="k">Water Flosser</td><td>The case for the purchase</td></tr>
+        <tr><td class="k">Cart</td><td>Drawer — context preserved</td></tr>
+        <tr><td class="k">About</td><td>Brand story</td></tr>
+        <tr><td class="k">Contact</td><td>Support routes</td></tr>
+        <tr><td class="k">Warranty Claim</td><td>The proof behind the promise</td></tr>
+        <tr><td class="k">Policies</td><td>Shipping, Returns, Privacy, Terms</td></tr>
+      </table>
+      <div class="kick" style="margin:.26in 0 .12in;">Navigation — flat, single level</div>
+      <p style="font-size:10.5pt;">Water Flosser · How It Works · Support — plus a permanent buy action in the header. With one product at one price, the decision is never more than one tap away from any scroll position.</p>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">16</div>
+</div>
+
+<!-- 16 HOMEPAGE -->
+<div class="s">
+  <div class="lab">11 — Page Structure</div>
+  <h2>Home — each section answers the question the last one raises.</h2>
+  <div class="rule"></div>
+  <div class="cols" style="gap:.7in;">
+    <div class="col">
+      <table class="tight">
+        <tr><th style="width:.4in;">#</th><th>Section</th><th>Answers</th></tr>
+        <tr><td class="n">01</td><td class="k" style="width:1.5in;">Hero</td><td>What is this?</td></tr>
+        <tr><td class="n">02</td><td class="k">Trust strip</td><td>Is this brand real?</td></tr>
+        <tr><td class="n">03</td><td class="k" style="color:#067EB4;">The honest claim</td><td>Does it replace floss?</td></tr>
+        <tr><td class="n">04</td><td class="k">How it works</td><td>How do I use it properly?</td></tr>
+        <tr><td class="n">05</td><td class="k">Who it's for</td><td>Is this for me?</td></tr>
+        <tr><td class="n">06</td><td class="k">The object</td><td>What is it actually like?</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <table class="tight">
+        <tr><th style="width:.4in;">#</th><th>Section</th><th>Answers</th></tr>
+        <tr><td class="n">07</td><td class="k" style="width:1.5in;">Comparison</td><td>Better than the alternative?</td></tr>
+        <tr><td class="n">08</td><td class="k">Why reboot</td><td>Why an unknown brand?</td></tr>
+        <tr><td class="n">09</td><td class="k">Professionals</td><td>Does an expert back this?</td></tr>
+        <tr><td class="n">10</td><td class="k">Reviews</td><td>What do buyers say?</td></tr>
+        <tr><td class="n">11</td><td class="k">FAQ</td><td>My specific worry?</td></tr>
+        <tr><td class="n">12</td><td class="k">Close</td><td>Final action and email</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="box-a" style="margin-top:.3in;">
+    <p style="font-size:11.5pt;"><b>The honest claim sits second</b> — where competitors put a feature grid. It looks like it weakens the pitch. It does the opposite: it pre-empts the exact reason people abandon this category, and it is the one claim a competitor cannot copy without contradicting their own marketing.</p>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">17</div>
+</div>
+
+<!-- 17 PRODUCT PAGE -->
+<div class="s dark">
+  <div class="lab">11 — Page Structure</div>
+  <h2>The product page must work as a landing page.</h2>
+  <p style="margin-top:.18in; max-width:8.6in;">For a new brand advertising to a young audience, most visitors arrive here first — from social, on a phone, having never heard of reboot. It cannot assume the homepage was seen.</p>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">Above the fold</div>
+      <ul>
+        <li>Gallery — multiple angles, both colourways, usage animation</li>
+        <li>Name, price, one-sentence proposition</li>
+        <li>Colourway swatches with visible text labels</li>
+        <li><b>Add to cart</b> — ink fill, white label</li>
+        <li>Express payment options</li>
+        <li><b>Shipping, returns and warranty inside the buy box</b></li>
+      </ul>
+      <p style="font-size:10.5pt; margin-top:.16in;">Reassurance sits <i>in</i> the buy box, not below it. Deferring cost and returns information to checkout is the classic cause of abandonment.</p>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.18in;">Below</div>
+      <table class="tight">
+        <tr><td class="k" style="width:1.9in;">The honest claim</td><td>Condensed</td></tr>
+        <tr><td class="k">How to use</td><td>The animation, in full</td></tr>
+        <tr><td class="k">Specifications</td><td>Complete and scannable</td></tr>
+        <tr><td class="k">What's in the box</td><td>Tips, charger, manual</td></tr>
+        <tr><td class="k">Who it's for</td><td>Self-identification</td></tr>
+        <tr><td class="k">Comparison</td><td>Against string floss</td></tr>
+        <tr><td class="k">Professionals</td><td>Named, credentialled</td></tr>
+        <tr><td class="k">Reviews · FAQ · Warranty</td><td>Closing objections</td></tr>
+      </table>
+    </div>
+  </div>
+  <p style="font-size:10.5pt; margin-top:.24in; max-width:11in;">The specification section exists for the comparison shopper — the visitor with a competitor tab already open, hunting for a reason to disqualify. Complete numbers win them; benefit copy where a number belongs loses them.</p>
+  <div class="brandline">reboot — Design Direction</div><div class="num">18</div>
+</div>
+
+<!-- 18 NOT BUILDING -->
+<div class="s">
+  <div class="lab">11 — Page Structure</div>
+  <h2>What we are deliberately not building.</h2>
+  <p style="margin-top:.16in; max-width:9in;">Seven commonly-requested sections have been removed. With one product and no trading history each is either structurally impossible or actively damages trust — and several would signal "template" more loudly than anything else on the page.</p>
+  <div class="rule"></div>
+  <table class="tight">
+    <tr><th style="width:2.5in;">Section</th><th>Why not</th></tr>
+    <tr><td class="k">Featured Collections</td><td>There is one product. A collections section misrepresents catalogue depth.</td></tr>
+    <tr><td class="k">Product Categories</td><td>One product, one category.</td></tr>
+    <tr><td class="k">Best Sellers</td><td>A single product cannot have a bestseller. The clearest template signal of all.</td></tr>
+    <tr><td class="k">Before &amp; After</td><td>No clinical or product testing exists. In a health-adjacent category, borrowing or implying results is an unrecoverable trust risk. Revisit when real data exists.</td></tr>
+    <tr><td class="k">Media Mentions</td><td>A pre-launch brand has none. The slot is designed; the section stays hidden until it is true.</td></tr>
+    <tr><td class="k">Social Gallery</td><td>No audience yet. An empty or thin grid is worse than absence. Phase two.</td></tr>
+    <tr><td class="k">Sustainability</td><td>Only with a genuine, specific commitment. A vague statement here reduces trust. Replaced by a quality and warranty commitment, which reboot can substantiate.</td></tr>
+  </table>
+  <p style="font-size:11pt; margin-top:.3in;"><b>The site should never feel empty — but it must never display an empty shelf.</b> Removing these is what makes the remaining sections feel deliberate.</p>
+  <div class="brandline">reboot — Design Direction</div><div class="num">19</div>
+</div>
+
+<!-- 19 STANDARDS -->
+<div class="s">
+  <div class="lab">12 — Standards</div>
+  <h2>Fast and accessible, by specification.</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <div class="kick" style="margin-bottom:.2in;">Performance</div>
+      <table class="tight">
+        <tr><td class="k" style="width:2.5in;">Largest Contentful Paint</td><td>2.5s or better</td></tr>
+        <tr><td class="k">Interaction to Next Paint</td><td>200ms or better</td></tr>
+        <tr><td class="k">Cumulative Layout Shift</td><td>0.1 or better</td></tr>
+        <tr><td class="k">Performance score</td><td>85+ on home and product</td></tr>
+      </table>
+      <p style="font-size:10.5pt; margin-top:.2in;">Measured on throttled mobile. The reference sites are heavy largely because they ship duplicate markup for desktop and mobile — we build one responsive page.</p>
+      <p style="font-size:10.5pt; margin-top:.12in;">Three font weights maximum. Animation limited to properties that do not force the browser to recalculate layout.</p>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.2in;">Accessibility — WCAG 2.2 AA</div>
+      <ul>
+        <li>Verified contrast across the whole palette</li>
+        <li>Colour never the sole carrier of meaning — including colourway selection and stock status</li>
+        <li>Full keyboard operation with visible focus</li>
+        <li>Body text 16px minimum, 45–75 character measure</li>
+        <li>Touch targets sized for real thumbs</li>
+        <li>Motion respects reduced-motion preferences</li>
+        <li>The purchase path verified end to end</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box" style="margin-top:.26in;">
+    <p style="font-size:11pt;">Premium design is accessible design. In this category it is also commercial — a meaningful share of the highest-intent buyers are people managing a specific dental condition, and a proportion of them rely on these standards.</p>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">20</div>
+</div>
+
+<!-- 20 NEXT -->
+<div class="s dark">
+  <div class="lab">Next</div>
+  <h2 style="max-width:8.6in;">What we need to begin visual design.</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="col">
+      <div class="kick" style="margin-bottom:.2in;">Required</div>
+      <table class="tight">
+        <tr><td class="n">01</td><td class="k" style="width:2.1in;">Retail price</td><td>Determines whether the product page optimises for speed or for reassurance</td></tr>
+        <tr><td class="n">02</td><td class="k">Specification sheet</td><td>Pressure, modes, tank, battery, charge time, waterproof rating, noise, dimensions, warranty term</td></tr>
+        <tr><td class="n">03</td><td class="k">Render sign-off</td><td>Approval of lighting and finish direction, so the gallery and animation can be produced from the existing 3D asset</td></tr>
+        <tr><td class="n">04</td><td class="k">Typeface licence</td><td>Web-embedding rights, which are separate from desktop rights</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <div class="kick" style="margin-bottom:.2in;">In parallel</div>
+      <ul>
+        <li>Warranty term, returns window and shipping terms confirmed</li>
+        <li>Practitioner sourcing for the endorsement section</li>
+        <li>Launch page scope agreed against the target date</li>
+      </ul>
+      <div class="rule"></div>
+      <p style="font-size:10.5pt;">Nothing will be claimed on this site without a source. Where a number belongs, a number will appear — or the claim will not be made.</p>
+    </div>
+  </div>
+  <div class="brandline">reboot — Design Direction</div><div class="num">21</div>
+</div>
+
+<!-- 21 END -->
+<div class="s dark" style="padding:0;">
+  <div style="position:absolute; left:.95in; top:2.7in;">
+    <img src="{{LOGO}}" style="height:.8in; display:block; margin-bottom:.55in;">
+    <div style="height:1px; background:rgba(255,255,255,.22); width:4.2in; margin-bottom:.42in;"></div>
+    <div style="font-size:20pt; font-weight:300; max-width:7.4in; line-height:1.45;">The water flosser you'll <span style="color:#089DE1; font-weight:500;">actually still be using</span> in six months.</div>
+  </div>
+  <div style="position:absolute; left:.95in; bottom:.85in; font-size:10pt; color:rgba(255,255,255,.45);">Design Direction &amp; Site Architecture — Version 1.0 — August 2026</div>
+</div>

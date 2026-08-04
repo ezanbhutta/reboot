@@ -19,7 +19,7 @@ and *content*, not just styling, so designing before they clear would mean rewor
 |---|---|---|
 | 1 | **Retail price** | Under $50 optimises for speed to cart; over $100 needs sustained reassurance. Different page architecture. |
 | 2 | **Product specification sheet** | No claim gets written without a source. Several specs are candidate differentiators. |
-| 3 | **3D / CAD asset availability** | Determines whether the hero and the SRS-required usage animation are achievable, and when. |
+| ~~3~~ | ~~**3D / CAD asset availability**~~ | **Resolved 4 Aug** — a CAD-derived Blender model (34 components, 172k faces, already UV-unwrapped) was supplied. The full CGI pipeline, including the required usage animation, is viable. |
 
 Unblocked and running in parallel: font licence, practitioner sourcing, warranty and
 shipping terms, plan confirmation, launch scope split.

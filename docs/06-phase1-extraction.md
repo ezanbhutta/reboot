@@ -168,7 +168,13 @@ and frequently absent. Blocks the type system.
 If the licence does not cover web use, the fallback is a metric-similar geometric sans
 with an open licence, chosen to sit correctly beside the outlined logo.
 
-### R5 — No product photography versus the SRS's central visual requirement · **High**
+### R5 — No product photography versus the SRS's central visual requirement · **RESOLVED**
+
+> **Update — 4 August 2026.** A **manufacturing-grade 3D model has been supplied** and
+> this risk is closed. Details in §5 below; the analysis that follows is retained
+> because its conclusion — CGI, not photography — is now confirmed rather than
+> proposed.
+
 The SRS requires "high-quality, glossy product visuals," "multiple angles," and a
 usage animation. Intake confirmed almost no photography exists.
 
@@ -237,6 +243,55 @@ With one product these sections are structurally impossible and would actively s
 An architecture requirement, and it conflicts with the cheapest possible build. Handled
 by designing every section as catalogue-agnostic from the start, so a second product
 does not force a rebuild. Costs a little now, saves a lot later.
+
+---
+
+## 5. Product asset audit — 4 August 2026
+
+Two further files were supplied and analysed.
+
+### 3D model — `RebootMe` product mesh
+A Wavefront OBJ exported from **Blender 4.2.4 LTS**, with an accompanying material
+library named for a **black colourway render** — confirming both a black finish and
+that renders were already being produced from this asset.
+
+| Property | Value |
+|---|---|
+| Origin | Engineering CAD — STEP / Parasolid, dated 2024-02-21 |
+| Geometry | 115,956 vertices · 171,667 faces · 98,671 normals |
+| Components | 34 named objects, including a helical part (spring or coil) |
+| UVs | 110,257 — the model is already unwrapped for texturing |
+
+This is production geometry converted from real manufacturing data, not a placeholder
+or a marketplace asset. **The full CGI pipeline described in
+[`05-imagery-strategy.md §0`](05-imagery-strategy.md) is therefore viable**, including
+the SRS-required usage animation, both colourways, exploded views and cutaways.
+
+**One item to verify.** The mesh's bounding box scales to roughly 215 × 28 × 25 mm,
+which does not match the 69 × 76 × 215 mm product envelope below. The geometry is also
+concentrated in a small volume with sparse vertices extending along one axis. Two
+likely explanations: the file is a **sub-assembly** rather than the complete product,
+or it contains stray or mis-scaled helper objects from the CAD conversion — both
+common in STEP-to-Blender workflows. **This needs a Blender render to settle; it is
+not resolvable by inspecting coordinates.** It does not change the strategy, only the
+production brief.
+
+### Packaging dieline
+A print-ready carton unfold with dimensions annotated. First hard specification data
+received:
+
+| Item | Value |
+|---|---|
+| **Product** | **69 × 76 × 215 mm** |
+| **Packaging** | **71 × 78 × 217 mm** |
+| Die detail | 0.8 mm / 0.4 mm shaped cut-out specified |
+
+Only a 2 mm clearance between product and carton — a tight, deliberately-specified
+pack. Worth noting for the unboxing narrative if that becomes part of the story.
+
+**R8 remains open** for everything else: pressure, modes, tank capacity, battery life,
+charge time, IPX rating, noise level, weight, tip types and warranty term. Dimensions
+alone do not unblock the product page.
 
 ---
 
