@@ -679,3 +679,15 @@ ul{margin:0;padding:0;list-style:none}
 .empty .mk{opacity:.55}
 .empty .why{color:var(--orange)}
 .light .empty .why,.paper .empty .why{color:var(--orange-text)}
+/* ============ WCAG 2.2 HARDENING ============ */
+/* SC 2.4.11: nothing keyboard-focused may land under the sticky header */
+[id],a[href],button,input,select,textarea,summary{scroll-margin-top:calc(76px + 1.5rem)}
+/* SC 2.5.8: every target reaches 24px minimum. Nav and footer links were 20px tall. */
+.nav a{padding-block:.6rem}
+.ftr a{display:inline-block;padding-block:.35rem}
+.prose .toc a{display:inline-block;padding-block:.3rem}
+.tlink{min-height:24px}
+
+/* colourway without a rotation set: affordances withdraw, cursor resets */
+.spin.locked{cursor:default}
+.spin.locked .spin-hint,.spin.locked .spin-deg,.spin.locked .spin-track{opacity:0;transition:opacity .3s var(--ease)}
