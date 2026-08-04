@@ -8,19 +8,29 @@ is confirmed. Each item lists exactly where it appears so it can be swapped quic
 | Item | Placeholder used | Appears in |
 |---|---|---|
 | **Retail price** | `$79` | Header CTA (all pages), hero, product buy box, sticky mobile bar, close section |
-| **Pressure settings** | "To be confirmed" | Home spec list, product specification |
-| **Tank capacity** | "To be confirmed" | Home spec list, product specification |
-| **Battery life** | "To be confirmed" | Product specification |
-| **Charge time** | "To be confirmed" | Product specification |
-| **Water resistance / IPX** | "To be confirmed" | Home spec list, product specification |
-| **Noise level** | "To be confirmed" | Product specification |
-| **Weight** | "To be confirmed" | Product specification |
+| **Runtime per charge** | "To be confirmed" | Product specification |
+| **Weight** | not stated anywhere | — |
 | **Second colourway name** | "Soft White" | Product swatches, spec lists |
-| **Nozzles in box** | 2 | Product buy box, specification |
 
-The "to be confirmed" entries are deliberately visible rather than hidden. They
-support the honesty positioning and are safer than a guess — but they should not
-still be there at launch.
+Only one figure is still open. Everything else on the specification table now comes
+from the manufacturer's own packaging artwork for model SK-CYQ-D, dated 2024-05-14:
+40 to 120 PSI at 1600 pulses a minute, four modes, a 300 ml tank giving about ninety
+seconds, IPX7, a 3.7 V lithium-ion cell charged over USB-C at 5 V / 8 W in two to
+three hours, a ninety second cut-off, and roughly 65 dB running. Those are supplier
+figures rather than independently measured ones, which is worth saying to the client
+even though the site does not need to say it.
+
+The remaining "to be confirmed" entry is deliberately visible rather than hidden. It
+supports the honesty positioning and is safer than a guess.
+
+## Claims on the packaging that this site will not print
+
+The retail box carries three claims the site is built to refuse: "removes up to 99.9%
+of plaque", "dentists recommend daily use", and three separate "more effective than
+string floss" claims. The last of those directly contradicts the site's central
+argument, which is that a water flosser does not replace floss and that pretending
+otherwise is why people give up. Packaging and website currently disagree. The client
+has to decide which one is right; the site should not quietly adopt the box.
 
 ## Commercial terms — assumed, need sign-off
 
@@ -45,17 +55,20 @@ still be there at launch.
 
 ## Imagery
 
-**The site carries no product photography.** Every product visual is a dimensional
-line drawing, taken from the packaging dieline (69 x 76 x 215 mm). It answers "how big
-is it" honestly and needs no retouching, but it is not a substitute for a shoot.
+Every product visual is the manufacturer's own CAD line work, lifted from the
+engineering sheets supplied with the model: front, rear and side elevations, the
+plan view of the nozzle socket, and the water tank on its own. Nothing is
+rendered, retouched or generated. The drawings' own proportions agree with the
+stated 69 x 76 x 215 mm to within two per cent, which is the closest thing to a
+verification we have.
 
-Before launch this needs: a studio pack of the unit in both colourways (front, three
-quarter, side, rear, in-hand for scale) and one in-situ frame on a bathroom shelf. The
-drawing can stay alongside it on the product page; it is doing real work there.
+Before launch this still needs photography: a studio pack of the unit in both
+colourways, the five nozzles laid out, and one in-hand frame for scale. The
+drawings should stay when the photography arrives; they are doing work a photo
+cannot, and they are the thing that makes the site look like nobody else's.
 
-The **how-to-use animation** required by the SRS is represented by a static frame and
-a labelled placeholder in both places it belongs (home "Watch the technique", product
-"The technique, shown").
+The **how-to-use animation** required by the SRS is represented by a static frame
+and a labelled placeholder in both places it belongs.
 
 ## Not wired up
 
