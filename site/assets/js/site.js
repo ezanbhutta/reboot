@@ -47,41 +47,14 @@
   window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 
-  /* ---------- product gallery ---------- */
-  var stage = document.querySelector('[data-stage]');
-  var thumbs = document.querySelectorAll('[data-thumb]');
+  /* ---------- colourway ---------- */
   var swatches = document.querySelectorAll('[data-colour]');
-
-  function markThumb(btn) {
-    thumbs.forEach(function (t) { t.setAttribute('aria-selected', t === btn ? 'true' : 'false'); });
-  }
-  function swapStage(src, alt) {
-    if (!stage) return;
-    if (reduce) { stage.src = src; if (alt) stage.alt = alt; return; }
-    stage.style.opacity = '0';
-    window.setTimeout(function () {
-      stage.src = src; if (alt) stage.alt = alt; stage.style.opacity = '1';
-    }, 170);
-  }
-  thumbs.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      markThumb(btn);
-      swapStage(btn.getAttribute('data-thumb'), btn.getAttribute('data-alt'));
-    });
-  });
   swatches.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var colour = btn.getAttribute('data-colour');
       swatches.forEach(function (s) { s.setAttribute('aria-pressed', s === btn ? 'true' : 'false'); });
       document.querySelectorAll('[data-colour-label]').forEach(function (l) {
         l.textContent = btn.getAttribute('data-name');
       });
-      var lead = document.querySelector('[data-lead-' + colour + ']');
-      if (lead) {
-        swapStage(lead.getAttribute('data-lead-' + colour),
-                  'reboot Water Flosser, ' + btn.getAttribute('data-name') + ', front view');
-        if (thumbs.length) markThumb(thumbs[0]);
-      }
     });
   });
 

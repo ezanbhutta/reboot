@@ -45,9 +45,13 @@ still be there at launch.
 
 ## Imagery
 
-All product visuals are rendered from the supplied engineering model. They are
-preview-grade, produced to establish composition and lighting direction — not final
-production renders.
+**The site carries no product photography.** Every product visual is a dimensional
+line drawing, taken from the packaging dieline (69 x 76 x 215 mm). It answers "how big
+is it" honestly and needs no retouching, but it is not a substitute for a shoot.
+
+Before launch this needs: a studio pack of the unit in both colourways (front, three
+quarter, side, rear, in-hand for scale) and one in-situ frame on a bathroom shelf. The
+drawing can stay alongside it on the product page; it is doing real work there.
 
 The **how-to-use animation** required by the SRS is represented by a static frame and
 a labelled placeholder in both places it belongs (home "Watch the technique", product
