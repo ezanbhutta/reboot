@@ -165,7 +165,14 @@
           <figure class="diagram" style="margin:0">
             <svg viewBox="0 0 720 420" role="img" aria-labelledby="dgt dgd">
               <title id="dgt">Where to aim the nozzle</title>
-              <desc id="dgd">A cross-section of three teeth meeting the gum. The nozzle is held at ninety degrees to the tooth and pointed at the line where the tooth meets the gum, rather than at the flat face of the tooth.</desc>
+              <desc id="dgd">A cross-section of three teeth meeting the gum. The nozzle is held at ninety degrees to the tooth and pointed at the line where the tooth meets the gum, rather than at the flat face of the tooth.\1
+  <style>
+    @keyframes dgMove{0%,20%{transform:translateX(0)}28%,48%{transform:translateX(110px)}56%,76%{transform:translateX(232px)}84%,100%{transform:translateX(0)}}
+    @keyframes dgSpray{0%,18%{opacity:.75}22%,26%{opacity:0}30%,46%{opacity:.75}50%,54%{opacity:0}58%,74%{opacity:.75}78%,100%{opacity:0}}
+    .dg-noz{animation:dgMove 7.5s cubic-bezier(.65,0,.35,1) infinite}
+    .dg-spray{animation:dgSpray 7.5s linear infinite}
+    @media(prefers-reduced-motion:reduce){.dg-noz,.dg-spray{animation:none}}
+  </style>
               <path d="M60 262 Q120 250 175 262 Q230 250 285 262 Q340 250 395 262 Q450 250 505 262 Q560 250 615 262 Q650 268 660 274 L660 400 L60 400 Z" fill="#242A2C"/>
               <path d="M60 262 Q120 250 175 262 Q230 250 285 262 Q340 250 395 262 Q450 250 505 262 Q560 250 615 262" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1.5"/>
               <g fill="#F4F4F3">
@@ -176,14 +183,16 @@
               <line x1="287" y1="132" x2="287" y2="262" stroke="#DCDDDC" stroke-width="1"/>
               <line x1="409" y1="132" x2="409" y2="262" stroke="#DCDDDC" stroke-width="1"/>
               <g>
-                <line x1="196" y1="240" x2="118" y2="240" stroke="#079DE0" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="196" cy="240" r="4" fill="#079DE0"/>
-                <path d="M196 222 L178 222 L178 240" fill="none" stroke="#079DE0" stroke-width="1.5"/>
+                <path d="M196 222 L178 222 L178 240" fill="none" stroke="#079DE0" stroke-width="1.5" opacity=".85"/>
                 <text x="146" y="212" fill="#079DE0" font-size="16" font-weight="500" font-family="Poppins,sans-serif">90&#176;</text>
-                <g stroke="#079DE0" stroke-width="2" stroke-linecap="round" opacity=".75">
-                  <line x1="202" y1="244" x2="214" y2="251"/>
-                  <line x1="202" y1="240" x2="218" y2="240"/>
-                  <line x1="202" y1="236" x2="214" y2="229"/>
+                <g class="dg-noz">
+                  <line x1="196" y1="240" x2="118" y2="240" stroke="#079DE0" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="196" cy="240" r="4" fill="#079DE0"/>
+                  <g class="dg-spray" stroke="#079DE0" stroke-width="2" stroke-linecap="round" opacity=".75">
+                    <line x1="202" y1="244" x2="214" y2="251"/>
+                    <line x1="202" y1="240" x2="218" y2="240"/>
+                    <line x1="202" y1="236" x2="214" y2="229"/>
+                  </g>
                 </g>
               </g>
               <g opacity=".34">
@@ -226,7 +235,7 @@
               <p>Let the water fall out as you go. That is the difference between a clean routine and a wet bathroom mirror. It takes about forty seconds once you have the hang of it.</p>
             </div>
           </div>
-          <p class="t-xs dim" style="margin-top:var(--s4)">A short motion sequence covering all three is in production and will sit alongside this diagram.</p>
+          <p class="t-xs dim" style="margin-top:var(--s4)">The diagram runs the full pass: hold at ninety degrees, pause at each tooth, move on. A filmed sequence from the engineering model will join it.</p>
         </div>
       </div>
     </div>
