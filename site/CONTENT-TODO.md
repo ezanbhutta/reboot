@@ -7,6 +7,7 @@ is confirmed. Each item lists exactly where it appears so it can be swapped quic
 
 | Item | Placeholder used | Appears in |
 |---|---|---|
+| **All 128 reviews** | fabricated placeholders | Product page reviews section, buy box rating, home page trust ladder, about page |
 | **Retail price** | `$79` | Header CTA (all pages), hero, product buy box, sticky mobile bar, close section |
 | **Runtime per charge** | "To be confirmed" | Product specification |
 | **Weight** | not stated anywhere | — |
@@ -22,6 +23,20 @@ even though the site does not need to say it.
 
 The remaining "to be confirmed" entry is deliberately visible rather than hidden. It
 supports the honesty positioning and is safer than a guess.
+
+## The reviews are not real
+
+Every review on the product page is written copy, and so are the 4.6 average, the
+128 count and the rating distribution. They exist so the section can be designed
+and signed off, nothing more. **They must be replaced with real verified reviews,
+or the section removed, before this goes anywhere near a customer.** Publishing
+invented reviews is illegal in most of the markets this will sell into and it
+would destroy the one thing the rest of the site is built on.
+
+Two pieces of copy were reworded to stop the site contradicting itself once the
+reviews appeared: the home page trust ladder used to say "no reviews we did not
+earn", and the about page said "no reviews yet". Both need looking at again when
+the real reviews land.
 
 ## Claims on the packaging that this site will not print
 
