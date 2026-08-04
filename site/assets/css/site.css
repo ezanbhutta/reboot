@@ -270,6 +270,27 @@ ul{margin:0;padding:0;list-style:none}
 .cw span{display:block;margin-top:.6rem;font-size:var(--f-xs);letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-soft)}
 
+/* ============ THE OBJECT ============
+   One place on the page where the product gets the floor to itself. Centred on
+   purpose: there is nothing beside it to align to, and the change of pace is
+   what stops eleven sections of argument reading as a wall. */
+.moment{background:var(--ink);border-block:1px solid var(--line-dark);
+  padding-block:clamp(3.5rem,8vw,8rem);text-align:center}
+.moment img{height:min(58vh,560px);width:auto;margin-inline:auto}
+.moment-facts{display:flex;justify-content:center;flex-wrap:wrap;
+  gap:clamp(2rem,6vw,5.5rem);margin:clamp(2rem,5vw,3.5rem) 0 0}
+.moment-facts dt{font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:.55rem}
+.moment-facts dd{margin:0;font-size:var(--f-lg);font-weight:500;
+  letter-spacing:-.01em;color:var(--white)}
+.moment-note{max-width:44ch;margin:var(--s4) auto 0;font-size:var(--f-sm);
+  line-height:1.6;color:var(--on-dark-dim)}
+@media(max-width:820px){
+  .moment img{height:min(42vh,380px)}
+  /* two across leaves the third orphaned; one column reads cleanly instead */
+  .moment-facts{flex-direction:column;gap:var(--s3)}
+}
+
 /* ============ STEPS ============ */
 .steps{counter-reset:st}
 .step{border-top:1px solid var(--line-dark);padding-top:var(--s3);position:relative}
@@ -656,7 +677,7 @@ ul{margin:0;padding:0;list-style:none}
 /* ============ SECONDARY TYPEFACE ============
    Azeret Mono carries the data layer: indices, labels, measurements, prices.
    Aloevera carries voice. The split is by role, never by decoration. */
-.label,.eyeline span,.snum,.step-n,
+.label,.eyeline span,.snum,.step-n,.moment-facts dt,.moment-facts dd,
 .spec dt,.spec dd,.hero-bar dt,.ftr h4,.buy-price b,.buy-price span,
 .opt-lbl,.demo-tag,.figure figcaption,.marq-set span,.cmp thead th,
 .band .attr,.scrollcue,.ftr-btm{
