@@ -109,37 +109,90 @@ setting rather than part of the menu structure itself.
 
 ---
 
-## 5. Checkout — the hardest constraint
+## 5. Checkout — Shopify Plus
 
-**This is where unrealistic designs die.** Checkout is not a theme template and never
-was. It is customised through Checkout Extensibility, and the level of control depends
-entirely on the plan.
+> **Plan confirmed: Shopify Plus.** Checkout Extensibility is fully available. This
+> section is written to that capability.
 
-- `checkout.liquid` is **unsupported** for the Information, Shipping and Payment steps
-  since **13 August 2024**.
-- `checkout.liquid`, additional scripts, and script tags for the Thank You and Order
-  Status pages were sunset on **28 August 2025**.
-- Shopify Scripts continue to work alongside Checkout Extensions until **30 June 2026**.
-- Full checkout branding and UI extensions are a **Shopify Plus** capability. Non-Plus
-  stores customise checkout only through the theme editor's checkout settings —
-  logo, colours, typography from a constrained set.
+Checkout is not a theme template and never was. `checkout.liquid` is gone:
+unsupported for the Information, Shipping and Payment steps since **13 August 2024**,
+and sunset for the Thank You and Order Status pages — along with additional scripts
+and script tags — on **28 August 2025**. Shopify Scripts continue to work alongside
+Checkout Extensions until **30 June 2026**, which is a migration deadline to note if
+any legacy Scripts are inherited.
 
 Source: [checkout.liquid (deprecated)](https://shopify.dev/docs/storefronts/themes/architecture/layouts/checkout-liquid) ·
 [Apps in checkout](https://shopify.dev/docs/apps/build/checkout) ·
 [Deprecation changelog](https://shopify.dev/changelog/checkout-liquid-will-no-longer-work-for-in-checkout-pages-starting-august-13-2024)
 
-**Design consequence, stated plainly.** Do not design a bespoke checkout. On a non-Plus
-plan you will get logo, colour, and type — not layout. Any conversion work intended
-for checkout must therefore be moved *upstream*, into the cart and the product page,
-where we have full control:
+### 5.1 What Plus gives us
+
+**Checkout Branding API** (Plus or development store only). A real design-token
+system, not a colour picker:
+
+- A **design system** layer — global colours and colour schemes, typography, corner
+  radius variables — applied consistently across the whole surface
+- **Global** overrides for corner radius and typography
+- **Typography** control including case and kerning across all font surfaces
+- **Form controls** — corner radius, border presence, label position, label typography
+- **Buttons** — background style, border, corner radius, block and inline padding,
+  and typography, set independently for primary and secondary
+
+Critically, these customisations are **automatically inherited by checkout UI
+extensions**, so extension content does not look bolted on.
+
+Source: [CheckoutBrandingDesignSystem](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutBrandingDesignSystem) ·
+[CheckoutBrandingGlobal](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutBrandingGlobal) ·
+[CheckoutBrandingButton](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutBrandingButton) ·
+[Branding API changelog](https://shopify.dev/changelog/new-checkoutbranding-api-properties)
+
+**Checkout UI extensions** add custom UI and logic into checkout steps and the Thank
+You page. Three target types:
+
+| Type | Behaviour |
+|---|---|
+| **Static** | Fixed positions — before actions, after contact fields, after cart line items. Render on load, cannot be moved |
+| **Block** | Merchant-positionable via the checkout and accounts editor. **Maximum of three extensions per block target location** |
+| **Runnable** | No UI — run on events such as address entry, returning data like autocomplete or formatting |
+
+Extensions are built with **Polaris web components**, which is the significant design
+constraint here.
+
+Source: [Checkout UI extensions](https://shopify.dev/docs/api/checkout-ui-extensions/latest) ·
+[Targets](https://shopify.dev/docs/api/checkout-ui-extensions/latest/targets)
+
+### 5.2 What Plus still does not give us
+
+This is the part that catches people. Even on Plus:
+
+- **The checkout layout is not ours.** Step sequence, field order and page structure
+  are Shopify's. We are theming and inserting, not composing.
+- **Extension UI is Polaris components, branded** — not arbitrary markup. A bespoke
+  visual treatment inside an extension is not available. Our type and colour tokens
+  flow in via the Branding API; the component vocabulary does not change.
+- **Custom fonts require the fonts to be available to checkout**, which is a separate
+  configuration from the theme's font loading.
+
+So: brand the checkout thoroughly, extend it where extension earns its place, and do
+**not** design a bespoke checkout layout. A comp showing a custom-composed checkout
+will not survive build.
+
+### 5.3 Where the conversion work still belongs
+
+Even with Plus, the cart and product page carry most of the load, because that is
+where hesitation actually occurs:
 
 - Total cost visibility — shipping thresholds, duties, delivery estimates — belongs in
-  the cart, not deferred to checkout where late cost reveal drives abandonment.
-- Returns policy, guarantees, and payment-security signals belong in the cart.
-- Express wallet buttons render in the cart and product page and should be designed
-  for deliberately, since for returning mobile buyers they *are* the checkout.
+  the cart. Late cost reveal is a leading abandonment cause, and revealing it *at*
+  checkout is already too late even when checkout is beautiful.
+- Returns policy, guarantees and payment-security signals belong in the cart.
+- Express wallet buttons render in cart and product page and deserve deliberate design
+  — for returning mobile buyers they *are* the checkout, bypassing everything else.
 
-Confirming the plan is a Tier 1 intake question for exactly this reason.
+Plus additionally unlocks post-purchase surfaces: Thank You page extensions are the
+correct home for order tracking expectations, referral, and first-order onboarding —
+see the Post-purchase and Retention stages in
+[`03-information-architecture.md §1`](03-information-architecture.md).
 
 ---
 
