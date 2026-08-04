@@ -210,24 +210,57 @@ ul{margin:0;padding:0;list-style:none}
 .figure figcaption{position:absolute;left:var(--s3);bottom:var(--s3);font-size:var(--f-xs);
   letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-dim)}
 
-/* ============ DIMENSIONAL DRAWING ============
-   The product is described by measurement rather than by picture. Line weights
-   follow drafting convention: outline heavier than dimension line. */
-.dw{display:block;width:100%;height:auto}
-.dw-part{stroke:var(--on-dark)}
-.dw-mark,.dw-dim{stroke:var(--blue)}
-.dw-dim{opacity:.85}
-.dw-t{font-family:Azeret,ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
-  letter-spacing:.12em;font-feature-settings:"tnum" 1;fill:var(--blue)}
-.dw-t-s{font-size:8.5px;fill:var(--on-dark-dim)}
-.light .dw-part,.paper .dw-part{stroke:var(--ink)}
-.light .dw-mark,.paper .dw-mark,.light .dw-dim,.paper .dw-dim{stroke:var(--blue-text)}
-.light .dw-t,.paper .dw-t{fill:var(--blue-text)}
-.light .dw-t-s,.paper .dw-t-s{fill:#878C8E}
+/* ============ TECHNICAL DRAWINGS ============
+   Every product image on this site is the manufacturer's own CAD line work,
+   lifted straight from the engineering sheets. Drawings always sit on the ink
+   ground, so one stroke colour is baked into the files and nothing has to be
+   re-tinted per section. */
+.plate{margin:0;border:1px solid var(--line-dark);background:var(--ink)}
+.light .plate,.paper .plate{border-color:var(--line-light)}
+.plate-hd,.plate-ft{display:flex;justify-content:space-between;align-items:center;
+  gap:var(--s3);flex-wrap:wrap;padding:.85rem clamp(.9rem,2vw,1.4rem)}
+.plate-hd{border-bottom:1px solid var(--line-dark)}
+.plate-ft{border-top:1px solid var(--line-dark);color:var(--on-dark-dim)}
+.light .plate-hd,.light .plate-ft{border-color:var(--line-dark)}
+.plate-view,.plate-ft span,.plate-tabs button{
+  font-size:var(--f-xs);font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+.plate-view{color:var(--blue)}
+.plate-tabs{display:flex;gap:.2rem}
+.plate-tabs button{color:var(--on-dark-dim);padding:.5rem .85rem;cursor:pointer;
+  border:1px solid transparent;border-radius:2px;
+  transition:color .25s var(--ease),border-color .25s var(--ease)}
+.plate-tabs button:hover{color:var(--white)}
+.plate-tabs button[aria-selected=true]{color:var(--white);border-color:var(--line-dark)}
+/* the three elevations share one scale, so switching reads as turning a sheet */
+.plate-stage{display:flex;align-items:center;justify-content:center;
+  padding:clamp(1.25rem,2.5vw,2rem) clamp(1rem,3vw,2.5rem)}
+.plate-stage img{height:min(62vh,610px);width:auto;max-width:100%;
+  transition:opacity .22s var(--ease)}
+.plate-stage.swap img{opacity:0}
+@media(max-width:820px){.plate-stage img{height:min(42vh,420px)}}
+@media(prefers-reduced-motion:reduce){.plate-stage img{transition:none}}
 
-.dw-plate{border:1px solid var(--line-dark);padding:clamp(1.25rem,3vw,2.75rem)}
-.light .dw-plate,.paper .dw-plate{border-color:var(--line-light)}
-.dw-plate .dw{max-width:min(100%,560px);margin-inline:auto}
+.fig-sm{margin:0}
+.fig-sm img{height:clamp(7rem,13vw,11rem);width:auto}
+.fig-sm figcaption{margin-top:var(--s2);font-size:var(--f-xs);font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-dim)}
+.light .fig-sm figcaption,.paper .fig-sm figcaption{color:#878C8E}
+
+/* measured range. Two numbers and the distance between them, nothing invented */
+.scale{display:flex;align-items:center;gap:var(--s3)}
+.scale-n{font-family:Azeret,ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:var(--f-sm);font-weight:500;letter-spacing:.08em;color:var(--blue);
+  font-feature-settings:"tnum" 1;flex:0 0 auto}
+.light .scale-n,.paper .scale-n{color:var(--blue-text)}
+.scale-n abbr{text-decoration:none}
+.scale-line{flex:1;display:flex;align-items:flex-end;justify-content:space-between;
+  height:1.6rem;border-bottom:1px solid var(--line-dark)}
+.light .scale-line,.paper .scale-line{border-bottom-color:var(--line-light)}
+.scale-line i{width:1px;height:.55rem;background:var(--line-dark)}
+.light .scale-line i,.paper .scale-line i{background:var(--line-light)}
+.scale-line i:first-child,.scale-line i:last-child{height:1.1rem;background:var(--blue)}
+.light .scale-line i:first-child,.light .scale-line i:last-child,
+.paper .scale-line i:first-child,.paper .scale-line i:last-child{background:var(--blue-text)}
 
 /* colourway plate — flat swatches, no rendering */
 .cw{display:flex;gap:var(--s2)}
@@ -258,8 +291,15 @@ ul{margin:0;padding:0;list-style:none}
 .case{border-bottom:1px solid var(--line-dark);padding-block:var(--s3);display:grid;
   grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--gut);align-items:baseline;
   transition:background .3s var(--ease),padding .3s var(--ease)}
-.case h3{grid-column:1/span 5}
-.case p{grid-column:7/span 6}
+.case h3{grid-column:1/span 5;grid-row:1}
+.case p{grid-column:7/span 4;grid-row:1}
+.case-tip{grid-column:11/span 2;grid-row:1;justify-self:end;text-align:right;
+  font-size:var(--f-xs);font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--blue)}
+.light .case-tip,.paper .case-tip{color:var(--blue-text)}
+.case-q{margin-left:.6rem;font-size:var(--f-xs);font-weight:500;
+  letter-spacing:.08em;color:var(--on-dark-dim);vertical-align:.35em}
+.light .case-q,.paper .case-q{color:#878C8E}
 .light .case,.paper .case{border-color:var(--line-light)}
 .case:hover{background:var(--ink-2)}
 .light .case:hover,.paper .case:hover{background:var(--white)}
@@ -392,7 +432,8 @@ ul{margin:0;padding:0;list-style:none}
 /* ============ RESPONSIVE ============ */
 @media(max-width:1100px){
   .case{row-gap:.4rem}
-  .case h3,.case p{grid-column:1/-1}
+  .case h3,.case p,.case-tip{grid-column:1/-1;grid-row:auto}
+  .case-tip{justify-self:start;text-align:left;order:-1}
 }
 @media(max-width:820px){
   :root{--cols:6}
@@ -565,7 +606,7 @@ ul{margin:0;padding:0;list-style:none}
 .hero-full>*{width:100%}  /* flex items must not shrink-wrap, or the hero leaves the page grid */
 .hero-draw{position:absolute;top:0;bottom:0;right:var(--pad);display:flex;align-items:center;
   pointer-events:none;z-index:1}
-.hero-draw .dw{width:min(27vw,370px);height:auto;opacity:.9}
+.hero-draw img{height:min(86%,740px);width:auto;max-width:none;opacity:.95}
 .hero-body{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
   justify-content:center;padding-block:clamp(3rem,7vw,5rem)}
 .hero-body .grid{position:relative;z-index:2}
@@ -601,7 +642,7 @@ ul{margin:0;padding:0;list-style:none}
 
 @media(max-width:1100px){
   .hero-draw{position:static;justify-content:center;padding:var(--s4) 0 0}
-  .hero-draw .dw{height:auto;width:min(100%,420px)}
+  .hero-draw img{height:auto;width:auto;max-height:34vh}
   .hero-full{min-height:0;justify-content:flex-start}
   .hero-body{padding-top:var(--s4)}
   .scrollcue{display:none}

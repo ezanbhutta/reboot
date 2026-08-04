@@ -47,6 +47,37 @@
   window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 
+  /* ---------- drawing plate ---------- */
+  var plate = document.querySelector('[data-plate]');
+  var plateLabel = document.querySelector('[data-plate-label]');
+  var plateTabs = document.querySelectorAll('[data-view]');
+  if (plate && plateTabs.length) {
+    /* preload the other elevations so switching never shows an empty stage */
+    plateTabs.forEach(function (t) {
+      var i = new Image();
+      i.src = 'assets/img/dwg-' + t.getAttribute('data-view') + '.svg';
+    });
+    plateTabs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('aria-selected') === 'true') return;
+        plateTabs.forEach(function (t) {
+          t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
+        });
+        var label = btn.getAttribute('data-label');
+        var src = 'assets/img/dwg-' + btn.getAttribute('data-view') + '.svg';
+        var alt = 'reboot Water Flosser, ' + label.toLowerCase();
+        if (plateLabel) plateLabel.textContent = label;
+        if (reduce) { plate.src = src; plate.alt = alt; return; }
+        var stage = plate.parentNode;
+        stage.classList.add('swap');
+        window.setTimeout(function () {
+          plate.src = src; plate.alt = alt;
+          stage.classList.remove('swap');
+        }, 200);
+      });
+    });
+  }
+
   /* ---------- colourway ---------- */
   var swatches = document.querySelectorAll('[data-colour]');
   swatches.forEach(function (btn) {
