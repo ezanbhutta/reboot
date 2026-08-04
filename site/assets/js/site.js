@@ -50,12 +50,12 @@
   /* ---------- drawing plate ---------- */
   var plate = document.querySelector('[data-plate]');
   var plateLabel = document.querySelector('[data-plate-label]');
-  var plateTabs = document.querySelectorAll('[data-view]');
+  var plateTabs = document.querySelectorAll('[data-src]');
   if (plate && plateTabs.length) {
     /* preload the other elevations so switching never shows an empty stage */
     plateTabs.forEach(function (t) {
       var i = new Image();
-      i.src = 'assets/img/dwg-' + t.getAttribute('data-view') + '.svg';
+      i.src = 'assets/img/' + t.getAttribute('data-src');
     });
     plateTabs.forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -64,7 +64,7 @@
           t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
         });
         var label = btn.getAttribute('data-label');
-        var src = 'assets/img/dwg-' + btn.getAttribute('data-view') + '.svg';
+        var src = 'assets/img/' + btn.getAttribute('data-src');
         var alt = 'reboot Water Flosser, ' + label.toLowerCase();
         if (plateLabel) plateLabel.textContent = label;
         if (reduce) { plate.src = src; plate.alt = alt; return; }
@@ -78,7 +78,14 @@
     });
   }
 
-  /* ---------- colourway ---------- */
+  /* ---------- colourway ----------
+     Picking a colour should show that colour. The swatch drives the gallery and
+     the gallery tab follows, so the two controls never disagree. */
+  function showView(file) {
+    for (var i = 0; i < plateTabs.length; i++) {
+      if (plateTabs[i].getAttribute('data-src') === file) { plateTabs[i].click(); return; }
+    }
+  }
   var swatches = document.querySelectorAll('[data-colour]');
   swatches.forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -86,6 +93,7 @@
       document.querySelectorAll('[data-colour-label]').forEach(function (l) {
         l.textContent = btn.getAttribute('data-name');
       });
+      showView(btn.getAttribute('data-colour') === 'white' ? 'prod-white.webp' : 'prod-black.webp');
     });
   });
 
