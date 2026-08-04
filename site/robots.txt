@@ -1,0 +1,4 @@
+# Design prototype. Pricing and specifications are not final.
+# Shareable by link, deliberately kept out of search results.
+User-agent: *
+Disallow: /
