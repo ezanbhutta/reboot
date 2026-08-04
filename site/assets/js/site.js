@@ -29,38 +29,6 @@
   /* ---------- scroll progress ---------- */
   var prog = document.querySelector('[data-prog]');
 
-  /* ---------- turntable ---------- */
-  var turn = document.querySelector('[data-turn]');
-  var turnImg = document.querySelector('[data-turn-img]');
-  var turnDeg = document.querySelector('[data-turn-deg]');
-  var FRAMES = 24, frames = [], loaded = false, lastFrame = -1;
-
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-
-  function preload() {
-    if (loaded) return; loaded = true;
-    for (var i = 0; i < FRAMES; i++) {
-      var im = new Image();
-      im.src = 'assets/img/turn/t' + pad(i) + '.webp';
-      frames.push(im);
-    }
-  }
-  if (turnImg) {
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (es, o) {
-        es.forEach(function (e) { if (e.isIntersecting) { preload(); o.disconnect(); } });
-      }, { rootMargin: '600px' }).observe(turn);
-    } else { preload(); }
-  }
-
-  function setFrame(p) {
-    var i = Math.min(FRAMES - 1, Math.max(0, Math.round(p * (FRAMES - 1))));
-    if (i === lastFrame) return;
-    lastFrame = i;
-    turnImg.src = 'assets/img/turn/t' + pad(i) + '.webp';
-    if (turnDeg) turnDeg.textContent = Math.round(i * (360 / FRAMES));
-  }
-
   var ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -73,15 +41,6 @@
         prog.style.width = (h > 0 ? (window.pageYOffset / h) * 100 : 0) + '%';
       }
 
-      if (turnImg && turn && !reduce) {
-        var track = turn.querySelector('.turn-track');
-        var r = track.getBoundingClientRect();
-        var span = r.height - window.innerHeight;
-        if (span > 0) {
-          var p = (-r.top) / span;
-          if (p >= -0.05 && p <= 1.05) setFrame(Math.min(1, Math.max(0, p)));
-        }
-      }
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -119,75 +78,13 @@
       });
       var lead = document.querySelector('[data-lead-' + colour + ']');
       if (lead) {
-        if (window.__spinColour) {
-          window.__spinColour(colour);
-          stage.alt = 'reboot Water Flosser, ' + btn.getAttribute('data-name');
-        } else {
-          swapStage(lead.getAttribute('data-lead-' + colour),
-                    'reboot Water Flosser, ' + btn.getAttribute('data-name') + ', front view');
-        }
+        swapStage(lead.getAttribute('data-lead-' + colour),
+                  'reboot Water Flosser, ' + btn.getAttribute('data-name') + ', front view');
         if (thumbs.length) markThumb(thumbs[0]);
       }
     });
   });
 
-
-  /* ---------- drag-to-rotate gallery ---------- */
-  var spin = document.querySelector('[data-spin]');
-  if (spin) {
-    var sImg = spin.querySelector('img');
-    var sDeg = spin.querySelector('[data-spin-deg]');
-    var sBar = spin.querySelector('.spin-track b');
-    var N = 24, idx = 0, dragging = false, startX = 0, startIdx = 0, ready = false, prefix = 't', wLoaded = false;
-
-    function pad2(n){ return (n < 10 ? '0' : '') + n; }
-    function paint(i) {
-      idx = ((i % N) + N) % N;
-      sImg.src = 'assets/img/turn/' + prefix + pad2(idx) + '.webp';
-      var deg = Math.round(idx * (360 / N));
-      if (sDeg) sDeg.textContent = deg + '\u00B0';
-      if (sBar) sBar.style.width = ((idx / (N - 1)) * 100) + '%';
-      spin.setAttribute('aria-valuenow', deg);
-      spin.setAttribute('aria-valuetext', deg + ' degrees');
-    }
-    // preload the sequence, then drop the loading bar
-    var got = 0;
-    for (var i = 0; i < N; i++) {
-      var im = new Image();
-      im.onload = im.onerror = function () {
-        if (++got === N && !ready) { ready = true; spin.classList.add('is-ready'); }
-      };
-      im.src = 'assets/img/turn/t' + pad2(i) + '.webp';
-    }
-    window.setTimeout(function(){ if(!ready){ ready = true; spin.classList.add('is-ready'); } }, 4000);
-
-    spin.addEventListener('pointerdown', function (e) {
-      dragging = true; startX = e.clientX; startIdx = idx;
-      spin.classList.add('touched');
-      if (spin.setPointerCapture) spin.setPointerCapture(e.pointerId);
-    });
-    spin.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
-      var dx = e.clientX - startX;
-      paint(startIdx + Math.round(dx / 14));
-    });
-    ['pointerup','pointercancel','pointerleave'].forEach(function (ev) {
-      spin.addEventListener(ev, function () { dragging = false; });
-    });
-    spin.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight') { paint(idx + 1); spin.classList.add('touched'); e.preventDefault(); }
-      if (e.key === 'ArrowLeft')  { paint(idx - 1); spin.classList.add('touched'); e.preventDefault(); }
-    });
-    paint(0);
-    window.__spinColour = function (c) {
-      prefix = c === 'white' ? 'w' : 't';
-      if (prefix === 'w' && !wLoaded) {
-        wLoaded = true;
-        for (var k = 0; k < N; k++) { var wi = new Image(); wi.src = 'assets/img/turn/w' + pad2(k) + '.webp'; }
-      }
-      lastFrame = -1; paint(idx);
-    };
-  }
 
   /* ---------- sticky buy bar ---------- */
   var sticky = document.querySelector('.stickybuy');
