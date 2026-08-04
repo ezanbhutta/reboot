@@ -8,11 +8,12 @@ and governs it.
 
 ## Status
 
-**Phases 1, 2, 3, 6, 7 and 11–14 complete.** All project inputs received and read:
-SRS v1.0 (8 July 2026), brand package (`RebootMe_r2`), and both reference sites.
+**Phases 1–3 and 5–14 complete.** All project inputs received and read: SRS v1.0
+(8 July 2026), brand package (`RebootMe_r2`), and both reference sites. Structural
+design — sitemap, flows and page blueprints — is complete and committed.
 
-**Wireframing is deliberately not started.** Three blockers change page *structure*,
-not styling, so designing before they clear would mean rework:
+**High-fidelity visual design is not started.** Three blockers change page *structure*
+and *content*, not just styling, so designing before they clear would mean rework:
 
 | # | Blocker | Why it changes the design |
 |---|---|---|
@@ -38,6 +39,8 @@ Full detail: [`06-phase1-extraction.md §4`](docs/06-phase1-extraction.md).
 | [`06-phase1-extraction.md`](docs/06-phase1-extraction.md) | 1 | SRS extraction, brand decode, contrast audit, risk register |
 | [`07-competitive-landscape.md`](docs/07-competitive-landscape.md) | 2–3 | Reference and competitor teardowns, customer psychology |
 | [`08-strategy.md`](docs/08-strategy.md) | 5, 10 | Positioning, differentiation thesis, content architecture |
+| [`09-sitemap-and-flows.md`](docs/09-sitemap-and-flows.md) | 7 | Sitemap, Shopify template mapping, user flows, failure states |
+| [`10-page-blueprints.md`](docs/10-page-blueprints.md) | 7, 9–12 | Section-by-section blueprints for every page |
 
 ## The three findings that shape everything
 
