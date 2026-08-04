@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Water Flosser | reboot</title>
-<meta name="description" content="The reboot cordless water flosser. Two colourways, 2-year warranty, 30-day returns. Built for the gumline, with the technique that makes it work.">
+<meta name="description" content="The reboot cordless water flosser. Two colourways, two year warranty, thirty day returns. Built for the gumline, with the technique that makes it work.">
 <link rel="preload" href="assets/fonts/poppins-light.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-semibold.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add('js')</script>
@@ -20,201 +20,296 @@
     <button class="burger" aria-label="Menu" aria-expanded="false"><span></span></button>
     <nav class="nav" aria-label="Primary">
       <a href="product.html" aria-current="page">Water Flosser</a>
-      <a href="#how">How It Works</a>
+      <a href="#technique">Technique</a>
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
-    <div class="hdr-cta"><a class="btn btn-primary" href="#buy">Buy $79</a></div>
+    <div class="hdr-cta"><a class="btn btn-primary" href="#buy"><span>Buy $79</span></a></div>
   </div>
+  <div class="prog" data-prog></div>
 </header>
 
 <main id="main">
 
   <!-- BUY -->
-  <section class="wrap pdp" id="buy">
-    <div>
-      <div class="gal-main">
-        <img data-stage src="assets/img/flosser-black-front.webp" width="760" height="1060"
-             alt="reboot Water Flosser in black, front view" fetchpriority="high">
-      </div>
-      <div class="gal-thumbs" role="tablist" aria-label="Product images">
-        <button role="tab" aria-selected="true"  data-thumb="assets/img/flosser-black-front.webp" data-alt="reboot Water Flosser in black, front view" aria-label="Front view"><img src="assets/img/flosser-black-front.webp" alt="" width="760" height="1060" loading="lazy"></button>
-        <button role="tab" aria-selected="false" data-thumb="assets/img/flosser-black-34.webp"    data-alt="reboot Water Flosser in black, three-quarter view" aria-label="Three-quarter view"><img src="assets/img/flosser-black-34.webp" alt="" width="760" height="1060" loading="lazy"></button>
-        <button role="tab" aria-selected="false" data-thumb="assets/img/flosser-black-side.webp"  data-alt="reboot Water Flosser in black, side profile" aria-label="Side profile"><img src="assets/img/flosser-black-side.webp" alt="" width="760" height="1060" loading="lazy"></button>
-        <button role="tab" aria-selected="false" data-thumb="assets/img/flosser-black-rear.webp"  data-alt="reboot Water Flosser in black, rear view showing the textured grip" aria-label="Rear view"><img src="assets/img/flosser-black-rear.webp" alt="" width="760" height="1060" loading="lazy"></button>
-        <button role="tab" aria-selected="false" data-thumb="assets/img/flosser-black-top.webp"   data-alt="reboot Water Flosser in black, viewed from above" aria-label="Top view"><img src="assets/img/flosser-black-top.webp" alt="" width="760" height="1060" loading="lazy"></button>
-      </div>
-    </div>
-
-    <div class="buy" data-buy-anchor>
-      <h1>Water Flosser</h1>
-      <p class="buy-sub">Cordless, and built for the gumline, the part of your mouth a toothbrush was never designed to reach.</p>
-
-      <div class="buy-price"><b>$79</b><span>Free shipping · Includes two nozzles</span></div>
-
-      <div class="opt">
-        <span class="opt-lbl">Colourway: <span data-colour-label>Black</span></span>
-        <div class="swatches">
-          <button class="sw" data-colour="black" data-name="Black" aria-pressed="true"><i style="background:#1C2123"></i> Black</button>
-          <button class="sw" data-colour="white" data-name="Soft White" aria-pressed="false"><i style="background:#E9EAEA"></i> Soft White</button>
+  <section class="wrap" id="buy">
+    <div class="grid pdp-grid" style="padding-block:var(--s5)">
+      <div class="c7">
+        <div class="spin" data-spin tabindex="0" role="slider"
+             aria-label="Rotate the product" aria-valuemin="0" aria-valuemax="359" aria-valuenow="0" aria-valuetext="0 degrees">
+          <div class="ldg" aria-hidden="true"></div>
+          <img data-stage src="assets/img/turn/t00.webp" width="360" height="520"
+               alt="reboot Water Flosser in black, shown from the front" fetchpriority="high">
+          <span class="spin-hint"><i></i> Drag to rotate</span>
+          <span class="spin-deg" data-spin-deg>0&#176;</span>
+          <span class="spin-track"><b></b></span>
         </div>
-        <span hidden data-lead-black="assets/img/flosser-black-front.webp" data-lead-white="assets/img/flosser-white-front.webp"></span>
+        <div class="grid" style="margin-top:var(--s2)">
+          <div class="c6"><p class="t-xs dim">Rendered from the engineering model. Drag the product, or use the arrow keys.</p></div>
+          <div class="c5 s8" style="text-align:right"><p class="t-xs dim">24 positions, full 360&#176;</p></div>
+        </div>
       </div>
 
-      <div class="buy-actions">
-        <button class="btn btn-primary btn-block" type="button">Add to cart</button>
-        <button class="btn btn-ghost btn-block" type="button">Buy it now</button>
-      </div>
+      <div class="c4 s9 buybox" data-buy-anchor>
+        <span class="label" style="margin-bottom:var(--s2)">Cordless water flosser</span>
+        <h1 class="t-2xl optical">Water Flosser</h1>
+        <p class="lede" style="margin-top:var(--s2);max-width:34ch">Built for the gumline, the part of your mouth a toothbrush was never designed to reach.</p>
 
-      <dl class="reassure">
-        <div><dt>Shipping</dt><dd>Free. Dispatched within one working day, 2 to 4 days to arrive.</dd></div>
-        <div><dt>Returns</dt><dd>30 days from delivery. We pay return postage.</dd></div>
-        <div><dt>Warranty</dt><dd>2 years, parts and labour. Claimed online, not by phone.</dd></div>
-        <div><dt>In the box</dt><dd>Flosser, two nozzles, charging cable, technique guide.</dd></div>
-      </dl>
+        <div class="buy-price"><b>$79</b><span>Free shipping &nbsp;/&nbsp; Two nozzles included</span></div>
+
+        <div class="opt">
+          <span class="opt-lbl">Colourway: <span data-colour-label>Black</span></span>
+          <div class="swatches">
+            <button class="sw" data-colour="black" data-name="Black" aria-pressed="true"><i style="background:#1C2123"></i> Black</button>
+            <button class="sw" data-colour="white" data-name="Soft White" aria-pressed="false"><i style="background:#E9EAEA"></i> Soft White</button>
+          </div>
+          <span hidden data-lead-black="assets/img/turn/t00.webp" data-lead-white="assets/img/flosser-white-front.webp"></span>
+        </div>
+
+        <div class="buy-actions">
+          <button class="btn btn-primary btn-block" type="button"><span>Add to cart</span></button>
+          <button class="btn btn-ghost btn-block" type="button"><span>Buy it now</span></button>
+        </div>
+
+        <dl class="reassure">
+          <div><dt>Shipping</dt><dd>Free. Dispatched within one working day, 2 to 4 days to arrive.</dd></div>
+          <div><dt>Returns</dt><dd>30 days from delivery. We pay return postage.</dd></div>
+          <div><dt>Warranty</dt><dd>2 years, parts and labour. Claimed online, not by phone.</dd></div>
+          <div><dt>In the box</dt><dd>Flosser, two nozzles, charging cable, technique guide.</dd></div>
+        </dl>
+      </div>
     </div>
   </section>
 
-  <!-- HONEST CLAIM -->
-  <section class="sec light stmt">
+  <!-- BAND -->
+  <section class="band">
     <div class="wrap">
-      <p class="eyebrow rv">Before you buy</p>
-      <p class="d2 rv">Floss cleans between teeth.<br>Water cleans the <span class="accent">gumline.</span></p>
-      <div class="stmt-grid">
-        <div class="rv">
-          <p>String floss is better at the tight contact between two teeth. Water is better along and under the gumline, around brackets and permanent retainers, and between implants and crowns.</p>
-          <p style="margin-top:1.1rem">Used together they cover the whole mouth. If you're buying this expecting to throw your floss away, we'd rather tell you now.</p>
-        </div>
-        <div class="rv stmt-note">
-          <p style="color:var(--ink);font-weight:400">The most common reason people abandon a water flosser is that it was sold to them as something it isn't.</p>
+      <div class="grid">
+        <div class="c7 s2 rv">
+          <q>Read this before you buy it.</q>
+          <p class="attr">One thing we would rather you knew first</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HOW TO USE -->
-  <section class="sec soft" id="how">
+  <!-- 01 THE CLAIM -->
+  <section class="sec light">
     <div class="wrap">
-      <p class="eyebrow rv">How to use it</p>
-      <h2 class="d2 rv measure">Three things decide whether this works for you.</h2>
-      <div class="steps">
-        <div class="step rv"><div class="step-n">Step 01</div><h3>Start on the lowest pressure</h3><p>Lukewarm water. Build up over the first week rather than starting at maximum.</p></div>
-        <div class="step rv"><div class="step-n">Step 02</div><h3>Aim at the gumline, not the tooth face</h3><p>Where the tooth meets the gum, rather than the flat face of the tooth. Pause briefly between each one. This single detail is the difference between it working and it seeming useless.</p></div>
-        <div class="step rv"><div class="step-n">Step 03</div><h3>Lean over the sink, lips nearly closed</h3><p>Let the water fall out as you go. Forty seconds, no mess.</p></div>
-      </div>
-      <div class="demo rv">
-        <div class="demo-stage">
-          <img src="assets/img/flosser-black-top.webp" width="760" height="1060" alt="reboot water flosser viewed from above, showing the nozzle and controls" loading="lazy">
-          <span class="demo-tag">Motion sequence in production</span>
+      <div class="grid rv">
+        <div class="c9 s2">
+          <h2 class="t-3xl optical">Floss cleans between teeth.<br>Water cleans the <span class="accent">gumline.</span></h2>
         </div>
-        <div class="demo-body">
-          <h3>The technique, shown</h3>
-          <p style="margin-top:.35rem">A short silent sequence covering nozzle angle, the path around the arch, and the pause between teeth.</p>
-          <p style="margin-top:1rem;font-size:var(--sm)" class="pending">Being produced from the product's engineering model. It will play on scroll, with a static fallback under reduced-motion settings.</p>
+      </div>
+      <div class="grid" style="margin-top:var(--s5)">
+        <div class="c4 s2 rv rv-d1">
+          <p class="t-md">String floss is better at the tight contact between two teeth. Water is better along and under the gumline, around brackets and permanent retainers, and between implants and crowns.</p>
+        </div>
+        <div class="c4 s7 rv rv-d2">
+          <p class="t-md" style="color:var(--ink);font-weight:400">Used together they cover the whole mouth.</p>
+          <p class="t-md" style="margin-top:var(--s2)">If you are buying this expecting to throw your floss away, we would rather tell you now than have you find out in a month.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SPECIFICATION -->
+  <!-- 02 TECHNIQUE -->
+  <section class="sec paper" id="technique">
+    <div class="wrap">
+      <div class="hang rv">
+        <div class="hang-n"><b>02</b><span>Technique</span></div>
+        <div class="hang-b">
+          <h2 class="t-2xl optical">Three things decide whether this works for you.</h2>
+          <p class="t-md" style="margin-top:var(--s3);max-width:42ch">Not pressure. Aim.</p>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:var(--s6)">
+        <div class="c7 rv rv-d1">
+          <figure class="diagram" style="margin:0">
+            <svg viewBox="0 0 720 420" role="img" aria-labelledby="pdgt pdgd">
+              <title id="pdgt">Where to aim the nozzle</title>
+              <desc id="pdgd">A cross-section of three teeth meeting the gum. The nozzle is held at ninety degrees to the tooth and pointed where the tooth meets the gum, rather than at the flat face of the tooth.</desc>
+              <path d="M60 262 Q120 250 175 262 Q230 250 285 262 Q340 250 395 262 Q450 250 505 262 Q560 250 615 262 Q650 268 660 274 L660 400 L60 400 Z" fill="#242A2C"/>
+              <path d="M60 262 Q120 250 175 262 Q230 250 285 262 Q340 250 395 262 Q450 250 505 262 Q560 250 615 262" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1.5"/>
+              <g fill="#F4F4F3">
+                <path d="M196 262 L196 150 Q196 108 232 108 Q268 108 268 150 L268 262 Q232 272 196 262 Z"/>
+                <path d="M306 262 L306 138 Q306 96 348 96 Q390 96 390 138 L390 262 Q348 272 306 262 Z"/>
+                <path d="M428 262 L428 150 Q428 108 464 108 Q500 108 500 150 L500 262 Q464 272 428 262 Z"/>
+              </g>
+              <line x1="287" y1="132" x2="287" y2="262" stroke="#DCDDDC" stroke-width="1"/>
+              <line x1="409" y1="132" x2="409" y2="262" stroke="#DCDDDC" stroke-width="1"/>
+              <g>
+                <line x1="196" y1="240" x2="118" y2="240" stroke="#079DE0" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="196" cy="240" r="4" fill="#079DE0"/>
+                <path d="M196 222 L178 222 L178 240" fill="none" stroke="#079DE0" stroke-width="1.5"/>
+                <text x="146" y="212" fill="#079DE0" font-size="16" font-weight="500" font-family="Poppins,sans-serif">90&#176;</text>
+                <g stroke="#079DE0" stroke-width="2" stroke-linecap="round" opacity=".75">
+                  <line x1="202" y1="244" x2="214" y2="251"/><line x1="202" y1="240" x2="218" y2="240"/><line x1="202" y1="236" x2="214" y2="229"/>
+                </g>
+              </g>
+              <g opacity=".34">
+                <line x1="348" y1="170" x2="348" y2="70" stroke="rgba(255,255,255,.8)" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="348" cy="170" r="4" fill="rgba(255,255,255,.8)"/>
+                <g stroke="rgba(255,255,255,.7)" stroke-width="9" stroke-linecap="round">
+                  <line x1="332" y1="46" x2="364" y2="78"/><line x1="364" y1="46" x2="332" y2="78"/>
+                </g>
+              </g>
+              <line x1="505" y1="258" x2="588" y2="214" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+              <circle cx="505" cy="258" r="3" fill="rgba(255,255,255,.55)"/>
+              <text x="596" y="210" fill="rgba(255,255,255,.68)" font-size="15" font-family="Poppins,sans-serif">gumline</text>
+              <line x1="409" y1="200" x2="588" y2="330" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+              <circle cx="409" cy="200" r="3" fill="rgba(255,255,255,.55)"/>
+              <text x="596" y="336" fill="rgba(255,255,255,.68)" font-size="15" font-family="Poppins,sans-serif">between teeth</text>
+            </svg>
+            <div class="dg-key">
+              <div><i></i> Aim here, at ninety degrees</div>
+              <div><i class="b"></i> The common mistake</div>
+            </div>
+          </figure>
+        </div>
+        <div class="c4 s9 rv rv-d2">
+          <div class="steps">
+            <div class="step" style="border-color:var(--line-light)"><span class="step-n">Step 01</span><h3>Start on the lowest pressure</h3><p>Lukewarm water. Build up over the first week rather than starting at maximum.</p></div>
+            <div class="step" style="border-color:var(--line-light);margin-top:var(--s4)"><span class="step-n">Step 02</span><h3>Aim where the tooth meets the gum</h3><p>Hold the nozzle at roughly ninety degrees and trace the line where the tooth meets the gum. Pause briefly at each one.</p></div>
+            <div class="step" style="border-color:var(--line-light);margin-top:var(--s4)"><span class="step-n">Step 03</span><h3>Lean over the sink, lips nearly closed</h3><p>Let the water fall out as you go. Forty seconds, no mess.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 SPECIFICATION -->
   <section class="sec">
     <div class="wrap">
-      <p class="eyebrow rv">Specification</p>
-      <div class="detail">
-        <div class="rv">
-          <h2 class="d2">Every number we<br>have verified.</h2>
-          <p style="margin-top:1.25rem;color:var(--on-dark)">Where a figure is still being confirmed against the production unit, it says so. We'd rather show you a gap than a guess.</p>
+      <div class="hang rv">
+        <div class="hang-n"><b>03</b><span>Specification</span></div>
+        <div class="hang-b">
+          <h2 class="t-2xl optical">Every number we have verified.</h2>
+          <p class="t-md dim" style="margin-top:var(--s3);max-width:46ch">Where a figure is still being confirmed against the production unit, it says so. We would rather show a gap than a guess.</p>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:var(--s5)">
+        <div class="c5 s3 rv rv-d1">
           <dl class="spec">
-            <div><dt>Dimensions</dt><dd>69 × 76 × 215 mm</dd></div>
-            <div><dt>Packaged</dt><dd>71 × 78 × 217 mm</dd></div>
-            <div><dt>Colourways</dt><dd>Black · Soft White</dd></div>
-            <div><dt>Power</dt><dd>Rechargeable, cordless</dd></div>
+            <div><dt>Height</dt><dd>215 mm</dd></div>
+            <div><dt>Width</dt><dd>76 mm</dd></div>
+            <div><dt>Depth</dt><dd>69 mm</dd></div>
+            <div><dt>Packaged</dt><dd>71 &#215; 78 &#215; 217 mm</dd></div>
+            <div><dt>Colourways</dt><dd>Black, Soft White</dd></div>
             <div><dt>Nozzles included</dt><dd>2</dd></div>
+          </dl>
+        </div>
+        <div class="c5 s8 rv rv-d2">
+          <dl class="spec">
+            <div><dt>Power</dt><dd>Rechargeable, cordless</dd></div>
             <div><dt>Pressure settings</dt><dd class="pending">To be confirmed</dd></div>
             <div><dt>Tank capacity</dt><dd class="pending">To be confirmed</dd></div>
             <div><dt>Battery life</dt><dd class="pending">To be confirmed</dd></div>
             <div><dt>Charge time</dt><dd class="pending">To be confirmed</dd></div>
             <div><dt>Water resistance</dt><dd class="pending">To be confirmed</dd></div>
-            <div><dt>Noise level</dt><dd class="pending">To be confirmed</dd></div>
-            <div><dt>Weight</dt><dd class="pending">To be confirmed</dd></div>
           </dl>
         </div>
-        <div class="detail-media rv">
-          <img src="assets/img/flosser-black-side.webp" width="760" height="1060" alt="Side profile of the reboot water flosser" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 WHO IT IS FOR -->
+  <section class="sec light">
+    <div class="wrap">
+      <div class="grid rv">
+        <div class="c8 s3">
+          <span class="label" style="margin-bottom:var(--s3)">04 &nbsp;/&nbsp; Who it is for</span>
+          <h2 class="t-2xl optical">Some people notice the difference in a week.</h2>
+        </div>
+      </div>
+      <div class="ladder" style="margin-top:var(--s6)">
+        <div class="rung rv"><span class="num">01</span><h3>Braces and retainers</h3><p>Brackets, wires and bonded retainers trap what floss cannot get around.</p></div>
+        <div class="rung rv"><span class="num">02</span><h3>Implants and crowns</h3><p>Margins and abutments that need cleaning without abrasion.</p></div>
+        <div class="rung rv"><span class="num">03</span><h3>Gum pockets and recession</h3><p>Where a dentist has asked you to clean below the gumline, or brushing harder is doing damage.</p></div>
+        <div class="rung rv"><span class="num">04</span><h3>Tight contacts and wisdom teeth</h3><p>Teeth packed closely enough that floss shreds, and the gap nothing else reaches.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 REVIEWS: designed empty state -->
+  <section class="sec paper">
+    <div class="wrap">
+      <div class="grid rv">
+        <div class="c6 s4">
+          <div class="empty">
+            <img class="mk" src="assets/img/mark-blue.svg" alt="" width="30" height="30">
+            <h3>No reviews yet</h3>
+            <p>This product has not shipped to anyone, so there is nothing here to read. When it has, verified buyer reviews will appear in this space.</p>
+            <p class="why">We could fill this with something. We would rather leave it honest and let it fill itself.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHO IT'S FOR -->
-  <section class="sec light">
+  <!-- 06 FAQ -->
+  <section class="sec" id="faq">
     <div class="wrap">
-      <p class="eyebrow rv">Who it's for</p>
-      <h2 class="d2 rv measure">Some people notice the difference in a week.</h2>
-      <div class="steps" style="margin-top:2.5rem">
-        <div class="step rv"><div class="step-n">01</div><h3>Braces, aligners, retainers</h3><p>Brackets, wires and bonded retainers trap what floss can't get around.</p></div>
-        <div class="step rv"><div class="step-n">02</div><h3>Implants, crowns, bridges</h3><p>Margins and abutments that need cleaning without abrasion.</p></div>
-        <div class="step rv"><div class="step-n">03</div><h3>Gum pockets and recession</h3><p>Where a dentist has asked you to clean below the gumline, or brushing harder is doing damage.</p></div>
-      </div>
-      <p class="rv" style="margin-top:2rem;font-size:var(--sm)">Also: tightly packed teeth that shred floss, wisdom-tooth gaps, and anyone whose grip makes floss awkward. If none of that is you and you floss well every day, you may not need one.</p>
-    </div>
-  </section>
-
-  <!-- REVIEWS: intentionally absent until earned -->
-
-  <!-- FAQ -->
-  <section class="sec soft">
-    <div class="wrap">
-      <p class="eyebrow rv">Questions</p>
-      <h2 class="d2 rv measure-s">Before you decide.</h2>
-      <div class="faq rv">
-        <details open><summary>Will I see bits of food come out?</summary><div class="ans"><p>Sometimes, sometimes not. That isn't a sign it isn't working. Most of what it removes is soft plaque at the gumline, which you won't see. Judge it by how your gums look after two weeks.</p></div></details>
-        <details><summary>Can I stop using string floss?</summary><div class="ans"><p>We'd rather you didn't. They do different jobs. If you genuinely won't floss, this is far better than nothing, but it isn't a straight swap.</p></div></details>
-        <details><summary>My gums bleed. Should I stop?</summary><div class="ans"><p>Usually not. It's generally existing inflammation rather than damage, and it typically settles within one to two weeks. Start low. If it hasn't improved after two weeks, speak to your dentist.</p></div></details>
-        <details><summary>Is it messy?</summary><div class="ans"><p>Only if you stand upright with your mouth open. Lean over the sink, lips almost closed. Everyone gets it within a couple of uses.</p></div></details>
-        <details><summary>What if I don't get on with it?</summary><div class="ans"><p>Thirty days from delivery, we pay return postage, and you get a full refund. Use it properly for a few weeks first. That's what the window is for.</p></div></details>
-        <details><summary>Who shouldn't use one?</summary><div class="ans"><p>Check with your dentist first if you have gum disease under active treatment, recent oral surgery, or a newly placed crown or implant. Not intended for young children.</p></div></details>
+      <div class="grid" style="margin-top:0">
+        <div class="c4 rv">
+          <span class="label" style="margin-bottom:var(--s3)">06 &nbsp;/&nbsp; Questions</span>
+          <h2 class="t-2xl optical">Before you decide.</h2>
+        </div>
+        <div class="c7 s6 rv rv-d1">
+          <div class="faq" style="border-top-color:var(--line-dark)">
+            <details open><summary><span class="qn">01</span><span>Will I see bits of food come out?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Sometimes, sometimes not. That is not a sign it is failing. Most of what it removes is soft plaque at the gumline, which you will not see. Judge it by how your gums look after two weeks.</p></div></details>
+            <details><summary><span class="qn">02</span><span>Can I stop using string floss?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">We would rather you did not. They do different jobs. If you genuinely will not floss, this is far better than nothing, but it is not a straight swap.</p></div></details>
+            <details><summary><span class="qn">03</span><span>My gums bleed. Should I stop?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Usually not. It is generally existing inflammation rather than damage, and it typically settles within one to two weeks. Start low. If it has not improved after a fortnight, speak to your dentist.</p></div></details>
+            <details><summary><span class="qn">04</span><span>Is it messy?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Only if you stand upright with your mouth open. Lean over the sink, lips almost closed. Everyone gets it within a couple of uses.</p></div></details>
+            <details><summary><span class="qn">05</span><span>What if I do not get on with it?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Thirty days from delivery, we pay return postage, and you get a full refund. Use it properly for a few weeks first. That is what the window is for.</p></div></details>
+            <details><summary><span class="qn">06</span><span>Who should not use one?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Check with your dentist first if you have gum disease under active treatment, recent oral surgery, or a newly placed crown or implant. Not intended for young children.</p></div></details>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- CLOSE -->
-  <section class="sec">
-    <div class="wrap close-in">
-      <div class="rv">
-        <h2 class="d2">Thirty days<br>to decide.</h2>
-        <p class="lede" style="margin-top:1.25rem">Free shipping, two-year warranty, and return postage on us if it isn't for you.</p>
-        <div class="hero-actions"><a class="btn btn-primary" href="#buy">Add to cart $79</a></div>
-      </div>
-      <div class="rv">
-        <div class="detail-media" style="min-height:300px;background:var(--ink-2)">
-          <img src="assets/img/flosser-white-front.webp" width="760" height="1060" alt="reboot Water Flosser in Soft White, front view" loading="lazy" style="max-height:280px">
+  <section class="sec light">
+    <div class="wrap">
+      <div class="grid" style="align-items:end">
+        <div class="c6 s2 rv">
+          <h2 class="t-3xl optical">Thirty days<br>to <span class="accent">decide.</span></h2>
+          <p class="t-md" style="margin-top:var(--s3);max-width:40ch">Free shipping, a two year warranty, and return postage on us if it is not for you.</p>
+          <div class="hero-actions" style="margin-top:var(--s4)">
+            <a class="btn btn-primary" href="#buy"><span>Add to cart $79</span></a>
+          </div>
         </div>
-        <p style="margin-top:1rem;font-size:var(--sm);color:var(--on-dark-dim)">Also available in Soft White.</p>
+        <div class="c3 s9 rv rv-d1">
+          <div class="figure" style="padding:var(--s4)">
+            <img src="assets/img/flosser-white-front.webp" width="760" height="1060" alt="reboot Water Flosser in Soft White, front view" loading="lazy" style="max-height:18rem">
+          </div>
+          <p class="t-xs dim" style="margin-top:var(--s2)">Also available in Soft White.</p>
+        </div>
       </div>
     </div>
   </section>
 
 </main>
 
-<div class="stickybuy" aria-hidden="false">
+<div class="stickybuy">
   <div class="m"><b>Water Flosser $79</b><span data-colour-label>Black</span></div>
-  <a class="btn btn-primary" href="#buy">Add to cart</a>
+  <a class="btn btn-primary" href="#buy"><span>Add to cart</span></a>
 </div>
 
 <footer class="ftr">
   <div class="wrap">
-    <div class="ftr-grid">
-      <div class="ftr-brand">
+    <div class="grid">
+      <div class="c4 ftr-brand">
         <img src="assets/img/logo.svg" alt="reboot" width="140" height="40">
-        <p>A cordless water flosser for the gumline. Honest about what it does, obvious about how to use it.</p>
+        <p class="t-sm dim measure-s">A cordless water flosser for the gumline. Honest about what it does, clear about how to use it.</p>
       </div>
-      <div><h4>Product</h4><ul><li><a href="product.html">Water Flosser</a></li><li><a href="index.html#how">How it works</a></li><li><a href="about.html">About reboot</a></li></ul></div>
-      <div><h4>Support</h4><ul><li><a href="contact.html">Contact us</a></li><li><a href="warranty.html">Warranty claim</a></li></ul></div>
-      <div><h4>Policies</h4><ul><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+      <div class="c2 s6"><h4>Product</h4><ul><li><a href="product.html">Water Flosser</a></li><li><a href="index.html#technique">Technique</a></li><li><a href="about.html">About reboot</a></li></ul></div>
+      <div class="c2 s8"><h4>Support</h4><ul><li><a href="contact.html">Contact us</a></li><li><a href="warranty.html">Warranty claim</a></li></ul></div>
+      <div class="c2 s10"><h4>Policies</h4><ul><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
     </div>
     <div class="ftr-btm">
-      <span>© 2026 reboot. All rights reserved.</span>
+      <span>&copy; 2026 reboot. All rights reserved.</span>
       <span>Design prototype. Pricing and specifications pending confirmation.</span>
     </div>
   </div>

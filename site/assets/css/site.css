@@ -523,3 +523,41 @@ ul{margin:0;padding:0;list-style:none}
   .rung:nth-child(n) h3,.rung:nth-child(n) p{grid-column:1/-1}
   .band q{font-size:var(--f-xl);max-width:none}
 }
+
+/* ============ SPIN GALLERY ============ */
+.spin{position:relative;background:var(--ink-2);display:flex;align-items:center;justify-content:center;
+  min-height:min(66vh,640px);padding:var(--s4);cursor:grab;touch-action:pan-y;user-select:none;outline-offset:-2px}
+.spin:active{cursor:grabbing}
+.spin img{max-height:min(56vh,540px);width:auto;pointer-events:none}
+.spin-hint{position:absolute;left:var(--s3);bottom:var(--s3);display:flex;align-items:center;gap:.6rem;
+  font-size:var(--f-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-dim);
+  transition:opacity .35s var(--ease)}
+.spin-hint i{width:2rem;height:1px;background:var(--blue);display:block}
+.spin.touched .spin-hint{opacity:0}
+.spin-deg{position:absolute;right:var(--s3);bottom:var(--s3);font-size:var(--f-xs);
+  letter-spacing:.14em;color:var(--on-dark-dim);font-variant-numeric:tabular-nums}
+.spin-track{position:absolute;left:var(--s3);right:var(--s3);bottom:0;height:1px;background:var(--line-dark)}
+.spin-track b{display:block;height:1px;background:var(--blue);width:0}
+
+/* ============ LOADING ============ */
+.ldg{position:absolute;left:0;right:0;top:0;height:1px;overflow:hidden;background:transparent}
+.ldg::after{content:"";position:absolute;left:0;top:0;height:1px;width:35%;background:var(--blue);
+  transform:translateX(-100%);animation:sweep 1.15s var(--ease-io) infinite}
+@keyframes sweep{to{transform:translateX(385%)}}
+.is-ready .ldg{display:none}
+
+/* ============ EMPTY STATE ============ */
+.empty{border:1px solid var(--line-dark);padding:clamp(1.75rem,4vw,3rem);text-align:center}
+.light .empty,.paper .empty{border-color:var(--line-light)}
+.empty .mk{width:30px;height:30px;margin:0 auto var(--s3);opacity:.6}
+.empty h3{font-size:var(--f-lg);font-weight:500;margin-bottom:var(--s2)}
+.empty p{font-size:var(--f-sm);max-width:46ch;margin-inline:auto}
+.empty .why{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--line-dark);
+  font-size:var(--f-xs);color:var(--on-dark-dim);letter-spacing:.02em}
+.light .empty .why,.paper .empty .why{border-top-color:var(--line-light);color:#878C8E}
+
+/* ============ PDP RHYTHM ============ */
+.pdp-grid{align-items:start}
+.buybox{position:sticky;top:calc(76px + var(--s3))}
+@media(max-width:1100px){.buybox{position:static}}
+@media(prefers-reduced-motion:reduce){.ldg::after{animation:none;transform:none;width:100%}}

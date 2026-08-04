@@ -126,6 +126,56 @@
     });
   });
 
+
+  /* ---------- drag-to-rotate gallery ---------- */
+  var spin = document.querySelector('[data-spin]');
+  if (spin) {
+    var sImg = spin.querySelector('img');
+    var sDeg = spin.querySelector('[data-spin-deg]');
+    var sBar = spin.querySelector('.spin-track b');
+    var N = 24, idx = 0, dragging = false, startX = 0, startIdx = 0, ready = false;
+
+    function pad2(n){ return (n < 10 ? '0' : '') + n; }
+    function paint(i) {
+      idx = ((i % N) + N) % N;
+      sImg.src = 'assets/img/turn/t' + pad2(idx) + '.webp';
+      var deg = Math.round(idx * (360 / N));
+      if (sDeg) sDeg.textContent = deg + '\u00B0';
+      if (sBar) sBar.style.width = ((idx / (N - 1)) * 100) + '%';
+      spin.setAttribute('aria-valuenow', deg);
+      spin.setAttribute('aria-valuetext', deg + ' degrees');
+    }
+    // preload the sequence, then drop the loading bar
+    var got = 0;
+    for (var i = 0; i < N; i++) {
+      var im = new Image();
+      im.onload = im.onerror = function () {
+        if (++got === N && !ready) { ready = true; spin.classList.add('is-ready'); }
+      };
+      im.src = 'assets/img/turn/t' + pad2(i) + '.webp';
+    }
+    window.setTimeout(function(){ if(!ready){ ready = true; spin.classList.add('is-ready'); } }, 4000);
+
+    spin.addEventListener('pointerdown', function (e) {
+      dragging = true; startX = e.clientX; startIdx = idx;
+      spin.classList.add('touched');
+      if (spin.setPointerCapture) spin.setPointerCapture(e.pointerId);
+    });
+    spin.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - startX;
+      paint(startIdx + Math.round(dx / 14));
+    });
+    ['pointerup','pointercancel','pointerleave'].forEach(function (ev) {
+      spin.addEventListener(ev, function () { dragging = false; });
+    });
+    spin.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { paint(idx + 1); spin.classList.add('touched'); e.preventDefault(); }
+      if (e.key === 'ArrowLeft')  { paint(idx - 1); spin.classList.add('touched'); e.preventDefault(); }
+    });
+    paint(0);
+  }
+
   /* ---------- sticky buy bar ---------- */
   var sticky = document.querySelector('.stickybuy');
   var anchor = document.querySelector('[data-buy-anchor]');
