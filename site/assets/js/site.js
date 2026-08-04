@@ -119,8 +119,13 @@
       });
       var lead = document.querySelector('[data-lead-' + colour + ']');
       if (lead) {
-        swapStage(lead.getAttribute('data-lead-' + colour),
-                  'reboot Water Flosser, ' + btn.getAttribute('data-name') + ', front view');
+        if (window.__spinColour) {
+          window.__spinColour(colour);
+          stage.alt = 'reboot Water Flosser, ' + btn.getAttribute('data-name');
+        } else {
+          swapStage(lead.getAttribute('data-lead-' + colour),
+                    'reboot Water Flosser, ' + btn.getAttribute('data-name') + ', front view');
+        }
         if (thumbs.length) markThumb(thumbs[0]);
       }
     });
@@ -133,12 +138,12 @@
     var sImg = spin.querySelector('img');
     var sDeg = spin.querySelector('[data-spin-deg]');
     var sBar = spin.querySelector('.spin-track b');
-    var N = 24, idx = 0, dragging = false, startX = 0, startIdx = 0, ready = false;
+    var N = 24, idx = 0, dragging = false, startX = 0, startIdx = 0, ready = false, prefix = 't', wLoaded = false;
 
     function pad2(n){ return (n < 10 ? '0' : '') + n; }
     function paint(i) {
       idx = ((i % N) + N) % N;
-      sImg.src = 'assets/img/turn/t' + pad2(idx) + '.webp';
+      sImg.src = 'assets/img/turn/' + prefix + pad2(idx) + '.webp';
       var deg = Math.round(idx * (360 / N));
       if (sDeg) sDeg.textContent = deg + '\u00B0';
       if (sBar) sBar.style.width = ((idx / (N - 1)) * 100) + '%';
@@ -174,6 +179,14 @@
       if (e.key === 'ArrowLeft')  { paint(idx - 1); spin.classList.add('touched'); e.preventDefault(); }
     });
     paint(0);
+    window.__spinColour = function (c) {
+      prefix = c === 'white' ? 'w' : 't';
+      if (prefix === 'w' && !wLoaded) {
+        wLoaded = true;
+        for (var k = 0; k < N; k++) { var wi = new Image(); wi.src = 'assets/img/turn/w' + pad2(k) + '.webp'; }
+      }
+      lastFrame = -1; paint(idx);
+    };
   }
 
   /* ---------- sticky buy bar ---------- */

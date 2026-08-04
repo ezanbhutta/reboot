@@ -687,3 +687,7 @@ ul{margin:0;padding:0;list-style:none}
 .ftr a{display:inline-block;padding-block:.35rem}
 .prose .toc a{display:inline-block;padding-block:.3rem}
 .tlink{min-height:24px}
+
+/* colourway without a rotation set: affordances withdraw, cursor resets */
+.spin.locked{cursor:default}
+.spin.locked .spin-hint,.spin.locked .spin-deg,.spin.locked .spin-track{opacity:0;transition:opacity .3s var(--ease)}
