@@ -3,18 +3,28 @@
 Everything below is a placeholder chosen so the design can be evaluated. None of it
 is confirmed. Each item lists exactly where it appears so it can be swapped quickly.
 
-## The typefaces no longer match the brand book
+## The primary typeface is a stand-in, and needs licensing
 
-The brand book's typography page specifies a geometric sans as the primary
-face (it names Nohemi in the hierarchy table and Aloevera on the specimen) with
-Azeret Mono secondary. On instruction, the site is now set in serif: **Fraunces**
-for display and **Newsreader** for text, both variable fonts with a real optical
-size axis, subset to the 117 glyphs the site renders. Azeret Mono is unchanged
-and still carries every label, specification and figure.
+The brand book's specimen page names **Aloevera** as the primary typeface. It is
+a commercial licence and cannot be redistributed in a repository, so the site
+ships **Poppins** in its place: the same genre — geometric, single-storey a,
+circular bowls — in the three weights the book specifies, Regular, Medium and
+Bold. Azeret Mono is the brand's own secondary face and is used exactly as the
+book sets it out.
 
-Both new faces are SIL Open Font License, so redistribution and self-hosting are
-fine. The brand book needs updating to match, or the site needs reverting — they
-currently disagree and whichever is wrong should be fixed rather than left.
+**To swap in the real face:** drop Aloevera's woff2 files into `assets/fonts/`
+and change the three `@font-face` blocks and the one `font-family` line at the
+top of `site.css`. Nothing else refers to the family by name.
+
+If Aloevera cannot be licensed for web use, **Outfit** is the closer free match
+on the details — Aloevera's angled terminals on t, f and e are Outfit's too,
+where Poppins cuts them flat. Poppins matches better on width and weight colour.
+Either is defensible; this is a call for whoever owns the brand.
+
+Note the hierarchy page of the book names "Nohemi" in its table while the
+specimen page names Aloevera, and it labels four different levels "H3". The
+sizes and line heights on that page are used as given; the typeface name on it
+is treated as a leftover from the template it was built in.
 
 ## Invented in this prototype, needs the client's word
 
