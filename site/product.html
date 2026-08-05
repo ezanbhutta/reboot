@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Water Flosser | reboot</title>
-<meta name="description" content="The reboot cordless water flosser. Two colourways, two year warranty, thirty day returns. Built for the gumline, with the technique that makes it work.">
+<meta name="description" content="The reboot cordless water flosser, Release 001. Soft White, two year warranty, thirty day returns. Built for the gumline, with the technique that makes it work.">
 <link rel="preload" href="assets/fonts/poppins-light.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-semibold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/azeret-500.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="assets/img/mark-blue.svg" type="image/svg+xml">
+<script src="assets/js/analytics.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -21,8 +22,8 @@
     <a class="brand" href="index.html" aria-label="reboot home"><img src="assets/img/logo.svg" alt="reboot" width="140" height="40"></a>
     <button class="burger" aria-label="Menu" aria-expanded="false"><span></span></button>
     <nav class="nav" aria-label="Primary">
+      <a href="shop.html">Shop</a>
       <a href="product.html" aria-current="page">Water Flosser</a>
-      <a href="#technique">Technique</a>
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
@@ -35,32 +36,33 @@
 
   <!-- BUY -->
   <section class="wrap" id="buy">
+    <nav class="crumb" style="padding-top:var(--s4)" aria-label="Breadcrumb">
+      <a href="index.html">reboot</a><i>&rsaquo;</i><a href="shop.html">Shop</a><i>&rsaquo;</i><a href="index.html#shelves">Live</a><i>&rsaquo;</i><span aria-current="page">Water Flosser</span>
+    </nav>
     <div class="grid pdp-grid" style="padding-block:var(--s5)">
       <div class="c7">
         <figure class="plate">
           <div class="plate-hd">
-            <span class="plate-view" data-plate-label>Black</span>
+            <span class="plate-view" data-plate-label>Soft White</span>
             <div class="plate-tabs" role="tablist" aria-label="Product views">
-              <button type="button" role="tab" aria-selected="true"  data-src="prod-black.webp"    data-label="Black">Black</button>
-              <button type="button" role="tab" aria-selected="false" data-src="prod-white.webp"    data-label="Soft White">White</button>
-              <button type="button" role="tab" aria-selected="false" data-src="prod-black-34.webp" data-label="Three quarter">3/4</button>
-              <button type="button" role="tab" aria-selected="false" data-src="dwg-front.svg"      data-label="Front elevation">Front</button>
-              <button type="button" role="tab" aria-selected="false" data-src="dwg-rear.svg"       data-label="Rear elevation">Rear</button>
-              <button type="button" role="tab" aria-selected="false" data-src="dwg-side.svg"       data-label="Side elevation">Side</button>
+              <button type="button" role="tab" aria-selected="true"  data-src="prod-white.webp"      data-label="Soft White">Front</button>
+              <button type="button" role="tab" aria-selected="false" data-src="prod-white-34.webp"   data-label="Three quarter">3/4</button>
+              <button type="button" role="tab" aria-selected="false" data-src="prod-white-side.webp" data-label="Profile">Profile</button>
+              <button type="button" role="tab" aria-selected="false" data-src="prod-white-rear.webp" data-label="Rear">Rear</button>
             </div>
           </div>
           <div class="plate-stage">
-            <img data-plate src="assets/img/prod-black.webp" width="253" height="1030"
-                 alt="reboot Water Flosser in black, front view" fetchpriority="high">
+            <img data-plate src="assets/img/prod-white.webp" width="344" height="1400"
+                 alt="reboot Water Flosser in Soft White, front view" fetchpriority="high">
           </div>
           <figcaption class="plate-ft">
             <span>69 &#215; 76 &#215; 215 mm</span>
-            <span>Rendered from the manufacturer&#8217;s CAD</span>
+            <span>Rendered from the manufacturer&#8217;s own 3D model</span>
           </figcaption>
         </figure>
       </div>
 
-      <div class="c4 s9 buybox" data-buy-anchor>
+      <div class="c4 s9 buybox" data-buy-anchor data-track-item="Water Flosser" data-sku="RB-001-WHT" data-price="79">
         <span class="label" style="margin-bottom:var(--s2)">Cordless water flosser</span>
         <h1 class="t-2xl optical">Water Flosser</h1>
         <p class="lede" style="margin-top:var(--s2);max-width:34ch">Built for the gumline, the part of your mouth a toothbrush was never designed to reach.</p>
@@ -72,15 +74,15 @@
         <div class="buy-price"><b>$79</b><span>Free shipping &nbsp;/&nbsp; Five nozzles included</span></div>
 
         <div class="opt">
-          <span class="opt-lbl">Colourway: <span data-colour-label>Black</span></span>
+          <span class="opt-lbl">Colourway</span>
           <div class="swatches">
-            <button class="sw" data-colour="black" data-name="Black" aria-pressed="true"><i style="background:#1C2123"></i> Black</button>
-            <button class="sw" data-colour="white" data-name="Soft White" aria-pressed="false"><i style="background:#E9EAEA"></i> Soft White</button>
+            <span class="sw" aria-hidden="true"><i style="background:#E9EAEA"></i> Soft White</span>
           </div>
+          <p class="t-xs dim" style="margin-top:var(--s2)">One colourway at launch. There is no picker here because there is nothing to pick.</p>
         </div>
 
         <div class="buy-actions">
-          <button class="btn btn-primary btn-block" type="button"><span>Add to cart</span></button>
+          <button class="btn btn-primary btn-block" type="button" data-track-add="Water Flosser" data-sku="RB-001-WHT" data-price="79"><span>Add to cart</span></button>
           <button class="btn btn-ghost btn-block" type="button"><span>Buy it now</span></button>
         </div>
 
@@ -268,7 +270,7 @@
             <div><dt>Packaged</dt><dd>71 &#215; 78 &#215; 217 mm</dd></div>
             <div><dt>Tank capacity</dt><dd>300 ml, about 90 seconds of water</dd></div>
             <div><dt>Nozzles included</dt><dd>5</dd></div>
-            <div><dt>Colourways</dt><dd>Black, Soft White</dd></div>
+            <div><dt>Colourway</dt><dd>Soft White</dd></div>
             <div><dt>Model</dt><dd>SK-CYQ-D</dd></div>
           </dl>
         </div>
@@ -284,6 +286,19 @@
             <div><dt>Runtime per charge</dt><dd class="pending">To be confirmed</dd></div>
           </dl>
         </div>
+      </div>
+
+      <!-- The manufacturer's own elevations. They sit with the numbers rather
+           than in the photo gallery, because they answer a different question:
+           the photographs say what it looks like, these say what it measures. -->
+      <div class="grid" style="margin-top:var(--s7)">
+        <div class="c4 s1 rv"><h3 class="t-md" style="font-weight:500">Drawn from the engineering sheets</h3></div>
+        <div class="c6 s5 rv rv-d1"><p class="t-sm dim">Three elevations traced from the manufacturer&#8217;s CAD, checked against the stated 69 &#215; 76 &#215; 215 mm to within two per cent.</p></div>
+      </div>
+      <div class="grid dwg-set" style="margin-top:var(--s5)">
+        <figure class="c4 s1 rv fig-sm"><img src="assets/img/dwg-front.svg" width="242" height="839" loading="lazy" alt="Front elevation of the reboot Water Flosser"><figcaption>Front elevation</figcaption></figure>
+        <figure class="c4 s5 rv rv-d1 fig-sm"><img src="assets/img/dwg-side.svg" width="242" height="839" loading="lazy" alt="Side elevation of the reboot Water Flosser showing the textured grip panel"><figcaption>Side elevation</figcaption></figure>
+        <figure class="c4 s9 rv rv-d2 fig-sm"><img src="assets/img/dwg-rear.svg" width="242" height="839" loading="lazy" alt="Rear elevation of the reboot Water Flosser"><figcaption>Rear elevation</figcaption></figure>
       </div>
     </div>
   </section>
@@ -302,6 +317,67 @@
         <div class="rung rv"><h3>Implants and crowns</h3><p>Margins and abutments that need cleaning without abrasion.</p></div>
         <div class="rung rv"><h3>Gum pockets and recession</h3><p>Where a dentist has asked you to clean below the gumline, or brushing harder is doing damage.</p></div>
         <div class="rung rv"><h3>Tight contacts and wisdom teeth</h3><p>Teeth packed closely enough that floss shreds, and the gap nothing else reaches.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSIS. Self-selection, not a filter. Every answer is already in the
+       box; the choice only decides where the reader starts. It sits here
+       because the next section is the nozzles, and this is what tells you
+       which of them is yours. -->
+  <section class="sec diag" id="diagnosis">
+    <div class="wrap">
+      <div class="grid">
+        <div class="c7 s1 rv">
+          <div class="eyeline"><span>Start here</span></div>
+          <h2 class="t-2xl optical">Which of these is you?</h2>
+          <p class="sub">Pick one. We will tell you which tip to fit, which mode to start on, and what the first fortnight actually looks like.</p>
+        </div>
+      </div>
+
+      <div class="diag-pick" role="tablist" aria-label="Your situation">
+          <button type="button" role="tab" id="dg-braces" aria-selected="true" aria-controls="diag-out" data-case="braces">Braces or a retainer</button>
+          <button type="button" role="tab" id="dg-implants" aria-selected="false" aria-controls="diag-out" data-case="implants">Implants or crowns</button>
+          <button type="button" role="tab" id="dg-pockets" aria-selected="false" aria-controls="diag-out" data-case="pockets">Gum pockets</button>
+          <button type="button" role="tab" id="dg-recession" aria-selected="false" aria-controls="diag-out" data-case="recession">Receding gums</button>
+          <button type="button" role="tab" id="dg-tight" aria-selected="false" aria-controls="diag-out" data-case="tight">Teeth packed tightly</button>
+          <button type="button" role="tab" id="dg-wisdom" aria-selected="false" aria-controls="diag-out" data-case="wisdom">Wisdom teeth</button>
+          <button type="button" role="tab" id="dg-unsure" aria-selected="false" aria-controls="diag-out" data-case="unsure">Not sure yet</button>
+      </div>
+
+      <div class="diag-out" id="diag-out">
+          <div class="diag-set" data-case="braces">
+            <div class="diag-cell"><span>Your tip</span><b>Orthodontic</b><p>Brackets, bands and bonded wires trap what floss cannot get around.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Standard</b><p>Expect visible debris in the first few days. That is the backlog clearing, not a problem.</p></div>
+          </div>
+          <div class="diag-set" data-case="implants" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Margins and abutments need cleaning without anything abrasive touching them.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft</b><p>Nothing should feel harsh. If it does, you are on the wrong mode.</p></div>
+          </div>
+          <div class="diag-set" data-case="pockets" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Where a dentist has measured a pocket and asked you to clean below the gumline.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft, then High</b><p>Two weeks on Soft before you go anywhere near High. Bleeding early is normal and settles.</p></div>
+          </div>
+          <div class="diag-set" data-case="recession" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Brushing harder is what caused it. More pressure is not the answer here either.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft</b><p>Stay on Soft indefinitely. There is no prize for moving up.</p></div>
+          </div>
+          <div class="diag-set" data-case="tight" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>Floss shreds or will not pass. Water goes where the string cannot.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Standard</b><p>You may see less come out than you expected. Judge it by how your gums look, not by debris.</p></div>
+          </div>
+          <div class="diag-set" data-case="wisdom" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>The gap behind the last molar that nothing else reaches.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>High</b><p>Forty seconds, and most of it spent at the back. This is the one that changes fastest.</p></div>
+          </div>
+          <div class="diag-set" data-case="unsure" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>Most people start here and never need anything else.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft</b><p>Soft for a fortnight. If your gums stop bleeding, that is the product working.</p></div>
+          </div>
+      </div>
+
+      <div class="grid">
+        <div class="c6 s1"><p class="t-sm dim">All five nozzles and all four modes are in the box either way. This just tells you where to start.</p></div>
       </div>
     </div>
   </section>
@@ -432,10 +508,9 @@
         </div>
         <div class="c4 s7 rv rv-d1">
           <div class="cw">
-            <div><i style="background:#1C2123"></i><span>Black</span></div>
             <div><i style="background:#E9EAEA"></i><span>Soft White</span></div>
           </div>
-          <p class="t-xs dim" style="margin-top:var(--s2)">Two colourways. Same hardware inside both.</p>
+          <p class="t-xs dim" style="margin-top:var(--s2)">One colourway at launch. Soft White, matte body with a gloss collar.</p>
         </div>
       </div>
     </div>
@@ -444,7 +519,7 @@
 </main>
 
 <div class="stickybuy">
-  <div class="m"><b>Water Flosser $79</b><span data-colour-label>Black</span></div>
+  <div class="m"><b>Water Flosser $79</b><span>Soft White</span></div>
   <a class="btn btn-primary" href="#buy"><span>Add to cart</span></a>
 </div>
 
@@ -455,7 +530,7 @@
         <img src="assets/img/logo.svg" alt="reboot" width="140" height="40">
         <p class="t-sm dim measure-s">A cordless water flosser for the gumline. Honest about what it does, clear about how to use it.</p>
       </div>
-      <div class="c2 s7"><h4>Product</h4><ul><li><a href="product.html">Water Flosser</a></li><li><a href="index.html#technique">Technique</a></li><li><a href="about.html">About reboot</a></li></ul></div>
+      <div class="c2 s7"><h4>Shop</h4><ul><li><a href="shop.html">All products</a></li><li><a href="product.html">Water Flosser</a></li><li><a href="index.html#shelves">Categories</a></li></ul></div>
       <div class="c2 s9"><h4>Support</h4><ul><li><a href="contact.html">Contact us</a></li><li><a href="warranty.html">Warranty claim</a></li></ul></div>
       <div class="c2 s11"><h4>Policies</h4><ul><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
     </div>
