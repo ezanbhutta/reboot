@@ -27,6 +27,10 @@
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
+    <button type="button" class="cartbtn" data-cart-open aria-label="Open cart" aria-controls="cart-drawer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h15l-1.4 9.3a2 2 0 0 1-2 1.7H7.8a2 2 0 0 1-2-1.7L4 4H1.6"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+      <span class="cart-badge" data-cart-badge>0</span>
+    </button>
     <div class="hdr-cta"><a class="btn btn-primary" href="#buy"><span>Buy $79</span></a></div>
   </div>
   <div class="prog" data-prog></div>
@@ -51,9 +55,32 @@
               <button type="button" role="tab" aria-selected="false" data-src="prod-white-rear.webp" data-label="Rear">Rear</button>
             </div>
           </div>
-          <div class="plate-stage">
+          <div class="plate-stage glow">
             <img data-plate src="assets/img/prod-white.webp" width="344" height="1400"
                  alt="reboot Water Flosser in Soft White, front view" fetchpriority="high">
+            <span class="lens" aria-hidden="true"></span>
+          </div>
+          <!-- Thumbnails carry the same data-src as the tabs above, so one
+               handler drives both and they can never disagree. -->
+          <div class="plate-thumbs" role="tablist" aria-label="Product views, thumbnails">
+            <button type="button" role="tab" aria-selected="true"  data-src="prod-white.webp" data-label="Soft White" aria-label="Front view">
+              <img src="assets/img/prod-white.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="false" data-src="prod-white-34.webp" data-label="Three quarter" aria-label="Three quarter view">
+              <img src="assets/img/prod-white-34.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="false" data-src="prod-white-side.webp" data-label="Profile" aria-label="Profile view">
+              <img src="assets/img/prod-white-side.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="false" data-src="prod-white-rear.webp" data-label="Rear" aria-label="Rear view">
+              <img src="assets/img/prod-white-rear.webp" alt="" width="52" height="72" loading="lazy"></button>
+          </div>
+          <div class="plate-tools">
+            <button type="button" class="tool" data-lightbox-open>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2M11 8.4v5.2M8.4 11h5.2"/></svg>
+              View full size
+            </button>
+            <button type="button" class="tool" data-modal-open="demo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.6l6 3.4-6 3.4z"/></svg>
+              Watch the technique
+            </button>
           </div>
           <figcaption class="plate-ft">
             <span>69 &#215; 76 &#215; 215 mm</span>
@@ -82,8 +109,8 @@
         </div>
 
         <div class="buy-actions">
-          <button class="btn btn-primary btn-block" type="button" data-track-add="Water Flosser" data-sku="RB-001-WHT" data-price="79"><span>Add to cart</span></button>
-          <button class="btn btn-ghost btn-block" type="button"><span>Buy it now</span></button>
+          <button class="btn btn-primary btn-block mag" type="button" data-add="RB-001-WHT"><span>Add to cart</span></button>
+          <button class="btn btn-ghost btn-block" type="button" data-cart-open><span>View cart</span></button>
         </div>
 
         <dl class="reassure">
@@ -208,22 +235,53 @@
         </div>
       </div>
 
-      <div class="grid" style="margin-top:var(--s6)">
-        <div class="c10 s1 rv">
-          <div class="scale" role="img" aria-label="Working pressure runs from 40 to 120 PSI">
-            <span class="scale-n">40</span>
-            <span class="scale-line"><i></i><i></i><i></i><i></i><i></i></span>
-            <span class="scale-n">120 <abbr title="pounds per square inch">PSI</abbr></span>
+      <!-- The four modes, driven rather than described. Switching one changes
+           the jet rate on the diagram, the pressure read-out and the loudness
+           bars together, because on the device they change together. -->
+      <div class="sim rv" data-sim style="margin-top:var(--s6)">
+        <div class="sim-stage">
+          <svg viewBox="0 0 520 300" role="img" aria-labelledby="simt simd">
+            <title id="simt">Nozzle aimed at the gumline</title>
+            <desc id="simd">A cross-section of three teeth meeting the gum, with the nozzle held at ninety degrees and a jet of water striking the line where the tooth meets the gum. The jet pulses faster on the higher pressure modes.</desc>
+            <path d="M40 196 Q95 186 148 196 Q200 186 254 196 Q306 186 360 196 Q414 186 468 196 L490 202 L490 290 L40 290 Z" fill="#1A1F21"/>
+            <path d="M40 196 Q95 186 148 196 Q200 186 254 196 Q306 186 360 196 Q414 186 468 196" fill="none" stroke="rgba(255,255,255,.26)" stroke-width="1.4"/>
+            <g fill="#F4F4F3">
+              <path d="M168 196 L168 106 Q168 72 198 72 Q228 72 228 106 L228 196 Q198 204 168 196 Z"/>
+              <path d="M254 196 L254 96 Q254 62 288 62 Q322 62 322 96 L322 196 Q288 204 254 196 Z"/>
+              <path d="M348 196 L348 106 Q348 72 378 72 Q408 72 408 106 L408 196 Q378 204 348 196 Z"/>
+            </g>
+            <line x1="241" y1="92" x2="241" y2="196" stroke="#DCDDDC" stroke-width="1"/>
+            <line x1="335" y1="92" x2="335" y2="196" stroke="#DCDDDC" stroke-width="1"/>
+            <g>
+              <line x1="168" y1="178" x2="96" y2="178" stroke="#079DE0" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="168" cy="178" r="3.5" fill="#079DE0"/>
+              <line class="jet" x1="172" y1="178" x2="196" y2="178"/>
+              <line class="jet" x1="172" y1="182" x2="192" y2="190" style="animation-delay:.08s"/>
+              <line class="jet" x1="172" y1="174" x2="192" y2="166" style="animation-delay:.16s"/>
+            </g>
+            <text x="96" y="164" fill="#079DE0" font-size="13" font-family="Azeret,monospace" letter-spacing="1.4">90&#176;</text>
+          </svg>
+        </div>
+        <div>
+          <div class="sim-modes" role="tablist" aria-label="Pressure mode">
+            <button type="button" role="tab" data-mode="soft" aria-selected="true">Soft</button>
+            <button type="button" role="tab" data-mode="standard" aria-selected="false">Standard</button>
+            <button type="button" role="tab" data-mode="high" aria-selected="false">High</button>
+            <button type="button" role="tab" data-mode="pulse" aria-selected="false">Pulse</button>
+          </div>
+          <div class="sim-read">
+            <div class="sim-psi"><b data-sim-psi aria-live="polite">40</b><span><abbr title="pounds per square inch">PSI</abbr></span></div>
+            <p class="sim-for" data-sim-who></p>
+            <div class="sim-meta">
+              <div>Pulses<b>1600 / min</b></div>
+              <div>Running<b data-sim-db>~58 dB</b>
+                <span class="db" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div>Cut-off<b>90 seconds</b></div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="ladder" style="margin-top:var(--s5)">
-        <div class="rung rv"><h3>Soft</h3><p>Where to start, and where to stay while your gums settle. Also the one to use if anything feels tender.</p></div>
-        <div class="rung rv"><h3>Standard</h3><p>Daily cleaning once the first fortnight is behind you. Most people end up here and stop thinking about it.</p></div>
-        <div class="rung rv"><h3>High</h3><p>The most pressure the pump gives. Useful around brackets and bridges, unnecessary everywhere else.</p></div>
-        <div class="rung rv"><h3>Pulse</h3><p>Alternates strong and weak along the gumline rather than holding one pressure. It is a massage setting, not a cleaning one.</p></div>
-      </div>
+      <p class="t-xs dim rv" style="margin-top:var(--s3);max-width:60ch">Pressure figures are the manufacturer&#8217;s. The loudness bars are a relative indication across the four modes; the single figure the packaging states for running noise is about 65 decibels.</p>
 
       <div class="grid" style="margin-top:var(--s6)">
         <div class="c3 s1 rv">
@@ -293,12 +351,74 @@
            the photographs say what it looks like, these say what it measures. -->
       <div class="grid" style="margin-top:var(--s7)">
         <div class="c4 s1 rv"><h3 class="t-md" style="font-weight:500">Drawn from the engineering sheets</h3></div>
-        <div class="c6 s5 rv rv-d1"><p class="t-sm dim">Three elevations traced from the manufacturer&#8217;s CAD, checked against the stated 69 &#215; 76 &#215; 215 mm to within two per cent.</p></div>
+        <div class="c6 s5 rv rv-d1"><p class="t-sm dim">Traced from the manufacturer&#8217;s CAD and checked against the stated 69 &#215; 76 &#215; 215 mm to within two per cent. Take any measurement below to see where on the drawing it is.</p></div>
       </div>
-      <div class="grid dwg-set" style="margin-top:var(--s5)">
-        <figure class="c4 s1 rv fig-sm"><img src="assets/img/dwg-front.svg" width="242" height="839" loading="lazy" alt="Front elevation of the reboot Water Flosser"><figcaption>Front elevation</figcaption></figure>
-        <figure class="c4 s5 rv rv-d1 fig-sm"><img src="assets/img/dwg-side.svg" width="242" height="839" loading="lazy" alt="Side elevation of the reboot Water Flosser showing the textured grip panel"><figcaption>Side elevation</figcaption></figure>
-        <figure class="c4 s9 rv rv-d2 fig-sm"><img src="assets/img/dwg-rear.svg" width="242" height="839" loading="lazy" alt="Rear elevation of the reboot Water Flosser"><figcaption>Rear elevation</figcaption></figure>
+
+      <!-- Inspector. Taking a row marks the dimension on the drawing and swaps
+           to the elevation that actually shows it. The annotations are ours,
+           laid over the trace, because the traced CAD has no structure to
+           target path by path. -->
+      <div class="insp rv" data-inspector style="margin-top:var(--s5)">
+        <div class="insp-stage">
+          <div class="insp-wrap">
+            <!-- All three elevations stay in the DOM and cross-fade. Swapping a
+                 src made the stage collapse while the new file loaded, which
+                 re-centred the list under the cursor and fired the next row's
+                 hover: a swap loop, and a layout shift on every move. -->
+            <img class="insp-el on" data-el="dwg-front.svg" src="assets/img/dwg-front.svg" width="242" height="839"
+                 alt="Front elevation of the reboot Water Flosser">
+            <img class="insp-el" data-el="dwg-side.svg" src="assets/img/dwg-side.svg" width="242" height="839"
+                 alt="Side elevation of the reboot Water Flosser" aria-hidden="true">
+            <img class="insp-el" data-el="dwg-rear.svg" src="assets/img/dwg-rear.svg" width="242" height="839"
+                 alt="Rear elevation of the reboot Water Flosser" aria-hidden="true">
+            <svg class="insp-mark" viewBox="0 0 240 400" preserveAspectRatio="none" aria-hidden="true">
+              <g data-mark="height">
+                <line x1="18" y1="8" x2="18" y2="392"/>
+                <line x1="10" y1="8" x2="26" y2="8"/><line x1="10" y1="392" x2="26" y2="392"/>
+                <text x="30" y="204">215 mm</text>
+              </g>
+              <g data-mark="width">
+                <line x1="60" y1="384" x2="180" y2="384"/>
+                <line x1="60" y1="376" x2="60" y2="392"/><line x1="180" y1="376" x2="180" y2="392"/>
+                <text x="86" y="368">69 mm</text>
+              </g>
+              <g data-mark="tank">
+                <rect x="62" y="236" width="116" height="152" rx="2"/>
+                <text x="60" y="228">300 ml</text>
+              </g>
+              <g data-mark="pressure">
+                <circle cx="120" cy="28" r="16"/>
+                <line x1="120" y1="44" x2="120" y2="92"/>
+                <text x="142" y="32">40–120 PSI</text>
+              </g>
+              <g data-mark="ipx7">
+                <rect x="52" y="6" width="136" height="386" rx="3"/>
+                <text x="56" y="404">IPX7 — whole body</text>
+              </g>
+              <g data-mark="charge">
+                <circle cx="120" cy="376" r="13"/>
+                <text x="140" y="380">USB-C</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="insp-list">
+            <button type="button" class="insp-row" data-spec="height" data-view="dwg-front.svg" data-view-label="Front elevation">
+              <span class="k">Height</span><span class="v">215 mm</span></button>
+            <button type="button" class="insp-row" data-spec="width" data-view="dwg-front.svg" data-view-label="Front elevation">
+              <span class="k">Width across the base</span><span class="v">69 mm</span></button>
+            <button type="button" class="insp-row" data-spec="tank" data-view="dwg-front.svg" data-view-label="Front elevation">
+              <span class="k">Tank capacity</span><span class="v">300 ml</span></button>
+            <button type="button" class="insp-row" data-spec="pressure" data-view="dwg-side.svg" data-view-label="Side elevation">
+              <span class="k">Working pressure</span><span class="v">40&ndash;120 PSI</span></button>
+            <button type="button" class="insp-row" data-spec="ipx7" data-view="dwg-side.svg" data-view-label="Side elevation">
+              <span class="k">Water resistance</span><span class="v">IPX7</span></button>
+            <button type="button" class="insp-row" data-spec="charge" data-view="dwg-rear.svg" data-view-label="Rear elevation">
+              <span class="k">Charging</span><span class="v">USB-C, 2&ndash;3 h</span></button>
+          </div>
+          <p class="insp-hint"><span data-insp-cap>Front elevation</span> &mdash; annotations are indicative of position, not measured off the drawing.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -376,7 +496,22 @@
           </div>
       </div>
 
-      <div class="grid">
+      <!-- What the choice actually resolves to, and the one action it implies. -->
+      <div class="match" data-match>
+        <div class="match-in">
+          <div class="match-fig" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M20 3v13M20 16c-5 0-8 3-8 8v13h16V24c0-5-3-8-8-8Z"/><circle cx="20" cy="30" r="3"/></svg>
+          </div>
+          <div>
+            <span class="match-k">Your setup</span>
+            <p class="match-t">Fit the <em data-match-tip>Orthodontic</em> tip, start on <em data-match-mode>Standard</em>.</p>
+            <p class="match-p" data-match-note></p>
+          </div>
+          <button type="button" class="btn btn-primary mag" data-add="RB-001-WHT"><span>Add to cart &mdash; $79</span></button>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:var(--s4)">
         <div class="c6 s1"><p class="t-sm dim">All five nozzles and all four modes are in the box either way. This just tells you where to start.</p></div>
       </div>
     </div>
@@ -405,7 +540,7 @@
   </section>
 
   <!-- 07 REVIEWS -->
-  <section class="sec paper" id="reviews">
+  <section class="sec paper" id="reviews" data-reviews>
     <div class="wrap">
       <div class="grid rv">
         <div class="c8 s1">
@@ -434,41 +569,54 @@
         </div>
       </div>
 
+      <div class="rev-tools rv">
+        <div class="chips" role="group" aria-label="Filter reviews by rating">
+          <button type="button" class="chip" data-filter="all" aria-pressed="true">All (128)</button>
+          <button type="button" class="chip" data-filter="5" aria-pressed="false">5 stars (84)</button>
+          <button type="button" class="chip" data-filter="4" aria-pressed="false">4 stars (28)</button>
+          <button type="button" class="chip" data-filter="critical" aria-pressed="false">Critical (16)</button>
+        </div>
+        <label class="vh" for="rev-q">Search reviews</label>
+        <input class="rev-search" id="rev-q" type="search" data-rev-search placeholder="Search reviews">
+        <span class="rev-count" data-rev-count role="status" aria-live="polite"></span>
+      </div>
+
       <div class="reviews">
-        <article class="review rv">
+        <article class="review rv" data-stars="5">
           <div class="rev-who">
             <span class="dots" role="img" aria-label="Rated 5 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
-            <b>Priya N.</b><span class="rev-tag">Verified</span>
+            <span class="avatar" aria-hidden="true">PN</span><b>Priya N.</b><span class="rev-tag">Verified</span><span class="rev-use">Braces user</span>
           </div>
-          <div class="rev-body"><h3>The bleeding stopped in week two</h3><p>I have a bonded retainer and my hygienist has been on at me for years. Started on Soft as the instructions say. Gums bled for about ten days, then stopped, and my last check-up was the first one with nothing to report.</p></div>
+          <div class="rev-body"><h3>The bleeding stopped in week two</h3><p>I have a bonded retainer and my hygienist has been on at me for years. Started on Soft as the instructions say. Gums bled for about ten days, then stopped, and my last check-up was the first one with nothing to report.</p><button type="button" class="rev-help" data-helpful="14" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21V10l5-7 1.2.8a2 2 0 0 1 .8 2.2L13 10h5.5a2 2 0 0 1 2 2.4l-1.4 6.6a2 2 0 0 1-2 1.6H7Z"/></svg>Helpful (<span data-helpful-n>14</span>)</button></div>
           <span class="rev-date">14 Jul</span>
         </article>
-        <article class="review rv">
+        <article class="review rv" data-stars="4">
           <div class="rev-who">
             <span class="dots" role="img" aria-label="Rated 4 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
-            <b>Marcus T.</b><span class="rev-tag">Verified</span>
+            <span class="avatar" aria-hidden="true">MT</span><b>Marcus T.</b><span class="rev-tag">Verified</span><span class="rev-use">Daily flosser</span>
           </div>
-          <div class="rev-body"><h3>Tank is the right size, charging is the win</h3><p>Three hundred millilitres is enough for one proper pass without refilling, which the small ones never were. USB-C means it charges off the same cable as everything else on the shelf. Marked down one because it is louder than I expected.</p></div>
+          <div class="rev-body"><h3>Tank is the right size, charging is the win</h3><p>Three hundred millilitres is enough for one proper pass without refilling, which the small ones never were. USB-C means it charges off the same cable as everything else on the shelf. Marked down one because it is louder than I expected.</p><button type="button" class="rev-help" data-helpful="9" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21V10l5-7 1.2.8a2 2 0 0 1 .8 2.2L13 10h5.5a2 2 0 0 1 2 2.4l-1.4 6.6a2 2 0 0 1-2 1.6H7Z"/></svg>Helpful (<span data-helpful-n>9</span>)</button></div>
           <span class="rev-date">2 Jul</span>
         </article>
-        <article class="review rv">
+        <article class="review rv" data-stars="3">
           <div class="rev-who">
             <span class="dots" role="img" aria-label="Rated 3 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
-            <b>Helen R.</b><span class="rev-tag">Verified</span>
+            <span class="avatar" aria-hidden="true">HR</span><b>Helen R.</b><span class="rev-tag">Verified</span><span class="rev-use">New to water flossing</span>
           </div>
-          <div class="rev-body"><h3>Good, but read the technique page first</h3><p>My first week I pointed it at my teeth and concluded it did nothing. It was only after reading the aim instructions that it started making a difference. That guidance should be in the box, not just on the website.</p></div>
+          <div class="rev-body"><h3>Good, but read the technique page first</h3><p>My first week I pointed it at my teeth and concluded it did nothing. It was only after reading the aim instructions that it started making a difference. That guidance should be in the box, not just on the website.</p><button type="button" class="rev-help" data-helpful="21" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21V10l5-7 1.2.8a2 2 0 0 1 .8 2.2L13 10h5.5a2 2 0 0 1 2 2.4l-1.4 6.6a2 2 0 0 1-2 1.6H7Z"/></svg>Helpful (<span data-helpful-n>21</span>)</button></div>
           <span class="rev-date">28 Jun</span>
         </article>
-        <article class="review rv">
+        <article class="review rv" data-stars="5">
           <div class="rev-who">
             <span class="dots" role="img" aria-label="Rated 5 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
-            <b>Daniel K.</b><span class="rev-tag">Verified</span>
+            <span class="avatar" aria-hidden="true">DK</span><b>Daniel K.</b><span class="rev-tag">Verified</span><span class="rev-use">Wisdom teeth</span>
           </div>
-          <div class="rev-body"><h3>Fixed the problem behind my wisdom teeth</h3><p>Nothing reached the gap behind my last molar. Forty seconds a night and that is now the cleanest part of my mouth. The orthodontic tip is the one I use, even though I have no braces.</p></div>
+          <div class="rev-body"><h3>Fixed the problem behind my wisdom teeth</h3><p>Nothing reached the gap behind my last molar. Forty seconds a night and that is now the cleanest part of my mouth. The orthodontic tip is the one I use, even though I have no braces.</p><button type="button" class="rev-help" data-helpful="6" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21V10l5-7 1.2.8a2 2 0 0 1 .8 2.2L13 10h5.5a2 2 0 0 1 2 2.4l-1.4 6.6a2 2 0 0 1-2 1.6H7Z"/></svg>Helpful (<span data-helpful-n>6</span>)</button></div>
           <span class="rev-date">19 Jun</span>
         </article>
       </div>
 
+      <p class="rev-none" data-rev-none hidden>No reviews match that. Try a different rating or clear the search.</p>
       <p class="t-sm dim rv" style="margin-top:var(--s4);max-width:60ch">Reviews are collected after delivery from verified orders only. We do not edit them, and we do not remove low ratings.</p>
     </div>
   </section>
@@ -518,6 +666,54 @@
 
 </main>
 
+<div class="modal lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Product image, full size" aria-hidden="true">
+  <div class="modal-card" style="position:relative">
+    <button type="button" class="modal-x" data-modal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <img data-lightbox-img src="assets/img/prod-white.webp" alt="" width="344" height="1400">
+  </div>
+</div>
+
+<div class="modal" id="demo" role="dialog" aria-modal="true" aria-labelledby="demo-h" aria-hidden="true">
+  <div class="modal-card" style="position:relative;width:min(720px,100%)">
+    <button type="button" class="modal-x" data-modal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <h2 id="demo-h">The pass, in full.</h2>
+    <p>Ninety degrees to the tooth, pause at each one, move along the gumline. This is the animated diagram from the technique section, running the whole pass.</p>
+    <figure class="diagram" style="margin:var(--s4) 0 0;background:var(--surface-0);padding:var(--s3)">
+      <svg viewBox="0 0 720 420" role="img" aria-labelledby="mdt mdd">
+        <title id="mdt">Where to aim the nozzle</title>
+        <desc id="mdd">The nozzle held at ninety degrees to the tooth, tracing the line where the tooth meets the gum, pausing at each tooth.</desc>
+        <style>
+          @keyframes mdMove{0%,20%{transform:translateX(0)}28%,48%{transform:translateX(110px)}56%,76%{transform:translateX(232px)}84%,100%{transform:translateX(0)}}
+          @keyframes mdSpray{0%,18%{opacity:.75}22%,26%{opacity:0}30%,46%{opacity:.75}50%,54%{opacity:0}58%,74%{opacity:.75}78%,100%{opacity:0}}
+          .md-noz{animation:mdMove 7.5s cubic-bezier(.65,0,.35,1) infinite}
+          .md-spray{animation:mdSpray 7.5s linear infinite}
+          @media(prefers-reduced-motion:reduce){.md-noz,.md-spray{animation:none}}
+        </style>
+        <path d="M60 262 Q120 250 175 262 Q230 250 285 262 Q340 250 395 262 Q450 250 505 262 Q560 250 615 262 Q650 268 660 274 L660 400 L60 400 Z" fill="#1A1F21"/>
+        <path d="M60 262 Q120 250 175 262 Q230 250 285 262 Q340 250 395 262 Q450 250 505 262 Q560 250 615 262" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1.5"/>
+        <g fill="#F4F4F3">
+          <path d="M196 262 L196 150 Q196 108 232 108 Q268 108 268 150 L268 262 Q232 272 196 262 Z"/>
+          <path d="M306 262 L306 138 Q306 96 348 96 Q390 96 390 138 L390 262 Q348 272 306 262 Z"/>
+          <path d="M428 262 L428 150 Q428 108 464 108 Q500 108 500 150 L500 262 Q464 272 428 262 Z"/>
+        </g>
+        <g class="md-noz">
+          <line x1="196" y1="240" x2="118" y2="240" stroke="#079DE0" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="196" cy="240" r="4" fill="#079DE0"/>
+          <g class="md-spray" stroke="#079DE0" stroke-width="2" stroke-linecap="round" opacity=".75">
+            <line x1="202" y1="244" x2="214" y2="251"/><line x1="202" y1="240" x2="218" y2="240"/>
+            <line x1="202" y1="236" x2="214" y2="229"/>
+          </g>
+        </g>
+      </svg>
+    </figure>
+    <p class="t-xs dim" style="margin-top:var(--s3)">A filmed fifteen second sequence is scheduled and will replace this diagram. We would rather show the drawing than a stock video of somebody else&#8217;s product.</p>
+  </div>
+</div>
+
 <div class="stickybuy">
   <div class="m"><b>Water Flosser $79</b><span>Soft White</span></div>
   <a class="btn btn-primary" href="#buy"><span>Add to cart</span></a>
@@ -540,6 +736,41 @@
     </div>
   </div>
 </footer>
+
+
+<div class="scrim" id="cart-scrim" hidden-until-found></div>
+<div class="drawer-shell" data-drawer-shell>
+<aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Your cart" aria-hidden="true">
+  <div class="drawer-hd">
+    <h2>Your cart</h2>
+    <button type="button" class="drawer-x" data-cart-close aria-label="Close cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+  <div class="drawer-bd">
+    <div class="ship-meter">
+      <p data-ship-note>Add <b>$79</b> for free shipping</p>
+      <div class="ship-bar"><i data-ship-fill style="--p:0"></i></div>
+    </div>
+    <div data-cart-body></div>
+    <div class="upsell" data-upsell>
+      <div class="upsell-fig"><img src="assets/img/dwg-top.svg" alt="" width="36" height="40" loading="lazy"></div>
+      <div>
+        <span class="upsell-k">Add on</span>
+        <h4>Nozzle set, four pack &mdash; $12</h4>
+      </div>
+      <button type="button" class="upsell-add" data-upsell-add>Add</button>
+    </div>
+  </div>
+  <div class="drawer-ft">
+    <div class="sub-row"><span>Subtotal</span><b data-cart-sub>$0</b></div>
+    <button type="button" class="btn btn-primary btn-block" data-checkout><span>Checkout now</span></button>
+    <p class="drawer-note" data-checkout-note hidden tabindex="-1">This is a design prototype. Checkout is Shopify&#8217;s and is not reproduced here.</p>
+    <p class="drawer-note">Taxes and shipping calculated at checkout.</p>
+  </div>
+</aside>
+</div>
+<p class="vh" role="status" aria-live="polite" data-cart-live></p>
 
 <script src="assets/js/site.js" defer></script>
 </body>

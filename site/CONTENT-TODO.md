@@ -99,8 +99,11 @@ Before launch this still needs photography: a studio pack of the unit, the five
 nozzles laid out, and one in-hand frame for scale. Both existing sets should stay
 when the photography arrives; they are doing work a photo cannot.
 
-The **how-to-use animation** required by the SRS is represented by a static frame
-and a labelled placeholder in both places it belongs.
+The **how-to-use animation** required by the SRS is the animated technique
+diagram, available inline and in a modal from the product gallery
+("Watch the technique"). It is a drawn sequence, not film. The modal says so in
+as many words. A filmed fifteen second sequence should replace it before launch;
+we would rather show our own drawing than stock footage of another product.
 
 ## Analytics
 
@@ -113,8 +116,19 @@ Control before loading either vendor.
 On Shopify this becomes a snippet included from `theme.liquid` with the two IDs
 coming from theme settings rather than being edited in the file.
 
+## The cart is real, the checkout is not
+
+The slide-over cart is a working client-side cart: quantities, removal, the free
+shipping meter, the nozzle upsell and the subtotal all calculate correctly. State
+lives in memory only and is deliberately not persisted, because there is no back
+end and a cart that survived a reload would imply one. "Checkout now" says
+plainly that checkout is Shopify's and is not reproduced here.
+
+Two SKUs exist in the prototype catalogue: `RB-001-WHT` at $79 and `RB-NOZ-4` at
+$12. **The $12 nozzle set is a placeholder price and the SKU codes are invented.**
+Both need confirming before launch.
+
 ## Not wired up
 
-This is a static prototype. Add to cart, buy now, and all four forms are inert and
-say so on submit. Cart, checkout and account flows are Shopify's and are not
-reproduced here.
+All four forms are inert and say so on submit. Checkout and account flows are
+Shopify's and are not reproduced here.
