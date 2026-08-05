@@ -46,16 +46,24 @@
   --pad:clamp(1.25rem,4.5vw,4rem);
   --wrap:1440px;
 
-  /* modular scale, 1.25 */
-  --f-xs:.75rem;
-  --f-sm:.875rem;
-  --f-base:1rem;
-  --f-md:clamp(1.0625rem,.98rem + .35vw,1.25rem);
-  --f-lg:clamp(1.25rem,1.1rem + .7vw,1.6rem);
-  --f-xl:clamp(1.6rem,1.35rem + 1.2vw,2.4rem);
-  --f-2xl:clamp(2.1rem,1.6rem + 2.3vw,3.9rem);
-  --f-3xl:clamp(2.8rem,1.9rem + 4.2vw,6.1rem);
-  --f-4xl:clamp(3.4rem,1.9rem + 7vw,9.5rem);
+  /* The brand book's ladder, ratio 1.2, read straight off the hierarchy page:
+     Label 15.2 / P 16 / H6 21.20 / H5 25.30 / H4 30.47 / H3 36.96 / H2 44.20 /
+     H1 53.24. The two display steps above H1 continue the same ratio, 63.89
+     and 76.67, because a storefront hero needs a tier the book does not reach
+     and inventing a different ratio for it would break the system.
+     Every clamp maximum below is one of those numbers exactly. The two sizes
+     under 16px are the only ones outside the book, derived on the same ratio,
+     and are used for captions and micro-labels only. */
+  --f-xs:.75rem;                                          /* 12.00 caption */
+  --f-sm:.875rem;                                         /* 14.00 small    */
+  --f-base:1rem;                                          /* 16.00 P        */
+  --f-label:.95rem;                                       /* 15.20 Label    */
+  --f-md:clamp(1.0625rem,.98rem + .35vw,1.325rem);        /* 21.20 H6       */
+  --f-lg:clamp(1.25rem,1.13rem + .55vw,1.58125rem);       /* 25.30 H5       */
+  --f-xl:clamp(1.5rem,1.28rem + .9vw,1.904rem);           /* 30.47 H4       */
+  --f-2xl:clamp(1.85rem,1.44rem + 1.8vw,2.7625rem);       /* 44.20 H2       */
+  --f-3xl:clamp(2.2rem,1.68rem + 2.3vw,3.3275rem);        /* 53.24 H1       */
+  --f-4xl:clamp(2.6rem,1.9rem + 3.1vw,4.792rem);          /* 76.67 display  */
 
   /* space — 8pt */
   --s1:.5rem; --s2:1rem; --s3:1.5rem; --s4:2rem; --s5:3rem;
@@ -68,18 +76,19 @@
   --ease-io:cubic-bezier(.65,0,.35,1);
 }
 
-/* Two variable serifs and a mono. Both serifs carry a real optical-size axis,
-   so the drawing changes with the size rather than being scaled: Fraunces
-   tightens and sharpens as it grows, Newsreader opens up as it shrinks. That
-   is switched on with font-optical-sizing below and is the single biggest
-   reason this reads as set rather than as styled. Subset to the 117 glyphs
-   the site actually renders. */
-@font-face{font-family:Fraunces;src:url(../fonts/fraunces.woff2)format("woff2-variations");
-  font-weight:400 700;font-style:normal;font-display:swap}
-@font-face{font-family:Newsreader;src:url(../fonts/newsreader.woff2)format("woff2-variations");
-  font-weight:300 600;font-style:normal;font-display:swap}
-@font-face{font-family:Newsreader;src:url(../fonts/newsreader-italic.woff2)format("woff2-variations");
-  font-weight:300 600;font-style:italic;font-display:swap}
+/* The brand's primary face is Aloevera, a geometric sans. It is a commercial
+   licence and cannot be redistributed here, so this ships Poppins: the same
+   genre — geometric, single-storey a, circular bowls — in the three weights
+   the brand book actually specifies, Regular, Medium and Bold. Drop Aloevera's
+   webfonts in beside these and change the family name in one place.
+   Azeret Mono is the brand's own secondary face and is used as specified.
+   Both subset to the 117 glyphs this site renders: 40 KB for all five files. */
+@font-face{font-family:Poppins;src:url(../fonts/poppins-400.woff2)format("woff2");
+  font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url(../fonts/poppins-500.woff2)format("woff2");
+  font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url(../fonts/poppins-700.woff2)format("woff2");
+  font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:Azeret;src:url(../fonts/azeret-400.woff2)format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:Azeret;src:url(../fonts/azeret-500.woff2)format("woff2");font-weight:500;font-display:swap}
 
@@ -88,21 +97,20 @@ html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;background:var(--ink);color:var(--white);
-  font-family:Newsreader,Iowan Old Style,Charter,Georgia,"Times New Roman",serif;
-  font-weight:400;font-size:var(--f-base);line-height:1.62;
+  /* P: 16px at 160%, exactly as the brand book's hierarchy specifies */
+  font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-weight:400;font-size:var(--f-base);line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
-  /* kerning and the optical-size axis, both off by default in some engines */
-  font-kerning:normal;font-optical-sizing:auto;
-  font-feature-settings:"kern" 1,"liga" 1,"calt" 1;
+  font-kerning:normal;font-feature-settings:"kern" 1,"liga" 1,"calt" 1;
 }
 img,svg,video{max-width:100%;display:block;height:auto}
 a{color:inherit}
 button{font:inherit;color:inherit;background:transparent;border:0}
-/* Display face. Fraunces is drawn for headline sizes; its optical axis pulls
-   the contrast up and the spacing in as the size grows, which is why the
-   tracking values below are gentler than the sans they replace. */
-h1,h2,h3,h4{margin:0;font-family:Fraunces,Georgia,serif;font-weight:600;
-  font-optical-sizing:auto;line-height:1.2;letter-spacing:-.012em}
+/* The brand book sets Bold for H1 to H3 and Medium for H4 to H6, with leading
+   of 110% at H1, 120% through H4 and 130% below it. Those are the numbers used
+   throughout; the only thing added is tracking, which the book does not
+   specify and which a geometric sans needs at display sizes. */
+h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.2;letter-spacing:-.02em}
 p{margin:0}
 ul{margin:0;padding:0;list-style:none}
 ::selection{background:var(--blue);color:var(--white)}
@@ -158,17 +166,17 @@ ul{margin:0;padding:0;list-style:none}
 .rule{height:1px;background:var(--line-dark);width:100%}
 
 /* ============ TYPE ============ */
-.t-4xl{font-size:var(--f-4xl);letter-spacing:-.022em;word-spacing:-.02em;line-height:1.05}
-.t-3xl{font-size:var(--f-3xl);letter-spacing:-.02em;word-spacing:-.015em;line-height:1.07;text-wrap:balance}
-.t-2xl{font-size:var(--f-2xl);letter-spacing:-.018em;line-height:1.10;text-wrap:balance}
+.t-4xl{font-size:var(--f-4xl);letter-spacing:-.034em;line-height:1.1}
+.t-3xl{font-size:var(--f-3xl);letter-spacing:-.03em;line-height:1.1;text-wrap:balance}
+.t-2xl{font-size:var(--f-2xl);letter-spacing:-.026em;line-height:1.2;text-wrap:balance}
 /* a quieter head for sections that support rather than argue */
-.t-quiet{font-size:clamp(1.35rem,1.05rem + 1.1vw,1.9rem);letter-spacing:-.01em;line-height:1.28}
-.t-xl{font-size:var(--f-xl);letter-spacing:-.014em;line-height:1.16}
-.t-lg{font-size:var(--f-lg);letter-spacing:-.008em;line-height:1.3}
-.t-md{font-size:var(--f-md);line-height:1.6}
-.t-sm{font-size:var(--f-sm);line-height:1.62;letter-spacing:.004em}
-.t-xs{font-size:var(--f-xs);line-height:1.55;letter-spacing:.008em}
-.lede{font-size:var(--f-md);line-height:1.6;color:var(--on-dark);font-weight:400}
+.t-quiet{font-size:clamp(1.35rem,1.12rem + .95vw,1.904rem);font-weight:500;letter-spacing:-.018em;line-height:1.2}
+.t-xl{font-size:var(--f-xl);font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.t-lg{font-size:var(--f-lg);font-weight:500;letter-spacing:-.014em;line-height:1.3}
+.t-md{font-size:var(--f-md);line-height:1.45}
+.t-sm{font-size:var(--f-sm);line-height:1.6;letter-spacing:.006em}
+.t-xs{font-size:var(--f-xs);line-height:1.5;letter-spacing:.012em}
+.lede{font-size:var(--f-md);line-height:1.45;color:var(--on-dark);font-weight:400}
 .light .lede,.paper .lede{color:var(--ink-soft)}
 .dim{color:var(--on-dark-dim)}
 .light .dim,.paper .dim{color:#878C8E}
@@ -393,7 +401,7 @@ ul{margin:0;padding:0;list-style:none}
 .rev-who b{display:block;margin-top:0.75rem;font-size:var(--f-sm);font-weight:500;color:var(--ink)}
 .rev-tag{display:block;margin-top:.25rem;font-size:var(--f-xs);font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;color:var(--blue-text)}
-.rev-body h3{font-size:var(--f-lg);font-weight:600;letter-spacing:-.008em;margin-bottom:0.5rem}
+.rev-body h3{font-size:var(--f-lg);font-weight:500;letter-spacing:-.014em;line-height:1.3;margin-bottom:0.5rem}
 .rev-body p{font-size:var(--f-sm)}
 @media(max-width:820px){
   .review{row-gap:1rem}
@@ -423,7 +431,7 @@ ul{margin:0;padding:0;list-style:none}
 .diag-cell span{display:block;font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:1rem}
 .diag-cell b{display:block;font-size:clamp(1.7rem,1.2rem + 2vw,3rem);font-weight:600;
-  letter-spacing:-.018em;line-height:1.10;margin-bottom:1rem}
+  letter-spacing:-.026em;line-height:1.2;margin-bottom:1rem}
 .diag-cell p{font-size:var(--f-sm);color:var(--on-dark);max-width:38ch}
 .js .diag-set{animation:diagIn .42s var(--ease) both}
 @keyframes diagIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -468,7 +476,7 @@ ul{margin:0;padding:0;list-style:none}
 .light .case,.paper .case{border-color:var(--line-light)}
 .case:hover{background:var(--ink-2)}
 .light .case:hover,.paper .case:hover{background:rgba(255,255,255,.04)}
-.case h3{font-size:var(--f-lg);font-weight:600;letter-spacing:-.008em}
+.case h3{font-size:var(--f-lg);font-weight:500;letter-spacing:-.014em;line-height:1.3}
 .case p{font-size:var(--f-sm)}
 
 /* ============ SPEC ============ */
@@ -499,7 +507,7 @@ ul{margin:0;padding:0;list-style:none}
 .faq{border-top:1px solid var(--line-light)}
 .faq details{border-bottom:1px solid var(--line-light)}
 .faq summary{display:grid;line-height:1.25;grid-template-columns:1fr 1.5rem;gap:var(--gut);align-items:baseline;
-  padding-block:1.5rem;cursor:pointer;font-weight:600;list-style:none;font-size:var(--f-lg);letter-spacing:-.008em}
+  padding-block:1.5rem;cursor:pointer;font-weight:500;list-style:none;font-size:var(--f-lg);letter-spacing:-.014em}
 .faq summary::-webkit-details-marker{display:none}
 .faq .chev{width:11px;height:11px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
   transform:rotate(45deg);transition:transform .3s var(--ease);justify-self:end;align-self:center}
@@ -661,9 +669,9 @@ ul{margin:0;padding:0;list-style:none}
 }
 .light .eyebrow,.paper .eyebrow{color:var(--blue-text)}
 
-.d1{font-size:var(--f-3xl);letter-spacing:-.02em;line-height:1.07}
-.d2{font-size:var(--f-2xl);letter-spacing:-.018em;line-height:1.10}
-.d3{font-size:var(--f-xl);letter-spacing:-.014em;line-height:1.16}
+.d1{font-size:var(--f-3xl);letter-spacing:-.03em;line-height:1.1}
+.d2{font-size:var(--f-2xl);letter-spacing:-.026em;line-height:1.2}
+.d3{font-size:var(--f-xl);font-weight:500;letter-spacing:-.02em;line-height:1.2}
 
 .detail{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--gut);align-items:start}
 .detail>*{grid-column-start:1;grid-column-end:span 6}
@@ -712,8 +720,8 @@ ul{margin:0;padding:0;list-style:none}
 /* B. full-bleed statement band, used to change tempo between sections */
 .band{background:var(--ink);color:var(--white);padding-block:clamp(5rem,12vw,10rem);
   border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)}
-.band q{quotes:none;display:block;font-size:var(--f-2xl);font-weight:600;letter-spacing:-.018em;
-  line-height:1.10;max-width:24ch}
+.band q{quotes:none;display:block;font-size:var(--f-2xl);font-weight:700;letter-spacing:-.026em;
+  line-height:1.2;max-width:22ch}
 .band .attr{margin-top:var(--s4);font-size:var(--f-xs);letter-spacing:.16em;text-transform:uppercase;
   color:var(--on-dark-dim)}
 
@@ -723,7 +731,7 @@ ul{margin:0;padding:0;list-style:none}
 .rung{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--gut);
   padding-block:var(--s4);border-bottom:1px solid var(--line-dark);align-items:baseline}
 .light .rung,.paper .rung{border-bottom-color:var(--line-light)}
-.rung h3{font-size:var(--f-lg);font-weight:600;letter-spacing:-.008em}
+.rung h3{font-size:var(--f-lg);font-weight:500;letter-spacing:-.014em;line-height:1.3}
 .rung p{font-size:var(--f-sm)}
 .rung h3{grid-column:1/span 4}
 .rung p{grid-column:5/span 6}
@@ -775,7 +783,7 @@ ul{margin:0;padding:0;list-style:none}
 .eyeline{margin-bottom:var(--s3)}
 .eyeline span{display:block;font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--on-dark-dim)}
 .light .eyeline span,.paper .eyeline span{color:#878C8E}
-.sub{font-size:var(--f-md);line-height:1.6;margin-top:var(--s2);max-width:56ch}
+.sub{font-size:var(--f-md);line-height:1.45;margin-top:var(--s2);max-width:56ch}
 .sub-dim{color:var(--on-dark-dim)}
 .light .sub-dim,.paper .sub-dim{color:#878C8E}
 
@@ -807,7 +815,8 @@ ul{margin:0;padding:0;list-style:none}
 /* .94 put the descender of "Upgrade" straight through the ascenders of the
    line below it. Measured ink extent for this face is 1.05-1.07em, so the
    leading has to clear that before it can be called tight. */
-.hero-full h1{font-size:clamp(2.6rem,1.6rem + 5.2vw,6.9rem);letter-spacing:-.022em;word-spacing:-.02em;line-height:1.05;font-weight:600}
+/* the display step above --f-4xl, same 1.2 ratio: 92.00px */
+.hero-full h1{font-size:clamp(2.6rem,1.86rem + 3.7vw,5.75rem);letter-spacing:-.036em;line-height:1.1;font-weight:700}
 @media(max-width:380px){.hero-full h1{font-size:2.6rem}}
 .hero-full h1 em{font-style:normal;display:block;color:var(--blue)}
 .hero-lede{max-width:34ch;margin-top:var(--s3)}
@@ -902,8 +911,8 @@ ul{margin:0;padding:0;list-style:none}
 .light .cat-row,.paper .cat-row{border-color:var(--line-light)}
 .cat-ix{grid-column:1/span 1;font-family:Azeret,ui-monospace,monospace;
   font-size:var(--f-xs);letter-spacing:.14em;color:var(--acc,var(--blue))}
-.cat-nm{grid-column:2/span 4;margin:0;font-size:clamp(1.5rem,1.1rem + 1.9vw,2.6rem);
-  letter-spacing:-.016em;line-height:1.08}
+.cat-nm{grid-column:2/span 4;margin:0;font-size:clamp(1.5rem,1.19rem + 1.35vw,2.31rem);
+  letter-spacing:-.026em;line-height:1.2}
 .cat-sc{grid-column:6/span 4;font-size:var(--f-sm);line-height:1.6;color:var(--on-dark)}
 .light .cat-sc,.paper .cat-sc{color:var(--ink-soft)}
 .cat-st{grid-column:11/span 2;justify-self:end;text-align:right;
@@ -954,8 +963,8 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 .pcard:hover .pcard-fig img{transform:scale(1.035)}
 .pcard-cat{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--acc,var(--blue))}
-.pcard h3{margin:.65rem 0 0;font-size:clamp(1.45rem,1.1rem + 1.5vw,2.35rem);
-  letter-spacing:-.016em;line-height:1.1}
+.pcard h3{margin:.65rem 0 0;font-size:clamp(1.45rem,1.19rem + 1.1vw,2.31rem);
+  letter-spacing:-.026em;line-height:1.2}
 .pcard-sub{margin-top:.75rem;font-size:var(--f-sm);line-height:1.6;
   color:var(--on-dark);max-width:46ch}
 .light .pcard-sub,.paper .pcard-sub{color:var(--ink-soft)}
@@ -1507,15 +1516,14 @@ body::after{
    uses the system serif — which is also the more honest choice: it renders in
    whatever the reader's machine actually has, the way print does.
    ========================================================================= */
-/* The whole site is set in a serif now, so the editorial aside is a genuine
-   roman-to-italic shift inside one family rather than a change of typeface. */
-.ed{font-family:Newsreader,Georgia,serif;font-style:italic;font-weight:400;
-  font-optical-sizing:auto;letter-spacing:0}
-h1 .ed,h2 .ed,h3 .ed{letter-spacing:-.026em}
-/* the text italic is a shade smaller on the eye than the display roman */
-.t-3xl .ed,.t-2xl .ed,.d1 .ed,.d2 .ed{font-size:.97em}
-.ed-note{font-family:Newsreader,Georgia,serif;font-style:italic;
-  font-size:var(--f-md);line-height:1.6;color:var(--on-dark);max-width:52ch}
+/* An aside inside a heading. One family means the contrast has to be weight,
+   not a second typeface: Regular set against the Bold around it, which is how
+   the brand book's own headline specimens read. */
+.ed{font-weight:400;letter-spacing:-.01em}
+h1 .ed,h2 .ed,h3 .ed{letter-spacing:inherit}
+
+.ed-note{font-weight:400;font-size:var(--f-md);line-height:1.45;
+  color:var(--on-dark);max-width:52ch}
 .light .ed-note,.paper .ed-note{color:var(--ink-soft)}
 
 /* ============ DEPTH ============
@@ -1611,12 +1619,6 @@ h1 .ed,h2 .ed,h3 .ed{letter-spacing:-.026em}
    Details that only matter once the page is set in a text face rather than a
    geometric sans. All measured, none of it decorative. */
 
-/* Optical sizing on every element that uses either serif, not only the body.
-   Without it the browser holds the axis at its default and the display sizes
-   are just the text drawing scaled up. */
-body,h1,h2,h3,h4,p,li,dt,dd,summary,q,blockquote,figcaption,input,button,a{
-  font-optical-sizing:auto;
-}
 /* Buttons and inputs do not inherit the family by default */
 button,input,select,textarea{font-family:inherit}
 
@@ -1627,20 +1629,20 @@ h1,h2,h3,h4,p,li,q,blockquote{font-variant-ligatures:common-ligatures contextual
 .slot-cat,.rel-k,.upsell-k,.chip,.tool,.shelf-cta,.psi-stops button,.rev-use,
 .citem-var,.sim-meta div,.insp-hint,.when{font-variant-ligatures:none}
 
-/* Weight. Newsreader's 600 is the heaviest in the subset and reads as the bold;
-   the light end is 300. Poppins' 300 body was too light once the face changed. */
+/* Three weights ship, which is what the brand book specifies: Regular for
+   body, Medium for the smaller headings, Bold for H1 to H3. Nothing asks for a
+   weight that is not in the files, so nothing is ever synthesised. */
 .dim,.t-sm,.t-xs{font-weight:400}
-strong,b{font-weight:600}
+strong,b{font-weight:500}
 
-/* Measure. A serif at 16px carries a comfortable 62-70 characters; wider than
-   that and the eye loses the line on the return sweep. */
-.prose p,.prose li{max-width:68ch}
+/* Measure. Poppins at 16px carries about 60-66 characters comfortably; wider
+   than that and the eye loses the line on the return sweep. */
+.prose p,.prose li{max-width:64ch}
 .measure-s{max-width:52ch}
 
-/* Hanging punctuation on the pull quote, so the opening mark does not push the
-   first line in and break the left edge the rest of the page is aligned to. */
-.band q{hanging-punctuation:first}
-@supports not (hanging-punctuation:first){.band q{text-indent:0}}
 
-/* The mono stays exactly as it was: it is the brand's second face and it is
-   what makes the specifications read as measured rather than written. */
+
+/* The label style, exactly as the brand book specifies it: Azeret Mono Bold,
+   15.2px, 130%. Tracking and the uppercase are ours; everything else is theirs. */
+.label,.eyeline span{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-label);
+  font-weight:700;line-height:1.3}
