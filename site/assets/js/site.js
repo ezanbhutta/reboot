@@ -6,6 +6,9 @@
 
   /* ---------- scroll reveal ---------- */
   var rv = document.querySelectorAll('.rv');
+  /* Opt in from here, never from the inline head script. If this file fails to
+     load, nothing is ever hidden, instead of the whole page staying invisible. */
+  if (rv.length) document.documentElement.classList.add('rv-on');
   if (reduce || !('IntersectionObserver' in window)) {
     rv.forEach(function (el) { el.classList.add('in'); });
   } else {
@@ -38,7 +41,8 @@
 
       if (prog) {
         var h = document.documentElement.scrollHeight - window.innerHeight;
-        prog.style.width = (h > 0 ? (window.pageYOffset / h) * 100 : 0) + '%';
+        /* transform, not width: this runs every frame on a 10,000px document */
+        prog.style.transform = 'scaleX(' + (h > 0 ? window.pageYOffset / h : 0) + ')';
       }
 
     });
