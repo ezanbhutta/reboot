@@ -66,11 +66,13 @@ body{
   font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
   font-weight:300;font-size:var(--f-base);line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  /* Poppins ships kern pairs; they are off by default in some engines */
+  font-kerning:normal;font-feature-settings:"kern" 1,"liga" 1,"calt" 1;
 }
 img,svg,video{max-width:100%;display:block;height:auto}
 a{color:inherit}
 button{font:inherit;color:inherit;background:transparent;border:0}
-h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.04;letter-spacing:-.028em}
+h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.2;letter-spacing:-.02em}
 p{margin:0}
 ul{margin:0;padding:0;list-style:none}
 ::selection{background:var(--blue);color:var(--white)}
@@ -113,16 +115,16 @@ ul{margin:0;padding:0;list-style:none}
 .rule{height:1px;background:var(--line-dark);width:100%}
 
 /* ============ TYPE ============ */
-.t-4xl{font-size:var(--f-4xl);letter-spacing:-.042em;line-height:.9}
-.t-3xl{font-size:var(--f-3xl);letter-spacing:-.036em;line-height:.96;text-wrap:balance}
-.t-2xl{font-size:var(--f-2xl);letter-spacing:-.03em;line-height:1.02}
+.t-4xl{font-size:var(--f-4xl);letter-spacing:-.045em;line-height:1.10}
+.t-3xl{font-size:var(--f-3xl);letter-spacing:-.038em;line-height:1.10;text-wrap:balance}
+.t-2xl{font-size:var(--f-2xl);letter-spacing:-.032em;line-height:1.14;text-wrap:balance}
 /* a quieter head for sections that support rather than argue */
-.t-quiet{font-size:clamp(1.35rem,1.05rem + 1.1vw,1.9rem);letter-spacing:-.018em;line-height:1.15}
-.t-xl{font-size:var(--f-xl);letter-spacing:-.022em;line-height:1.12}
-.t-lg{font-size:var(--f-lg);letter-spacing:-.014em;line-height:1.25}
+.t-quiet{font-size:clamp(1.35rem,1.05rem + 1.1vw,1.9rem);letter-spacing:-.018em;line-height:1.22}
+.t-xl{font-size:var(--f-xl);letter-spacing:-.024em;line-height:1.18}
+.t-lg{font-size:var(--f-lg);letter-spacing:-.016em;line-height:1.28}
 .t-md{font-size:var(--f-md);line-height:1.55}
-.t-sm{font-size:var(--f-sm);line-height:1.55}
-.t-xs{font-size:var(--f-xs);line-height:1.5}
+.t-sm{font-size:var(--f-sm);line-height:1.6;letter-spacing:.006em}
+.t-xs{font-size:var(--f-xs);line-height:1.55;letter-spacing:.012em}
 .lede{font-size:var(--f-md);line-height:1.55;color:var(--on-dark);font-weight:300}
 .light .lede,.paper .lede{color:var(--ink-soft)}
 .dim{color:var(--on-dark-dim)}
@@ -297,7 +299,7 @@ ul{margin:0;padding:0;list-style:none}
   gap:clamp(2rem,6vw,5.5rem);margin:clamp(2rem,5vw,3.5rem) 0 0}
 .moment-facts dt{font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:0.5rem}
-.moment-facts dd{margin:0;font-size:var(--f-lg);font-weight:500;line-height:1.1;
+.moment-facts dd{margin:0;font-size:var(--f-lg);font-weight:500;line-height:1.18;
   letter-spacing:-.01em;color:var(--white)}
 .moment-note{max-width:44ch;margin:var(--s4) auto 0;font-size:var(--f-sm);
   line-height:1.6;color:var(--on-dark-dim)}
@@ -372,7 +374,7 @@ ul{margin:0;padding:0;list-style:none}
 .diag-cell span{display:block;font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:1rem}
 .diag-cell b{display:block;font-size:clamp(1.7rem,1.2rem + 2vw,3rem);font-weight:600;
-  letter-spacing:-.03em;line-height:1.02;margin-bottom:1rem}
+  letter-spacing:-.032em;line-height:1.14;margin-bottom:1rem}
 .diag-cell p{font-size:var(--f-sm);color:var(--on-dark);max-width:38ch}
 .js .diag-set{animation:diagIn .42s var(--ease) both}
 @keyframes diagIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -591,9 +593,9 @@ ul{margin:0;padding:0;list-style:none}
 }
 .light .eyebrow,.paper .eyebrow{color:var(--blue-text)}
 
-.d1{font-size:var(--f-3xl);letter-spacing:-.036em;line-height:.96}
-.d2{font-size:var(--f-2xl);letter-spacing:-.03em;line-height:1.02}
-.d3{font-size:var(--f-xl);letter-spacing:-.022em;line-height:1.12}
+.d1{font-size:var(--f-3xl);letter-spacing:-.038em;line-height:1.10}
+.d2{font-size:var(--f-2xl);letter-spacing:-.032em;line-height:1.14}
+.d3{font-size:var(--f-xl);letter-spacing:-.024em;line-height:1.18}
 
 .detail{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--gut);align-items:start}
 .detail>*{grid-column-start:1;grid-column-end:span 6}
@@ -643,7 +645,7 @@ ul{margin:0;padding:0;list-style:none}
 .band{background:var(--ink);color:var(--white);padding-block:clamp(5rem,12vw,10rem);
   border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)}
 .band q{quotes:none;display:block;font-size:var(--f-2xl);font-weight:600;letter-spacing:-.03em;
-  line-height:1.06;max-width:22ch}
+  line-height:1.14;max-width:22ch}
 .band .attr{margin-top:var(--s4);font-size:var(--f-xs);letter-spacing:.16em;text-transform:uppercase;
   color:var(--on-dark-dim)}
 
@@ -731,7 +733,10 @@ ul{margin:0;padding:0;list-style:none}
 .hero-body{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
   justify-content:center;padding-block:clamp(3rem,7vw,5rem)}
 .hero-body .grid{position:relative;z-index:2}
-.hero-full h1{font-size:clamp(2.6rem,1.6rem + 5.2vw,6.9rem);letter-spacing:-.042em;line-height:.94;font-weight:600}
+/* .94 put the descender of "Upgrade" straight through the ascenders of the
+   line below it. Measured ink extent for this face is 1.05-1.07em, so the
+   leading has to clear that before it can be called tight. */
+.hero-full h1{font-size:clamp(2.6rem,1.6rem + 5.2vw,6.9rem);letter-spacing:-.045em;line-height:1.10;font-weight:600}
 @media(max-width:380px){.hero-full h1{font-size:2.6rem}}
 .hero-full h1 em{font-style:normal;display:block;color:var(--blue)}
 .hero-lede{max-width:34ch;margin-top:var(--s3)}
@@ -827,7 +832,7 @@ ul{margin:0;padding:0;list-style:none}
 .cat-ix{grid-column:1/span 1;font-family:Azeret,ui-monospace,monospace;
   font-size:var(--f-xs);letter-spacing:.14em;color:var(--acc,var(--blue))}
 .cat-nm{grid-column:2/span 4;margin:0;font-size:clamp(1.5rem,1.1rem + 1.9vw,2.6rem);
-  letter-spacing:-.03em;line-height:1}
+  letter-spacing:-.032em;line-height:1.1}
 .cat-sc{grid-column:6/span 4;font-size:var(--f-sm);line-height:1.6;color:var(--on-dark)}
 .light .cat-sc,.paper .cat-sc{color:var(--ink-soft)}
 .cat-st{grid-column:11/span 2;justify-self:end;text-align:right;
@@ -879,7 +884,7 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 .pcard-cat{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--acc,var(--blue))}
 .pcard h3{margin:.65rem 0 0;font-size:clamp(1.45rem,1.1rem + 1.5vw,2.35rem);
-  letter-spacing:-.028em;line-height:1.05}
+  letter-spacing:-.03em;line-height:1.12}
 .pcard-sub{margin-top:.75rem;font-size:var(--f-sm);line-height:1.6;
   color:var(--on-dark);max-width:46ch}
 .light .pcard-sub,.paper .pcard-sub{color:var(--ink-soft)}
@@ -910,8 +915,8 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 
 /* ---- release marker: the brand ships numbered releases, and the number is
    the point. Set in the mono face at display size so it reads as a serial. */
-.rel-n{font-family:Azeret,ui-monospace,monospace;
-  font-size:clamp(3.2rem,2rem + 6vw,8.5rem);font-weight:500;line-height:.85;
+.rel-n{display:block;font-family:Azeret,ui-monospace,monospace;
+  font-size:clamp(3.2rem,2rem + 6vw,8.5rem);font-weight:500;line-height:.9;
   letter-spacing:-.04em;color:var(--acc,var(--blue))}
 .rel-k{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.24em;text-transform:uppercase;color:var(--on-dark-dim);
@@ -948,3 +953,8 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 /* SC 2.5.8 again: the rating link is a standalone control, not a word inside a
    sentence, so the inline exception does not cover it. */
 .buy-rating{min-height:24px;align-items:center}
+
+/* Figures line up when their digits share a width. Every number the store
+   states sits in a list beside another number, so this is not decoration. */
+.spec dd,.factrow dd,.moment-facts dd,.reassure dd,.buy-price b,.pcard-pr,
+.cmp td,.hang-n b{font-variant-numeric:tabular-nums;font-feature-settings:"kern" 1,"tnum" 1}
