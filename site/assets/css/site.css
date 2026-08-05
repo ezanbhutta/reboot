@@ -43,7 +43,9 @@
   /* space — 8pt */
   --s1:.5rem; --s2:1rem; --s3:1.5rem; --s4:2rem; --s5:3rem;
   --s6:4rem; --s7:6rem; --s8:8rem; --s9:12rem;
-  --sec:clamp(3.75rem,7vw,7.5rem);
+  --sec-tight:clamp(2.25rem,3.5vw,3.5rem);
+  --sec:clamp(3.5rem,6vw,6.5rem);
+  --sec-air:clamp(6.5rem,13vw,13.5rem);
 
   --ease:cubic-bezier(.22,.61,.36,1);
   --ease-io:cubic-bezier(.65,0,.35,1);
@@ -93,6 +95,17 @@ ul{margin:0;padding:0;list-style:none}
 
 .sec{padding-block:var(--sec)}
 .sec-t{padding-top:var(--sec)}
+/* density modifiers: compression before a big moment, air after it */
+.sec-tight{padding-block:var(--sec-tight)}
+.sec-air{padding-block:var(--sec-air)}
+.sec-air-b{padding-bottom:var(--sec-air)}
+.sec-tight-t{padding-top:var(--sec-tight)}
+
+/* ---- BREAKING THE FRAME ----
+   Nothing on this page ever escaped the 1440 container, so every section read
+   as the same rectangle. Full-bleed sections run edge to edge and keep their
+   own inner rhythm, which is what gives the page a change of pressure. */
+.bleed{max-width:none;width:100%;padding-inline:clamp(1.25rem,4.5vw,4rem)}
 .light{background:var(--white);color:var(--ink)}
 .paper{background:var(--paper);color:var(--ink)}
 .light p,.paper p{color:var(--ink-soft)}
@@ -103,6 +116,8 @@ ul{margin:0;padding:0;list-style:none}
 .t-4xl{font-size:var(--f-4xl);letter-spacing:-.042em;line-height:.9}
 .t-3xl{font-size:var(--f-3xl);letter-spacing:-.036em;line-height:.96}
 .t-2xl{font-size:var(--f-2xl);letter-spacing:-.03em;line-height:1.02}
+/* a quieter head for sections that support rather than argue */
+.t-quiet{font-size:clamp(1.5rem,1.1rem + 1.6vw,2.35rem);letter-spacing:-.022em;line-height:1.1}
 .t-xl{font-size:var(--f-xl);letter-spacing:-.022em;line-height:1.12}
 .t-lg{font-size:var(--f-lg);letter-spacing:-.014em;line-height:1.25}
 .t-md{font-size:var(--f-md);line-height:1.55}
