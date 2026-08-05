@@ -24,6 +24,10 @@
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
+    <button type="button" class="cartbtn" data-cart-open aria-label="Open cart" aria-controls="cart-drawer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h15l-1.4 9.3a2 2 0 0 1-2 1.7H7.8a2 2 0 0 1-2-1.7L4 4H1.6"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+      <span class="cart-badge" data-cart-badge>0</span>
+    </button>
     <div class="hdr-cta"><a class="btn btn-primary" href="shop.html"><span>Shop</span></a></div>
   </div>
 </header>
@@ -66,6 +70,41 @@
     </div>
   </div>
 </footer>
+
+<div class="scrim" id="cart-scrim" hidden-until-found></div>
+<div class="drawer-shell" data-drawer-shell>
+<aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Your cart" aria-hidden="true">
+  <div class="drawer-hd">
+    <h2>Your cart</h2>
+    <button type="button" class="drawer-x" data-cart-close aria-label="Close cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+  <div class="drawer-bd">
+    <div class="ship-meter">
+      <p data-ship-note>Add <b>$79</b> for free shipping</p>
+      <div class="ship-bar"><i data-ship-fill style="--p:0"></i></div>
+    </div>
+    <div data-cart-body></div>
+    <div class="upsell" data-upsell>
+      <div class="upsell-fig"><img src="assets/img/dwg-top.svg" alt="" width="36" height="40" loading="lazy"></div>
+      <div>
+        <span class="upsell-k">Add on</span>
+        <h4>Nozzle set, four pack &mdash; $12</h4>
+      </div>
+      <button type="button" class="upsell-add" data-upsell-add>Add</button>
+    </div>
+  </div>
+  <div class="drawer-ft">
+    <div class="sub-row"><span>Subtotal</span><b data-cart-sub>$0</b></div>
+    <button type="button" class="btn btn-primary btn-block" data-checkout><span>Checkout now</span></button>
+    <p class="drawer-note" data-checkout-note hidden tabindex="-1">This is a design prototype. Checkout is Shopify&#8217;s and is not reproduced here.</p>
+    <p class="drawer-note">Taxes and shipping calculated at checkout.</p>
+  </div>
+</aside>
+</div>
+<p class="vh" role="status" aria-live="polite" data-cart-live></p>
+
 <script src="assets/js/site.js" defer></script>
 </body>
 </html>

@@ -30,6 +30,10 @@
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
+    <button type="button" class="cartbtn" data-cart-open aria-label="Open cart" aria-controls="cart-drawer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h15l-1.4 9.3a2 2 0 0 1-2 1.7H7.8a2 2 0 0 1-2-1.7L4 4H1.6"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+      <span class="cart-badge" data-cart-badge>0</span>
+    </button>
     <div class="hdr-cta"><a class="btn btn-primary" href="shop.html"><span>Shop</span></a></div>
   </div>
   <div class="prog" data-prog></div>
@@ -41,20 +45,42 @@
        evidence that reboot ships, not as the subject of the page. -->
   <section class="hero-full">
     <div class="wrap hero-body">
-      <div class="hero-draw" aria-hidden="true">
-        <img src="assets/img/prod-white-34.webp" width="362" height="1400" alt=""
-             fetchpriority="high" decoding="async">
+      <div class="hero-draw" data-tilt>
+        <div class="tilt glow">
+          <img src="assets/img/prod-white-34.webp" width="362" height="1400" alt=""
+               fetchpriority="high" decoding="async">
+          <!-- Three hotspots, on the three things a buyer actually asks about.
+               Each is a real button, so keyboard and screen readers get the
+               same information the pointer does. -->
+          <div class="hotspots">
+            <button type="button" class="hs" style="--x:53%;--y:22%" aria-expanded="false"
+                    aria-label="Mode and power controls">
+              <i aria-hidden="true"></i>
+              <span class="hs-tip"><b>Four modes</b><span>Soft, Standard, High and Pulse, stepped through with the lower button.</span></span>
+            </button>
+            <button type="button" class="hs" style="--x:57%;--y:63%" aria-expanded="false"
+                    aria-label="Water tank">
+              <i aria-hidden="true"></i>
+              <span class="hs-tip"><b>300 ml tank</b><span>About ninety seconds of water. Twists off to fill and to clean.</span></span>
+            </button>
+            <button type="button" class="hs" data-side="left" style="--x:46%;--y:88%" aria-expanded="false"
+                    aria-label="Water resistance rating">
+              <i aria-hidden="true"></i>
+              <span class="hs-tip"><b>IPX7</b><span>Rated for immersion, so it is safe to use and rinse in the shower.</span></span>
+            </button>
+          </div>
+        </div>
       </div>
       <div class="grid">
         <div class="c8 s1">
           <span class="label" style="margin-bottom:var(--s3)">Everyday tech, made properly</span>
-          <h1 class="optical">Upgrade one<em>habit at a time.</em></h1>
+          <h1 class="optical"><span class="kin">Upgrade one</span><em class="kin">habit at a time.</em></h1>
         </div>
         <div class="c5 s1">
           <p class="lede hero-lede">We make a small number of things for how you live, move, work and connect. One product at a time, and only when it is ready.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="shop.html"><span>See what is out</span></a>
-            <a class="btn btn-ghost" href="#shelves"><span>What we build for</span></a>
+            <a class="btn btn-primary mag" href="product.html"><span>Explore Release 001 &mdash; $79</span></a>
+            <a class="btn btn-ghost" href="shop.html"><span>See the catalogue</span></a>
           </div>
         </div>
       </div>
@@ -93,7 +119,7 @@
         <div class="c7 s1">
           <div class="eyeline"><span>What we build for</span></div>
           <h2 class="t-2xl optical">Four shelves. One of them has something on it.</h2>
-          <p class="sub">This is the whole shape of the company, and we would rather show you the empty parts than pretend they are full.</p>
+          <p class="sub">This is the whole shape of the company. Open any of the empty three to see how far it has actually got.</p>
         </div>
       </div>
 
@@ -113,25 +139,55 @@
           </div>
         </a>
 
-        <div class="cat-row rv" style="--acc:#F97400">
+        <div class="cat-row rv" data-shelf style="--acc:#F97400">
           <span class="cat-ix">02</span>
-          <h3 class="cat-nm">Move</h3>
+          <h3 class="cat-nm"><button type="button" class="shelf-t" aria-expanded="false" aria-controls="shelf-move">Move<span class="cat-chev" aria-hidden="true"></span></button></h3>
           <p class="cat-sc">What travels with you. Sized for a bag rather than a shelf, and expected to survive being thrown into one.</p>
           <span class="cat-st"><b>In development</b>Nothing to show yet</span>
+          <div class="shelf-more" id="shelf-move" role="region" aria-label="Move, current state">
+            <div><div class="shelf-in">
+              <img class="shelf-wire" src="assets/img/dwg-tank.svg" alt="" width="120" height="140" loading="lazy">
+              <div>
+                <h4>Where Move has got to</h4>
+                <p>Concept work only. What we can say is the constraint we set ourselves: it has to survive a year in a bag without a case, and charge from the same cable as everything else you own.</p>
+                <button type="button" class="shelf-cta" data-modal-open="waitlist">Join the Release 002 list</button>
+              </div>
+            </div></div>
+          </div>
         </div>
 
-        <div class="cat-row rv" style="--acc:#09D0DC">
+        <div class="cat-row rv" data-shelf style="--acc:#09D0DC">
           <span class="cat-ix">03</span>
-          <h3 class="cat-nm">Work</h3>
+          <h3 class="cat-nm"><button type="button" class="shelf-t" aria-expanded="false" aria-controls="shelf-work">Work<span class="cat-chev" aria-hidden="true"></span></button></h3>
           <p class="cat-sc">The desk. Things that stay out of the way until the moment you need them, and do one job without asking for attention.</p>
           <span class="cat-st"><b>In development</b>Nothing to show yet</span>
+          <div class="shelf-more" id="shelf-work" role="region" aria-label="Work, current state">
+            <div><div class="shelf-in">
+              <img class="shelf-wire" src="assets/img/dwg-top.svg" alt="" width="120" height="140" loading="lazy">
+              <div>
+                <h4>Where Work has got to</h4>
+                <p>Concept work only. The rule here is that it does one job and then gets out of the way. If it needs an app to be useful, we have got it wrong.</p>
+                <button type="button" class="shelf-cta" data-modal-open="waitlist">Join the Release 002 list</button>
+              </div>
+            </div></div>
+          </div>
         </div>
 
-        <div class="cat-row rv" style="--acc:#68E69D">
+        <div class="cat-row rv" data-shelf style="--acc:#68E69D">
           <span class="cat-ix">04</span>
-          <h3 class="cat-nm">Connect</h3>
+          <h3 class="cat-nm"><button type="button" class="shelf-t" aria-expanded="false" aria-controls="shelf-connect">Connect<span class="cat-chev" aria-hidden="true"></span></button></h3>
           <p class="cat-sc">Sound and sharing. The category we are slowest on, because it is the one most crowded with things that are nearly good enough.</p>
           <span class="cat-st"><b>Concept</b>No date</span>
+          <div class="shelf-more" id="shelf-connect" role="region" aria-label="Connect, current state">
+            <div><div class="shelf-in">
+              <img class="shelf-wire" src="assets/img/dwg-side.svg" alt="" width="120" height="140" loading="lazy">
+              <div>
+                <h4>Where Connect has got to</h4>
+                <p>Earliest stage of the four, and the one we are most likely to abandon. We would rather ship nothing here than ship the fourth-best version of something that already exists.</p>
+                <button type="button" class="shelf-cta" data-modal-open="waitlist">Join the Release 002 list</button>
+              </div>
+            </div></div>
+          </div>
         </div>
       </div>
 
@@ -167,8 +223,8 @@
           <p class="t-lg" style="color:var(--ink);font-weight:400">Nearly everyone who gives up on a water flosser was using it wrong, and nobody had told them how.</p>
           <p class="t-md" style="margin-top:var(--s3)">So the product page is mostly technique. Where to aim it, which mode to start on, and what the first fortnight actually looks like. The hardware was the easy half.</p>
           <div class="hero-actions" style="margin-top:var(--s5)">
-            <a class="btn btn-primary" href="product.html" data-track-add="Water Flosser" data-sku="RB-001-WHT" data-price="79"><span>Water Flosser $79</span></a>
-            <a class="btn btn-ghost" href="product.html#spec"><span>Full specification</span></a>
+            <button type="button" class="btn btn-primary mag" data-add="RB-001-WHT"><span>Add to cart &mdash; $79</span></button>
+            <a class="btn btn-ghost" href="product.html"><span>Read the product page</span></a>
           </div>
           <!-- three facts inside a six-column cell. A nested .grid would inherit
                twelve columns and stop lining up with anything. -->
@@ -179,7 +235,7 @@
           </dl>
         </div>
         <div class="c5 s8 rv rv-d2">
-          <figure style="margin:0;background:var(--white);padding:clamp(1.5rem,4vw,3rem);display:grid;place-items:center">
+          <figure class="glow" style="margin:0;background:var(--surface-0);border:1px solid var(--line-dark);padding:clamp(1.5rem,4vw,3rem);display:grid;place-items:center">
             <img src="assets/img/prod-white-34l.webp" width="362" height="1400" loading="lazy"
                  style="height:min(52vh,520px);width:auto"
                  alt="reboot Water Flosser in Soft White, three quarter view showing the power and mode buttons and the tank window">
@@ -257,11 +313,15 @@
         </div>
         <div class="c5 s7 rv rv-d1">
           <span class="label" style="margin-bottom:var(--s2)">Stay in touch</span>
-          <form class="nl" data-demo>
+          <form class="nl" data-demo novalidate>
             <label for="nl-email" class="vh">Email address</label>
             <input id="nl-email" type="email" name="email" placeholder="Your email address" required autocomplete="email">
             <button class="btn btn-primary" type="submit"><span>Sign up</span></button>
-            <p class="nl-note" data-demo-note hidden tabindex="-1">Thanks. This is a design prototype, so nothing was sent.</p>
+            <p class="nl-err" data-nl-err hidden role="alert"></p>
+            <div class="nl-done" data-demo-note hidden tabindex="-1">
+              <b>You are on the list.</b>
+              <p>The technique guide is at <a href="product.html#technique">the product page</a> in the meantime. This is a design prototype, so nothing was actually sent.</p>
+            </div>
           </form>
           <p class="nl-note">Unsubscribe in one click. We do not share your address.</p>
         </div>
@@ -270,6 +330,27 @@
   </section>
 
 </main>
+
+<div class="modal" id="waitlist" role="dialog" aria-modal="true" aria-labelledby="wl-h" aria-hidden="true">
+  <div class="modal-card" style="position:relative">
+    <button type="button" class="modal-x" data-modal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <h2 id="wl-h">Told when 002 is real.</h2>
+    <p>One email when the next release actually exists. Not a countdown, not a reservation, and not a waiting list that is really a mailing list with a badge on it.</p>
+    <form class="nl" data-demo novalidate style="margin-top:var(--s3)">
+      <label for="wl-email" class="vh">Email address</label>
+      <input id="wl-email" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+      <button class="btn btn-primary" type="submit"><span>Join the list</span></button>
+      <p class="nl-err" data-nl-err hidden role="alert"></p>
+      <div class="nl-done" data-demo-note hidden tabindex="-1">
+        <b>You are on the list.</b>
+        <p>We will write when there is something to write about. This is a design prototype, so nothing was actually sent.</p>
+      </div>
+    </form>
+    <p class="nl-note">Unsubscribe in one click. We do not share your address.</p>
+  </div>
+</div>
 
 <footer class="ftr">
   <div class="wrap">
@@ -288,6 +369,41 @@
     </div>
   </div>
 </footer>
+
+
+<div class="scrim" id="cart-scrim" hidden-until-found></div>
+<div class="drawer-shell" data-drawer-shell>
+<aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Your cart" aria-hidden="true">
+  <div class="drawer-hd">
+    <h2>Your cart</h2>
+    <button type="button" class="drawer-x" data-cart-close aria-label="Close cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+  <div class="drawer-bd">
+    <div class="ship-meter">
+      <p data-ship-note>Add <b>$79</b> for free shipping</p>
+      <div class="ship-bar"><i data-ship-fill style="--p:0"></i></div>
+    </div>
+    <div data-cart-body></div>
+    <div class="upsell" data-upsell>
+      <div class="upsell-fig"><img src="assets/img/dwg-top.svg" alt="" width="36" height="40" loading="lazy"></div>
+      <div>
+        <span class="upsell-k">Add on</span>
+        <h4>Nozzle set, four pack &mdash; $12</h4>
+      </div>
+      <button type="button" class="upsell-add" data-upsell-add>Add</button>
+    </div>
+  </div>
+  <div class="drawer-ft">
+    <div class="sub-row"><span>Subtotal</span><b data-cart-sub>$0</b></div>
+    <button type="button" class="btn btn-primary btn-block" data-checkout><span>Checkout now</span></button>
+    <p class="drawer-note" data-checkout-note hidden tabindex="-1">This is a design prototype. Checkout is Shopify&#8217;s and is not reproduced here.</p>
+    <p class="drawer-note">Taxes and shipping calculated at checkout.</p>
+  </div>
+</aside>
+</div>
+<p class="vh" role="status" aria-live="polite" data-cart-live></p>
 
 <script src="assets/js/site.js" defer></script>
 </body>

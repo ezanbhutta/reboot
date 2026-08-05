@@ -1,11 +1,57 @@
-/* reboot storefront. Transform and opacity only; nothing that forces layout. */
+/* reboot storefront.
+   Transform and opacity only; nothing here forces layout during a scroll or a
+   pointer move. Every module is opt-in: it looks for its own markup and exits
+   if the page does not have it, so one page's absence never breaks another's. */
 (function () {
   'use strict';
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var raf = window.requestAnimationFrame || function (f) { return setTimeout(f, 16); };
 
-  /* ---------- scroll reveal ---------- */
-  var rv = document.querySelectorAll('.rv');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = window.matchMedia('(hover: none)').matches;
+  var raf = window.requestAnimationFrame || function (f) { return setTimeout(f, 16); };
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+
+  /* ==================================================================
+     shared: focus trap, used by the drawer and every modal
+     ================================================================== */
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])';
+  function trap(container, onEscape) {
+    var last = document.activeElement;
+    function key(e) {
+      if (e.key === 'Escape') { e.preventDefault(); onEscape(); return; }
+      if (e.key !== 'Tab') return;
+      var f = $$(FOCUSABLE, container).filter(function (el) { return el.offsetParent !== null; });
+      if (!f.length) return;
+      var first = f[0], lastEl = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); lastEl.focus(); }
+      else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); first.focus(); }
+    }
+    document.addEventListener('keydown', key);
+    return function release() {
+      document.removeEventListener('keydown', key);
+      if (last && last.focus) last.focus();
+    };
+  }
+
+  /* scroll lock that compensates for the scrollbar, so the page does not jump */
+  var locks = 0;
+  function lock() {
+    if (locks++) return;
+    var w = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    if (w > 0) document.body.style.paddingRight = w + 'px';
+  }
+  function unlock() {
+    if (--locks > 0) return;
+    locks = 0;
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+  }
+
+  /* ==================================================================
+     scroll reveal
+     ================================================================== */
+  var rv = $$('.rv');
   /* Opt in from here, never from the inline head script. If this file fails to
      load, nothing is ever hidden, instead of the whole page staying invisible. */
   if (rv.length) document.documentElement.classList.add('rv-on');
@@ -20,8 +66,88 @@
     rv.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- mobile nav ---------- */
-  var burger = document.querySelector('.burger'), nav = document.querySelector('.nav');
+  /* ==================================================================
+     kinetic headings
+     Each rendered line gets its own clip so the lines rise in sequence.
+     Per line, never per letter: letters animating one at a time is the loudest
+     generated-site tell there is, and it wrecks text selection. Rebuilt on
+     resize, because the line breaks move.
+     ================================================================== */
+  function kinetic(el) {
+    var text = el.dataset.kinText || (el.dataset.kinText = el.textContent.trim());
+    el.textContent = text;
+    if (reduce) return;
+    var words = text.split(/\s+/);
+    el.textContent = '';
+    var probes = words.map(function (w, i) {
+      var s = document.createElement('span');
+      s.textContent = w + (i < words.length - 1 ? ' ' : '');
+      el.appendChild(s);
+      return s;
+    });
+    var lines = [], top = null;
+    probes.forEach(function (s) {
+      var t = Math.round(s.getBoundingClientRect().top);
+      if (top === null || Math.abs(t - top) > 4) { lines.push([]); top = t; }
+      lines[lines.length - 1].push(s.textContent);
+    });
+    el.textContent = '';
+    lines.forEach(function (w) {
+      var line = document.createElement('span');
+      line.className = 'kin-l';
+      var inner = document.createElement('span');
+      inner.textContent = w.join('').replace(/\s+$/, '');
+      line.appendChild(inner);
+      el.appendChild(line);
+    });
+  }
+  var kins = $$('.kin');
+  if (kins.length) {
+    kins.forEach(kinetic);
+    if ('IntersectionObserver' in window && !reduce) {
+      var kio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); kio.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      kins.forEach(function (el) { kio.observe(el); });
+    } else {
+      kins.forEach(function (el) { el.classList.add('in'); });
+    }
+    var kt, kw = window.innerWidth;
+    window.addEventListener('resize', function () {
+      if (window.innerWidth === kw) return;      /* iOS fires resize on scroll */
+      kw = window.innerWidth;
+      clearTimeout(kt);
+      kt = setTimeout(function () {
+        kins.forEach(function (el) { kinetic(el); el.classList.add('in'); });
+      }, 200);
+    });
+  }
+
+  /* ==================================================================
+     magnetic buttons
+     ================================================================== */
+  if (!reduce && !coarse) {
+    $$('.mag').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.classList.add('pulling');
+        el.style.setProperty('--mx', ((e.clientX - r.left - r.width / 2) / r.width * 14).toFixed(2) + 'px');
+        el.style.setProperty('--my', ((e.clientY - r.top - r.height / 2) / r.height * 14).toFixed(2) + 'px');
+      });
+      el.addEventListener('pointerleave', function () {
+        el.classList.remove('pulling');
+        el.style.setProperty('--mx', '0px');
+        el.style.setProperty('--my', '0px');
+      });
+    });
+  }
+
+  /* ==================================================================
+     mobile nav
+     ================================================================== */
+  var burger = $('.burger'), nav = $('.nav');
   if (burger && nav) {
     burger.addEventListener('click', function () {
       var open = nav.classList.toggle('open');
@@ -29,110 +155,574 @@
     });
   }
 
-  /* ---------- scroll progress ---------- */
-  var prog = document.querySelector('[data-prog]');
-
+  /* ==================================================================
+     scroll progress
+     ================================================================== */
+  var prog = $('[data-prog]');
   var ticking = false;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     raf(function () {
       ticking = false;
-
       if (prog) {
         var h = document.documentElement.scrollHeight - window.innerHeight;
         /* transform, not width: this runs every frame on a 10,000px document */
         prog.style.transform = 'scaleX(' + (h > 0 ? window.pageYOffset / h : 0) + ')';
       }
-
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 
-  /* ---------- drawing plate ---------- */
-  var plate = document.querySelector('[data-plate]');
-  var plateLabel = document.querySelector('[data-plate-label]');
-  var plateTabs = document.querySelectorAll('[data-src]');
+  /* ==================================================================
+     CART
+     State lives in memory only. There is no back end, and persisting a cart
+     across a reload would imply one. On Shopify this module talks to
+     /cart/*.js and everything below the fetch boundary is unchanged.
+     ================================================================== */
+  var CATALOGUE = {
+    'RB-001-WHT': { name: 'Water Flosser', variant: 'Soft White', price: 79,
+                    img: 'assets/img/prod-white.webp' },
+    'RB-NOZ-4':   { name: 'Nozzle set, four pack', variant: 'Mixed tips', price: 12,
+                    img: 'assets/img/dwg-top.svg' }
+  };
+  var FREE_SHIPPING_AT = 79;
+  var cart = [];
+
+  var drawer = $('#cart-drawer'), scrim = $('#cart-scrim'), shell = $('[data-drawer-shell]');
+  var cartBody = $('[data-cart-body]'), cartSub = $('[data-cart-sub]');
+  var cartBadge = $('[data-cart-badge]'), shipFill = $('[data-ship-fill]'), shipNote = $('[data-ship-note]');
+  var cartTrapRelease = null;
+
+  function money(n) { return '$' + (n % 1 ? n.toFixed(2) : n); }
+  function count() { return cart.reduce(function (a, i) { return a + i.qty; }, 0); }
+  function subtotal() {
+    return cart.reduce(function (a, i) { return a + CATALOGUE[i.sku].price * i.qty; }, 0);
+  }
+
+  function renderCart() {
+    var total = subtotal(), n = count();
+
+    if (cartBadge) {
+      cartBadge.textContent = n;
+      cartBadge.classList.toggle('on', n > 0);
+    }
+    var live = $('[data-cart-live]');
+    if (live) {
+      live.textContent = n === 0 ? 'Cart is empty'
+        : n + (n === 1 ? ' item' : ' items') + ' in cart, subtotal ' + money(total);
+    }
+    if (!cartBody) return;
+
+    if (!cart.length) {
+      cartBody.innerHTML = '<div class="cart-empty"><p>Nothing in the cart yet.</p></div>';
+    } else {
+      cartBody.innerHTML = cart.map(function (i) {
+        var p = CATALOGUE[i.sku];
+        return '<div class="citem" data-sku="' + i.sku + '">' +
+          '<div class="citem-fig"><img src="' + p.img + '" alt="" width="64" height="78"></div>' +
+          '<div><h3>' + p.name + '</h3><span class="citem-var">' + p.variant + '</span>' +
+            '<div class="citem-row">' +
+              '<span class="qty">' +
+                '<button type="button" data-step="-1" aria-label="Reduce quantity of ' + p.name + '"' +
+                  (i.qty <= 1 ? ' disabled' : '') + '>&minus;</button>' +
+                '<output aria-label="Quantity of ' + p.name + '">' + i.qty + '</output>' +
+                '<button type="button" data-step="1" aria-label="Increase quantity of ' + p.name + '">+</button>' +
+              '</span>' +
+              '<span class="citem-pr">' + money(p.price * i.qty) + '</span>' +
+            '</div>' +
+            '<button type="button" class="citem-rm" data-remove aria-label="Remove ' + p.name + ' from cart">Remove</button>' +
+          '</div></div>';
+      }).join('');
+    }
+
+    if (cartSub) cartSub.textContent = money(total);
+    if (shipFill) shipFill.style.setProperty('--p', Math.min(1, total / FREE_SHIPPING_AT).toFixed(3));
+    if (shipNote) {
+      shipNote.innerHTML = total >= FREE_SHIPPING_AT
+        ? 'Free shipping <b>unlocked</b>'
+        : 'Add <b>' + money(FREE_SHIPPING_AT - total) + '</b> for free shipping';
+    }
+    var up = $('[data-upsell]');
+    if (up) up.hidden = cart.some(function (i) { return i.sku === 'RB-NOZ-4'; });
+  }
+
+  function openCart() {
+    if (!drawer) return;
+    if (shell) shell.classList.add('on');
+    drawer.classList.add('on');
+    drawer.removeAttribute('aria-hidden');
+    if (scrim) scrim.classList.add('on');
+    lock();
+    var close = $('[data-cart-close]', drawer);
+    if (close) close.focus();
+    cartTrapRelease = trap(drawer, closeCart);
+  }
+  function closeCart() {
+    if (!drawer) return;
+    drawer.classList.remove('on');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (shell) window.setTimeout(function () {
+      if (!drawer.classList.contains('on')) shell.classList.remove('on');
+    }, 540);
+    if (scrim) scrim.classList.remove('on');
+    unlock();
+    if (cartTrapRelease) { cartTrapRelease(); cartTrapRelease = null; }
+  }
+
+  function addToCart(sku, qty) {
+    if (!CATALOGUE[sku]) return;
+    var line = cart.filter(function (i) { return i.sku === sku; })[0];
+    if (line) line.qty += (qty || 1); else cart.push({ sku: sku, qty: qty || 1 });
+    renderCart();
+    if (cartBadge) {
+      cartBadge.classList.remove('bump');
+      void cartBadge.offsetWidth;                 /* restart the keyframe */
+      cartBadge.classList.add('bump');
+    }
+    if (window.rbTrack) window.rbTrack('add_to_cart', {
+      currency: 'USD', value: CATALOGUE[sku].price * (qty || 1),
+      items: [{ item_id: sku, item_name: CATALOGUE[sku].name }]
+    });
+    openCart();
+  }
+
+  if (drawer) {
+    renderCart();
+    $$('[data-cart-open]').forEach(function (b) {
+      b.addEventListener('click', function (e) { e.preventDefault(); openCart(); });
+    });
+    $$('[data-cart-close]').forEach(function (b) { b.addEventListener('click', closeCart); });
+    if (scrim) scrim.addEventListener('click', closeCart);
+
+    if (cartBody) cartBody.addEventListener('click', function (e) {
+      var row = e.target.closest('.citem');
+      if (!row) return;
+      var sku = row.getAttribute('data-sku');
+      var line = cart.filter(function (i) { return i.sku === sku; })[0];
+      if (!line) return;
+      if (e.target.closest('[data-remove]')) {
+        cart = cart.filter(function (i) { return i.sku !== sku; });
+      } else {
+        var step = e.target.closest('[data-step]');
+        if (!step) return;
+        line.qty = Math.max(1, line.qty + parseInt(step.getAttribute('data-step'), 10));
+      }
+      renderCart();
+    });
+
+    var upAdd = $('[data-upsell-add]');
+    if (upAdd) upAdd.addEventListener('click', function () { addToCart('RB-NOZ-4', 1); });
+
+    var checkout = $('[data-checkout]');
+    if (checkout) checkout.addEventListener('click', function () {
+      if (!cart.length) return;
+      var note = $('[data-checkout-note]');
+      if (note) { note.hidden = false; if (note.focus) note.focus(); }
+      if (window.rbTrack) window.rbTrack('begin_checkout', { currency: 'USD', value: subtotal() });
+    });
+  }
+
+  /* every Add to cart on any page routes through here */
+  $$('[data-add]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var label = $('span', btn) || btn;
+      var was = label.textContent;
+      addToCart(btn.getAttribute('data-add'), 1);
+      btn.classList.add('added');
+      label.textContent = 'Added';
+      window.setTimeout(function () {
+        label.textContent = was;
+        btn.classList.remove('added');
+      }, 1500);
+    });
+  });
+
+  /* ==================================================================
+     hero: tilt and hotspots
+     ================================================================== */
+  var tiltHost = $('[data-tilt]');
+  if (tiltHost && !reduce && !coarse) {
+    var tiltTarget = $('.tilt', tiltHost) || tiltHost;
+    var tRaf = false, tx = 0, ty = 0;
+    tiltHost.addEventListener('pointermove', function (e) {
+      var r = tiltHost.getBoundingClientRect();
+      tx = ((e.clientY - r.top) / r.height - 0.5) * -6;
+      ty = ((e.clientX - r.left) / r.width - 0.5) * 8;
+      if (tRaf) return;
+      tRaf = true;
+      raf(function () {
+        tRaf = false;
+        tiltTarget.classList.add('tracking');
+        tiltTarget.style.setProperty('--rx', tx.toFixed(2) + 'deg');
+        tiltTarget.style.setProperty('--ry', ty.toFixed(2) + 'deg');
+      });
+    });
+    tiltHost.addEventListener('pointerleave', function () {
+      tiltTarget.classList.remove('tracking');
+      tiltTarget.style.setProperty('--rx', '0deg');
+      tiltTarget.style.setProperty('--ry', '0deg');
+    });
+  }
+
+  var spots = $$('.hs');
+  if (spots.length) {
+    var closeSpots = function (except) {
+      spots.forEach(function (s) { if (s !== except) s.setAttribute('aria-expanded', 'false'); });
+    };
+    spots.forEach(function (s) {
+      s.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = s.getAttribute('aria-expanded') === 'true';
+        closeSpots(s);
+        s.setAttribute('aria-expanded', open ? 'false' : 'true');
+      });
+      s.addEventListener('mouseenter', function () { closeSpots(s); s.setAttribute('aria-expanded', 'true'); });
+      s.addEventListener('mouseleave', function () { s.setAttribute('aria-expanded', 'false'); });
+      s.addEventListener('focus', function () { closeSpots(s); s.setAttribute('aria-expanded', 'true'); });
+      s.addEventListener('blur', function () { s.setAttribute('aria-expanded', 'false'); });
+    });
+    document.addEventListener('click', function () { closeSpots(null); });
+  }
+
+  /* ==================================================================
+     modals
+     ================================================================== */
+  var modalRelease = null, openModalEl = null;
+  function showModal(m) {
+    if (!m) return;
+    openModalEl = m;
+    m.classList.add('on');
+    m.removeAttribute('aria-hidden');
+    lock();
+    var f = $(FOCUSABLE, m);
+    if (f) f.focus();
+    modalRelease = trap(m, hideModal);
+  }
+  function hideModal() {
+    if (!openModalEl) return;
+    openModalEl.classList.remove('on');
+    openModalEl.setAttribute('aria-hidden', 'true');
+    openModalEl = null;
+    unlock();
+    if (modalRelease) { modalRelease(); modalRelease = null; }
+  }
+  $$('.modal').forEach(function (m) {
+    m.addEventListener('click', function (e) { if (e.target === m) hideModal(); });
+    $$('[data-modal-close]', m).forEach(function (b) { b.addEventListener('click', hideModal); });
+  });
+  $$('[data-modal-open]').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      showModal($('#' + b.getAttribute('data-modal-open')));
+    });
+  });
+
+  /* ==================================================================
+     shelf teasers
+     ================================================================== */
+  var shelves = $$('[data-shelf]');
+  shelves.forEach(function (row) {
+    var toggle = $('.shelf-t', row);
+    if (!toggle) return;
+    toggle.addEventListener('click', function () {
+      var open = row.classList.contains('open');
+      shelves.forEach(function (r) {
+        r.classList.remove('open');
+        var t = $('.shelf-t', r);
+        if (t) t.setAttribute('aria-expanded', 'false');
+      });
+      row.classList.toggle('open', !open);
+      toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+
+  /* ==================================================================
+     PDP gallery: views, zoom lens, lightbox
+     ================================================================== */
+  var plate = $('[data-plate]');
+  var plateLabel = $('[data-plate-label]');
+  var plateTabs = $$('[data-src]');
   if (plate && plateTabs.length) {
-    /* preload the other elevations so switching never shows an empty stage */
+    /* preload the other views so switching never shows an empty stage */
     plateTabs.forEach(function (t) {
       var i = new Image();
       i.src = 'assets/img/' + t.getAttribute('data-src');
     });
     plateTabs.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        if (btn.getAttribute('aria-selected') === 'true') return;
-        plateTabs.forEach(function (t) {
-          t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
-        });
+        var file = btn.getAttribute('data-src');
+        var src = 'assets/img/' + file;
         var label = btn.getAttribute('data-label');
-        var src = 'assets/img/' + btn.getAttribute('data-src');
+        /* tabs and thumbnails both carry data-src, so select by value, not node */
+        plateTabs.forEach(function (t) {
+          t.setAttribute('aria-selected', t.getAttribute('data-src') === file ? 'true' : 'false');
+        });
         var alt = 'reboot Water Flosser, ' + label.toLowerCase();
         if (plateLabel) plateLabel.textContent = label;
         if (reduce) { plate.src = src; plate.alt = alt; return; }
-        var stage = plate.parentNode;
-        stage.classList.add('swap');
+        var st = plate.parentNode;
+        st.classList.add('swap');
         window.setTimeout(function () {
           plate.src = src; plate.alt = alt;
-          stage.classList.remove('swap');
+          st.classList.remove('swap');
         }, 200);
       });
     });
+
+    /* zoom lens: a background layer at 2.2x, positioned by the pointer */
+    var stage = plate.closest('.plate-stage');
+    var lens = stage && $('.lens', stage);
+    if (stage && lens && !coarse && !reduce) {
+      stage.addEventListener('pointerenter', function () {
+        lens.style.backgroundImage = 'url("' + (plate.currentSrc || plate.src) + '")';
+        stage.classList.add('lensing');
+      });
+      stage.addEventListener('pointermove', function (e) {
+        var r = stage.getBoundingClientRect();
+        var zw = r.width * 2.2, zh = r.height * 2.2;
+        lens.style.setProperty('--zw', zw + 'px');
+        lens.style.setProperty('--zh', zh + 'px');
+        lens.style.setProperty('--bx', (((e.clientX - r.left) / r.width) * (r.width - zw)) + 'px');
+        lens.style.setProperty('--by', (((e.clientY - r.top) / r.height) * (r.height - zh)) + 'px');
+      });
+      stage.addEventListener('pointerleave', function () { stage.classList.remove('lensing'); });
+    }
+
+    var lb = $('#lightbox'), lbImg = lb && $('[data-lightbox-img]', lb);
+    var showLightbox = function () {
+      if (!lb || !lbImg) return;
+      lbImg.src = plate.currentSrc || plate.src;
+      lbImg.alt = plate.alt;
+      showModal(lb);
+    };
+    if (stage) stage.addEventListener('click', showLightbox);
+    var lbBtn = $('[data-lightbox-open]');
+    if (lbBtn) lbBtn.addEventListener('click', function (e) { e.preventDefault(); showLightbox(); });
   }
 
-  /* ---------- colourway ----------
-     Picking a colour should show that colour. The swatch drives the gallery and
-     the gallery tab follows, so the two controls never disagree. */
-  function showView(file) {
-    for (var i = 0; i < plateTabs.length; i++) {
-      if (plateTabs[i].getAttribute('data-src') === file) { plateTabs[i].click(); return; }
-    }
-  }
-  var swatches = document.querySelectorAll('[data-colour]');
+  /* colourway swatches, for when there is more than one to choose */
+  var swatches = $$('[data-colour]');
   swatches.forEach(function (btn) {
     btn.addEventListener('click', function () {
       swatches.forEach(function (s) { s.setAttribute('aria-pressed', s === btn ? 'true' : 'false'); });
-      document.querySelectorAll('[data-colour-label]').forEach(function (l) {
-        l.textContent = btn.getAttribute('data-name');
-      });
-      showView(btn.getAttribute('data-colour') === 'white' ? 'prod-white.webp' : 'prod-black.webp');
+      $$('[data-colour-label]').forEach(function (l) { l.textContent = btn.getAttribute('data-name'); });
     });
   });
 
-
-  /* ---------- diagnosis ----------
-     Self-selection, not a filter. Every answer is already in the box; the choice
-     only decides where the reader starts. Nothing is hidden behind it. */
-  var diagTabs = document.querySelectorAll('[data-case]');
-  var diagSets = document.querySelectorAll('.diag-set');
-  if (diagTabs.length && diagSets.length) {
-    diagTabs.forEach(function (btn) {
-      if (btn.tagName !== 'BUTTON') return;
-      btn.addEventListener('click', function () {
-        var key = btn.getAttribute('data-case');
-        diagTabs.forEach(function (t) {
-          if (t.tagName === 'BUTTON') t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
-        });
-        diagSets.forEach(function (set) {
-          set.hidden = set.getAttribute('data-case') !== key;
-        });
+  /* ==================================================================
+     CAD inspector
+     Hovering a measurement lights the annotation that marks it on the drawing,
+     and switches to the elevation that shows it. The annotations are our own
+     overlay rather than paths inside the trace, because the traced CAD has no
+     semantic structure to target.
+     ================================================================== */
+  var insp = $('[data-inspector]');
+  if (insp) {
+    var rows = $$('.insp-row', insp);
+    var marks = $$('[data-mark]', insp);
+    var els = $$('.insp-el', insp);
+    var stageCap = $('[data-insp-cap]', insp);
+    var light = function (key) {
+      rows.forEach(function (r) { r.classList.toggle('on', !!key && r.getAttribute('data-spec') === key); });
+      marks.forEach(function (m) { m.classList.toggle('on', !!key && m.getAttribute('data-mark') === key); });
+      if (!key) return;
+      var row = rows.filter(function (r) { return r.getAttribute('data-spec') === key; })[0];
+      var view = row && row.getAttribute('data-view');
+      if (!view) return;
+      els.forEach(function (im) {
+        var on = im.getAttribute('data-el') === view;
+        im.classList.toggle('on', on);
+        if (on) im.removeAttribute('aria-hidden'); else im.setAttribute('aria-hidden', 'true');
       });
-      /* left/right arrows move between choices, as a tablist should */
-      btn.addEventListener('keydown', function (e) {
-        var list = [].filter.call(diagTabs, function (t) { return t.tagName === 'BUTTON'; });
-        var i = list.indexOf(btn), n = null;
-        if (e.key === 'ArrowRight') n = list[(i + 1) % list.length];
-        if (e.key === 'ArrowLeft') n = list[(i - 1 + list.length) % list.length];
+      if (stageCap) stageCap.textContent = row.getAttribute('data-view-label') || '';
+    };
+    /* Hover previews, click pins. Without the pin a stray mouseenter — the page
+       is still gliding after a click scrolls a row into view — silently
+       overrides the choice the reader just made. */
+    var pinned = null;
+    rows.forEach(function (r) {
+      var key = r.getAttribute('data-spec');
+      r.addEventListener('mouseenter', function () { if (!pinned) light(key); });
+      r.addEventListener('focus', function () { pinned = key; light(key); });
+      r.addEventListener('click', function () { pinned = key; light(key); });
+    });
+    insp.addEventListener('mouseleave', function () { pinned = null; light(null); });
+  }
+
+  /* ==================================================================
+     pressure simulator
+     ================================================================== */
+  var sim = $('[data-sim]');
+  if (sim) {
+    var MODES = {
+      soft: { psi: '40', rate: 1.4, db: 2, loud: '~58 dB',
+        who: 'Where to start, and where to stay while your gums settle. Also the mode to use if anything feels tender, or if a dentist has asked you to clean around a new crown or implant.' },
+      standard: { psi: '70', rate: 0.95, db: 3, loud: '~65 dB',
+        who: 'Daily cleaning once the first fortnight is behind you. Most people end up here and stop thinking about it.' },
+      high: { psi: '120', rate: 0.6, db: 5, loud: '~65 dB',
+        who: 'The most pressure the pump gives. Useful around brackets, bridges and behind the last molar. Unnecessary everywhere else, and no better for being stronger.' },
+      pulse: { psi: '40–120', rate: 0.42, db: 4, loud: '~65 dB',
+        who: 'Alternates strong and weak along the gumline rather than holding one pressure. It is a massage setting rather than a cleaning one.' }
+    };
+    var simBtns = $$('[data-mode]', sim);
+    var psiOut = $('[data-sim-psi]', sim), whoOut = $('[data-sim-who]', sim);
+    var jets = $$('.jet', sim), bars = $$('.db i', sim), dbOut = $('[data-sim-db]', sim);
+    var setMode = function (key) {
+      var m = MODES[key];
+      if (!m) return;
+      simBtns.forEach(function (b) {
+        b.setAttribute('aria-selected', b.getAttribute('data-mode') === key ? 'true' : 'false');
+      });
+      if (psiOut) psiOut.textContent = m.psi;
+      if (whoOut) {
+        whoOut.textContent = m.who;
+        whoOut.classList.remove('match-swap'); void whoOut.offsetWidth; whoOut.classList.add('match-swap');
+      }
+      jets.forEach(function (j) { j.style.setProperty('--rate', m.rate + 's'); });
+      bars.forEach(function (b, i) { b.classList.toggle('on', i < m.db); });
+      if (dbOut) dbOut.textContent = m.loud;
+    };
+    simBtns.forEach(function (b) {
+      b.addEventListener('click', function () { setMode(b.getAttribute('data-mode')); });
+      b.addEventListener('keydown', function (e) {
+        var i = simBtns.indexOf(b), n = null;
+        if (e.key === 'ArrowRight') n = simBtns[(i + 1) % simBtns.length];
+        if (e.key === 'ArrowLeft') n = simBtns[(i - 1 + simBtns.length) % simBtns.length];
         if (n) { e.preventDefault(); n.focus(); n.click(); }
       });
     });
+    setMode('soft');
   }
 
-  /* ---------- sticky buy bar ---------- */
-  var sticky = document.querySelector('.stickybuy');
-  var anchor = document.querySelector('[data-buy-anchor]');
+  /* ==================================================================
+     diagnosis, and the setup it recommends
+     Self-selection, not a filter. Every answer is already in the box; the
+     choice only decides where the reader starts. Nothing is hidden behind it.
+     ================================================================== */
+  var diagTabs = $$('[data-case]').filter(function (t) { return t.tagName === 'BUTTON'; });
+  var diagSets = $$('.diag-set');
+  if (diagTabs.length && diagSets.length) {
+    var matchTip = $('[data-match-tip]'), matchMode = $('[data-match-mode]'), matchNote = $('[data-match-note]');
+    var pick = function (btn) {
+      var key = btn.getAttribute('data-case');
+      diagTabs.forEach(function (t) { t.setAttribute('aria-selected', t === btn ? 'true' : 'false'); });
+      diagSets.forEach(function (set) { set.hidden = set.getAttribute('data-case') !== key; });
+      var live = diagSets.filter(function (s) { return !s.hidden; })[0];
+      if (!live || !matchTip) return;
+      var cells = $$('.diag-cell b', live);
+      var tip = cells[0] ? cells[0].textContent : '', mode = cells[1] ? cells[1].textContent : '';
+      matchTip.textContent = tip;
+      if (matchMode) matchMode.textContent = mode;
+      if (matchNote) {
+        matchNote.textContent = 'Fit the ' + tip.toLowerCase() + ' tip and start on ' +
+          mode.toLowerCase() + '. Both are already in the box, so this only tells you where to begin.';
+      }
+      var card = $('[data-match]');
+      if (card) { card.classList.remove('match-swap'); void card.offsetWidth; card.classList.add('match-swap'); }
+    };
+    diagTabs.forEach(function (btn) {
+      btn.addEventListener('click', function () { pick(btn); });
+      /* left/right arrows move between choices, as a tablist should */
+      btn.addEventListener('keydown', function (e) {
+        var i = diagTabs.indexOf(btn), n = null;
+        if (e.key === 'ArrowRight') n = diagTabs[(i + 1) % diagTabs.length];
+        if (e.key === 'ArrowLeft') n = diagTabs[(i - 1 + diagTabs.length) % diagTabs.length];
+        if (n) { e.preventDefault(); n.focus(); n.click(); }
+      });
+    });
+    var first = diagTabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0];
+    if (first) pick(first);
+  }
+
+  /* ==================================================================
+     reviews: filter, search, helpfulness
+     ================================================================== */
+  var revRoot = $('[data-reviews]');
+  if (revRoot) {
+    var cards = $$('.review', revRoot);
+    var chips = $$('.chip', revRoot);
+    var search = $('[data-rev-search]', revRoot);
+    var counter = $('[data-rev-count]', revRoot);
+    var none = $('[data-rev-none]', revRoot);
+    var filter = 'all';
+    var apply = function () {
+      var q = ((search && search.value) || '').trim().toLowerCase();
+      var shown = 0;
+      cards.forEach(function (c) {
+        var stars = parseInt(c.getAttribute('data-stars'), 10);
+        var ok = filter === 'all' ||
+                 (filter === 'critical' ? stars <= 3 : stars === parseInt(filter, 10));
+        if (ok && q) ok = c.textContent.toLowerCase().indexOf(q) > -1;
+        c.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (counter) counter.textContent = shown + (shown === 1 ? ' review' : ' reviews') + ' shown';
+      if (none) none.hidden = shown > 0;
+    };
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        filter = c.getAttribute('data-filter');
+        chips.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
+        apply();
+      });
+    });
+    if (search) {
+      var st;
+      search.addEventListener('input', function () {
+        clearTimeout(st);
+        st = setTimeout(function () {
+          apply();
+          var q = search.value.trim();
+          if (q.length > 2 && window.rbTrack) window.rbTrack('search', { search_term: q });
+        }, 220);
+      });
+    }
+    $$('[data-helpful]', revRoot).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var on = b.getAttribute('aria-pressed') === 'true';
+        var n = parseInt(b.getAttribute('data-helpful'), 10);
+        b.setAttribute('aria-pressed', on ? 'false' : 'true');
+        var out = $('[data-helpful-n]', b);
+        if (out) out.textContent = on ? n : n + 1;
+      });
+    });
+    apply();
+  }
+
+  /* ==================================================================
+     FAQ: animate the close as well as the open
+     <details> drops its content from the box tree the moment open is removed,
+     so a closing transition has to run while the element is still open.
+     ================================================================== */
+  $$('.faq details').forEach(function (d) {
+    var sum = $('summary', d);
+    var ans = $('.ans', d);
+    if (!sum || !ans || reduce) return;
+    sum.addEventListener('click', function (e) {
+      if (!d.open) return;                        /* opening: let the browser do it */
+      e.preventDefault();
+      d.classList.add('closing');
+      var done = function () {
+        ans.removeEventListener('transitionend', done);
+        clearTimeout(guard);
+        d.classList.remove('closing');
+        d.open = false;
+      };
+      var guard = setTimeout(done, 500);          /* if the transition never fires */
+      ans.addEventListener('transitionend', done);
+    });
+  });
+
+  /* ==================================================================
+     sticky buy bar
+     ================================================================== */
+  var sticky = $('.stickybuy');
+  var anchor = $('[data-buy-anchor]');
   if (sticky && anchor && 'IntersectionObserver' in window) {
     document.body.classList.add('has-sticky');
     new IntersectionObserver(function (es) {
@@ -140,12 +730,46 @@
     }, { rootMargin: '-90px 0px 0px 0px' }).observe(anchor);
   }
 
-  /* ---------- prototype forms ---------- */
-  document.querySelectorAll('form[data-demo]').forEach(function (f) {
+  /* ==================================================================
+     forms
+     Validation, a busy state, then a success card. Nothing is sent anywhere,
+     and the success copy says so rather than implying an email is on its way.
+     ================================================================== */
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  $$('form[data-demo]').forEach(function (f) {
+    var input = $('input[type=email]', f);
+    var err = $('[data-nl-err]', f);
+    if (input) {
+      input.addEventListener('input', function () {
+        if (input.getAttribute('aria-invalid') !== 'true') return;
+        if (EMAIL.test(input.value.trim())) {
+          input.setAttribute('aria-invalid', 'false');
+          if (err) err.hidden = true;
+        }
+      });
+    }
     f.addEventListener('submit', function (e) {
       e.preventDefault();
-      var note = f.querySelector('[data-demo-note]');
-      if (note) { note.hidden = false; if (note.focus) note.focus(); }
+      if (input) {
+        if (!EMAIL.test(input.value.trim())) {
+          input.setAttribute('aria-invalid', 'true');
+          if (err) { err.hidden = false; err.textContent = 'That does not look like an email address.'; }
+          input.focus();
+          return;
+        }
+        input.setAttribute('aria-invalid', 'false');
+        if (err) err.hidden = true;
+      }
+      f.classList.add('busy');
+      var btn = $('button', f);
+      if (btn) btn.disabled = true;
+      window.setTimeout(function () {
+        f.classList.remove('busy');
+        if (btn) btn.disabled = false;
+        var note = $('[data-demo-note]', f);
+        if (note) { note.hidden = false; if (note.focus) note.focus(); }
+        if (window.rbTrack) window.rbTrack('sign_up', { method: 'email' });
+      }, 700);
     });
   });
 })();
