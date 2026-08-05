@@ -26,6 +26,11 @@
   --teal:#09D0DC;          /* Teal Blue    9.33:1 on ink */
   --orange:#F97400;        /* Strong Orange 6.35:1 on ink */
   --white:#FFFFFF;
+  /* Ink that stays ink. --ink is rebound to white inside .light and .paper so
+     the sixty-odd rules written for a pale ground keep working; anything that
+     genuinely sits ON a white surface must not follow it, or it turns
+     white-on-white. */
+  --on-white:#15191A;
   --on-dark:rgba(255,255,255,.68);
   --on-dark-dim:rgba(255,255,255,.44);
   --line-dark:rgba(255,255,255,.12);
@@ -87,7 +92,7 @@ ul{margin:0;padding:0;list-style:none}
 ::selection{background:var(--blue);color:var(--white)}
 
 :focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:2px}
-.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--white);color:var(--ink);padding:.75rem 1.25rem;font-weight:500}
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--white);color:var(--on-white);padding:.75rem 1.25rem;font-weight:500}
 .skip:focus{left:.5rem;top:.5rem}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
@@ -188,7 +193,7 @@ ul{margin:0;padding:0;list-style:none}
   transform:scaleY(0);transform-origin:bottom;transition:transform .38s var(--ease-io);
 }
 .btn:hover::after,.btn:focus-visible::after{transform:scaleY(1)}
-.btn-primary{background:var(--white);color:var(--ink)}
+.btn-primary{background:var(--white);color:var(--on-white)}
 .btn-primary:hover,.btn-primary:focus-visible{color:var(--white)}
 .btn-ghost{border-color:var(--line-dark);color:var(--white)}
 .btn-ghost:hover,.btn-ghost:focus-visible{color:var(--white);border-color:var(--blue)}
@@ -392,7 +397,7 @@ ul{margin:0;padding:0;list-style:none}
   transition:color .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease)}
 .diag-pick button:hover{color:var(--white);border-color:var(--on-dark-dim)}
 .diag-pick button[aria-selected=true]{background:var(--white);border-color:var(--white);
-  color:var(--ink);font-weight:500}
+  color:var(--on-white);font-weight:500}
 
 .diag-out{margin-top:var(--s6);border-top:1px solid var(--line-dark);padding-top:var(--s5)}
 .diag-set{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--gut)}
@@ -508,6 +513,21 @@ ul{margin:0;padding:0;list-style:none}
 .ftr a{text-decoration:none;font-size:var(--f-sm);color:var(--on-dark);transition:color .25s}
 .ftr a:hover{color:var(--blue)}
 .ftr-brand img{height:22px;margin-bottom:var(--s2)}
+/* Eight pages carry .ftr-grid and three carry .grid. .ftr-grid had no rule at
+   all, so on those eight the entire footer collapsed into one stacked column.
+   Same twelve-column layout as the others, weighted left so the link columns
+   sit beside the brand instead of floating against the right margin. */
+.ftr-grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--s4) var(--gut)}
+.ftr-grid>.ftr-brand{grid-column:1/span 4}
+.ftr-grid>*:nth-child(2){grid-column:5/span 2}
+.ftr-grid>*:nth-child(3){grid-column:7/span 2}
+.ftr-grid>*:nth-child(4){grid-column:9/span 2}
+@media(max-width:760px){
+  .ftr-grid>.ftr-brand{grid-column:1/span 12}
+  .ftr-grid>*:nth-child(2){grid-column:1/span 6}
+  .ftr-grid>*:nth-child(3){grid-column:7/span 6}
+  .ftr-grid>*:nth-child(4){grid-column:1/span 6}
+}
 .ftr-btm{display:flex;justify-content:space-between;gap:var(--s3);flex-wrap:wrap;
   margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--line-dark);
   font-size:var(--f-xs);color:var(--on-dark-dim)}
@@ -1421,7 +1441,7 @@ body::after{
 .nl.busy button{color:transparent}
 .nl.busy button::before{
   content:"";position:absolute;inset:0;margin:auto;width:17px;height:17px;z-index:2;
-  border:2px solid rgba(0,0,0,.25);border-top-color:var(--ink);border-radius:50%;
+  border:2px solid rgba(0,0,0,.25);border-top-color:var(--on-white);border-radius:50%;
   animation:spin .7s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
