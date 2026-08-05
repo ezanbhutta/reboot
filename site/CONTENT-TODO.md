@@ -3,6 +3,19 @@
 Everything below is a placeholder chosen so the design can be evaluated. None of it
 is confirmed. Each item lists exactly where it appears so it can be swapped quickly.
 
+## The typefaces no longer match the brand book
+
+The brand book's typography page specifies a geometric sans as the primary
+face (it names Nohemi in the hierarchy table and Aloevera on the specimen) with
+Azeret Mono secondary. On instruction, the site is now set in serif: **Fraunces**
+for display and **Newsreader** for text, both variable fonts with a real optical
+size axis, subset to the 117 glyphs the site renders. Azeret Mono is unchanged
+and still carries every label, specification and figure.
+
+Both new faces are SIL Open Font License, so redistribution and self-hosting are
+fine. The brand book needs updating to match, or the site needs reverting — they
+currently disagree and whichever is wrong should be fixed rather than left.
+
 ## Invented in this prototype, needs the client's word
 
 | Item | Where it came from | Appears in |
