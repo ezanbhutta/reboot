@@ -69,29 +69,75 @@
     </div>
   </section>
 
-  <section class="marq" aria-label="What we can prove">
-    <div class="marq-in">
-      <div class="marq-set">
-        <span>300 ml tank</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Forty to 120 PSI</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Four pressure modes</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Five nozzles in the box</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>IPX7, shower-safe</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Ninety second timer</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>USB-C, two to three hours</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-      </div>
-      <div class="marq-set" aria-hidden="true">
-        <span>300 ml tank</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Forty to 120 PSI</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Four pressure modes</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Five nozzles in the box</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>IPX7, shower-safe</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>Ninety second timer</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
-        <span>USB-C, two to three hours</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+
+  <section class="band">
+    <div class="wrap">
+      <div class="grid">
+        <div class="c7 s1 rv">
+          <q>Most water flossers are abandoned within a month.</q>
+          <p class="attr">And almost always for the same reason</p>
+        </div>
       </div>
     </div>
   </section>
+  <!-- DIAGNOSIS. Three lists of the same information sorted three ways became
+       one question with a personal answer. -->
+  <section class="sec diag" id="diagnosis">
+    <div class="wrap">
+      <div class="grid">
+        <div class="c7 s1 rv">
+          <div class="eyeline"><span>Start here</span></div>
+          <h2 class="t-2xl optical">Which of these is you?</h2>
+          <p class="sub">Pick one. We will tell you which tip to fit, which mode to start on, and what the first fortnight actually looks like.</p>
+        </div>
+      </div>
 
+      <div class="diag-pick" role="tablist" aria-label="Your situation">
+          <button type="button" role="tab" id="dg-braces" aria-selected="true" aria-controls="diag-out" data-case="braces">Braces or a retainer</button>
+          <button type="button" role="tab" id="dg-implants" aria-selected="false" aria-controls="diag-out" data-case="implants">Implants or crowns</button>
+          <button type="button" role="tab" id="dg-pockets" aria-selected="false" aria-controls="diag-out" data-case="pockets">Gum pockets</button>
+          <button type="button" role="tab" id="dg-recession" aria-selected="false" aria-controls="diag-out" data-case="recession">Receding gums</button>
+          <button type="button" role="tab" id="dg-tight" aria-selected="false" aria-controls="diag-out" data-case="tight">Teeth packed tightly</button>
+          <button type="button" role="tab" id="dg-wisdom" aria-selected="false" aria-controls="diag-out" data-case="wisdom">Wisdom teeth</button>
+          <button type="button" role="tab" id="dg-unsure" aria-selected="false" aria-controls="diag-out" data-case="unsure">Not sure yet</button>
+      </div>
+
+      <div class="diag-out" id="diag-out">
+          <div class="diag-set" data-case="braces">
+            <div class="diag-cell"><span>Your tip</span><b>Orthodontic</b><p>Brackets, bands and bonded wires trap what floss cannot get around.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Standard</b><p>Expect visible debris in the first few days. That is the backlog clearing, not a problem.</p></div>
+          </div>
+          <div class="diag-set" data-case="implants" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Margins and abutments need cleaning without anything abrasive touching them.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft</b><p>Nothing should feel harsh. If it does, you are on the wrong mode.</p></div>
+          </div>
+          <div class="diag-set" data-case="pockets" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Where a dentist has measured a pocket and asked you to clean below the gumline.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft, then High</b><p>Two weeks on Soft before you go anywhere near High. Bleeding early is normal and settles.</p></div>
+          </div>
+          <div class="diag-set" data-case="recession" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Brushing harder is what caused it. More pressure is not the answer here either.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft</b><p>Stay on Soft indefinitely. There is no prize for moving up.</p></div>
+          </div>
+          <div class="diag-set" data-case="tight" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>Floss shreds or will not pass. Water goes where the string cannot.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Standard</b><p>You may see less come out than you expected. Judge it by how your gums look, not by debris.</p></div>
+          </div>
+          <div class="diag-set" data-case="wisdom" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>The gap behind the last molar that nothing else reaches.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>High</b><p>Forty seconds, and most of it spent at the back. This is the one that changes fastest.</p></div>
+          </div>
+          <div class="diag-set" data-case="unsure" hidden>
+            <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>Most people start here and never need anything else.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft</b><p>Soft for a fortnight. If your gums stop bleeding, that is the product working.</p></div>
+          </div>
+      </div>
+
+      <div class="grid">
+        <div class="c6 s1"><p class="t-sm dim">All five nozzles and all four modes are in the box either way. This just tells you where to start.</p></div>
+      </div>
+    </div>
+  </section>
   <section class="sec sec-air-b light" id="claim">
     <div class="wrap">
       <div class="grid rv">
@@ -114,16 +160,6 @@
     </div>
   </section>
 
-  <section class="band">
-    <div class="wrap">
-      <div class="grid">
-        <div class="c7 s1 rv">
-          <q>Most water flossers are abandoned within a month.</q>
-          <p class="attr">And almost always for the same reason</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="sec paper" id="technique">
     <div class="wrap bleed">
@@ -214,6 +250,28 @@
 
   <!-- THE OBJECT: one quiet full-width moment, the way the reference brands give
        the product a page to itself between two blocks of argument -->
+  <section class="marq" aria-label="What we can prove">
+    <div class="marq-in">
+      <div class="marq-set">
+        <span>300 ml tank</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Forty to 120 PSI</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Four pressure modes</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Five nozzles in the box</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>IPX7, shower-safe</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Ninety second timer</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>USB-C, two to three hours</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+      </div>
+      <div class="marq-set" aria-hidden="true">
+        <span>300 ml tank</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Forty to 120 PSI</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Four pressure modes</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Five nozzles in the box</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>IPX7, shower-safe</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>Ninety second timer</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+        <span>USB-C, two to three hours</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+      </div>
+    </div>
+  </section>
   <section class="moment sec-air" aria-labelledby="objh">
     <div class="wrap bleed">
       <h2 id="objh" class="vh">The object</h2>
@@ -228,29 +286,6 @@
     </div>
   </section>
 
-  <section class="sec sec-tight">
-    <div class="wrap">
-      <div class="grid rv">
-        <div class="c8 s1"><div class="eyeline"><span>Who it is for</span></div></div>
-      </div>
-      <div class="grid" style="margin-top:var(--s5)">
-        <div class="c8 s1 rv"><h2 class="t-quiet optical">If any of these are you, the difference shows within a week.</h2></div>
-      </div>
-      <div class="cases" style="margin-top:var(--s5);border-top:0">
-        <div class="case rv"><h3>Braces and aligners</h3><span class="case-tip">Orthodontic</span><p>Brackets and wires trap what floss cannot get around.</p></div>
-        <div class="case rv"><h3>Permanent retainers</h3><span class="case-tip">Orthodontic</span><p>A bonded wire makes conventional flossing genuinely difficult.</p></div>
-        <div class="case rv"><h3>Implants and crowns</h3><span class="case-tip">Periodontal</span><p>Margins and abutments that need cleaning without abrasion.</p></div>
-        <div class="case rv"><h3>Gum pockets</h3><span class="case-tip">Periodontal</span><p>Where a periodontist has asked you to clean below the gumline.</p></div>
-        <div class="case rv"><h3>Receding gums</h3><span class="case-tip">Periodontal</span><p>When brushing harder is doing more harm than good.</p></div>
-        <div class="case rv"><h3>Tight contacts</h3><span class="case-tip">Standard jet</span><p>Teeth packed closely enough that floss shreds or will not pass.</p></div>
-        <div class="case rv"><h3>Limited dexterity</h3><span class="case-tip">Standard jet</span><p>Arthritis, injury, or anything that makes floss awkward to handle.</p></div>
-        <div class="case rv"><h3>Wisdom teeth</h3><span class="case-tip">Standard jet</span><p>The gap behind the last molar that nothing else reaches.</p></div>
-      </div>
-      <div class="grid" style="margin-top:var(--s4)">
-        <div class="c6 s1"><p class="t-sm dim">If none of these apply and you floss consistently without difficulty, you may not need one. We would rather say so.</p></div>
-      </div>
-    </div>
-  </section>
 
   <section class="sec light">
     <div class="wrap">
