@@ -1091,8 +1091,15 @@ body::after{
    most recognisable generated-site tell, and it wrecks selection and reading
    order. The line masks are set by script; without it the text is just visible. */
 .kin{display:block}
-.rv-on .kin-l{display:block;overflow:hidden}
-.rv-on .kin-l>span{display:block;transform:translateY(105%);
+/* The mask has to be taller than the ink, not taller than the line box. At
+   110% leading Poppins' baseline sits 76px into a 93px line, and its descender
+   runs 23px below that: overflow:hidden was cutting 6px off the foot of every
+   g, p and y. The padding extends the clip downward and the equal negative
+   margin puts the layout back exactly where it was, so nothing else moves.
+   The rest position then has to clear the taller mask, hence 125% rather
+   than 105%. */
+.rv-on .kin-l{display:block;overflow:hidden;padding-bottom:.16em;margin-bottom:-.16em}
+.rv-on .kin-l>span{display:block;transform:translateY(125%);
   transition:transform .82s cubic-bezier(.16,1,.3,1)}
 .rv-on .kin.in .kin-l>span{transform:translateY(0)}
 .rv-on .kin.in .kin-l:nth-child(2)>span{transition-delay:.07s}
