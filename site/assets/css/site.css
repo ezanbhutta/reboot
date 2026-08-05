@@ -811,3 +811,140 @@ ul{margin:0;padding:0;list-style:none}
 .ftr a{display:inline-block;padding-block:0.25rem}
 .prose .toc a{display:inline-block;padding-block:0.25rem}
 .tlink{min-height:24px}
+
+/* ============ CATALOGUE ============
+   The store's permanent shelf structure, taken from the brand's own mission
+   statement: live, move, work, connect. Built as a ledger rather than a card
+   grid on purpose — four identical cards would claim four equal shelves, and
+   right now one has a product on it and three do not. Row height follows what
+   is actually on the row, so the asymmetry is the truth rather than a style. */
+.cat{border-top:1px solid var(--line-dark)}
+.light .cat,.paper .cat{border-color:var(--line-light)}
+.cat-row{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));
+  gap:var(--gut);padding-block:clamp(1.75rem,3.2vw,2.75rem);
+  border-bottom:1px solid var(--line-dark);align-items:start}
+.light .cat-row,.paper .cat-row{border-color:var(--line-light)}
+.cat-ix{grid-column:1/span 1;font-family:Azeret,ui-monospace,monospace;
+  font-size:var(--f-xs);letter-spacing:.14em;color:var(--acc,var(--blue))}
+.cat-nm{grid-column:2/span 4;margin:0;font-size:clamp(1.5rem,1.1rem + 1.9vw,2.6rem);
+  letter-spacing:-.03em;line-height:1}
+.cat-sc{grid-column:6/span 4;font-size:var(--f-sm);line-height:1.6;color:var(--on-dark)}
+.light .cat-sc,.paper .cat-sc{color:var(--ink-soft)}
+.cat-st{grid-column:11/span 2;justify-self:end;text-align:right;
+  font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--on-dark-dim)}
+.light .cat-st,.paper .cat-st{color:var(--ink-soft)}
+.cat-st b{display:block;font-weight:500;color:var(--acc,var(--blue))}
+/* the shelf that has stock carries it inline; the empty shelves stay one line */
+.cat-stock{grid-column:2/span 9;margin-top:clamp(1.25rem,2.4vw,2rem);
+  display:grid;grid-template-columns:auto 1fr;gap:clamp(1.25rem,3vw,2.5rem);
+  align-items:center;border-left:2px solid var(--acc,var(--blue));
+  padding-left:clamp(1rem,2.2vw,1.75rem)}
+/* bound by height, not width: the render is 1:4, so a width clamp makes the
+   row four times taller than the copy sitting next to it */
+.cat-stock img{height:clamp(92px,11vw,148px);width:auto}
+.cat-stock h4{margin:0 0 .35rem;font-size:var(--f-md);font-weight:500;letter-spacing:-.015em}
+.cat-stock p{font-size:var(--f-sm);color:var(--on-dark);line-height:1.55}
+.light .cat-stock p,.paper .cat-stock p{color:var(--ink-soft)}
+a.cat-row{text-decoration:none;transition:background .25s var(--ease)}
+a.cat-row:hover{background:rgba(255,255,255,.03)}
+.light a.cat-row:hover,.paper a.cat-row:hover{background:rgba(0,0,0,.03)}
+a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
+@media(max-width:820px){
+  .cat-ix{grid-column:1/span 12}
+  .cat-nm{grid-column:1/span 12;margin-top:.35rem}
+  .cat-sc{grid-column:1/span 12;margin-top:.6rem}
+  .cat-st{grid-column:1/span 12;justify-self:start;text-align:left;margin-top:.75rem}
+  .cat-stock{grid-column:1/span 12;grid-template-columns:auto 1fr}
+}
+
+/* ---- product cards, for the catalogue page ----
+   Deliberately not a uniform grid: the item you can buy is given a wide row and
+   a real photograph, the items that do not exist yet are given a narrow slot and
+   no picture, because there is nothing to picture. */
+.rack{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));
+  gap:var(--gut) var(--gut)}
+.pcard{grid-column:span 12;display:grid;
+  grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,3.5rem);
+  align-items:center;border:1px solid var(--line-dark);
+  padding:clamp(1.5rem,3vw,2.5rem);text-decoration:none;
+  transition:border-color .3s var(--ease)}
+.light .pcard,.paper .pcard{border-color:var(--line-light)}
+.pcard:hover{border-color:var(--acc,var(--blue))}
+.pcard-fig{background:var(--ink-2);display:grid;place-items:center;
+  padding:clamp(1rem,2.5vw,2rem);min-height:clamp(200px,26vw,340px)}
+.pcard-fig img{height:clamp(170px,24vw,300px);width:auto;
+  transition:transform .5s var(--ease)}
+.pcard:hover .pcard-fig img{transform:scale(1.035)}
+.pcard-cat{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--acc,var(--blue))}
+.pcard h3{margin:.65rem 0 0;font-size:clamp(1.45rem,1.1rem + 1.5vw,2.35rem);
+  letter-spacing:-.028em;line-height:1.05}
+.pcard-sub{margin-top:.75rem;font-size:var(--f-sm);line-height:1.6;
+  color:var(--on-dark);max-width:46ch}
+.light .pcard-sub,.paper .pcard-sub{color:var(--ink-soft)}
+.pcard-ft{display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:.6rem clamp(1.25rem,3vw,2.25rem);margin-top:clamp(1.25rem,2.5vw,1.75rem)}
+.pcard-pr{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-lg);
+  font-weight:500;letter-spacing:-.01em}
+.pcard-meta{font-size:var(--f-xs);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--on-dark-dim);font-family:Azeret,ui-monospace,monospace}
+.light .pcard-meta,.paper .pcard-meta{color:var(--ink-soft)}
+@media(max-width:760px){.pcard{grid-template-columns:1fr}}
+
+/* a slot for a product that does not exist yet. No image, no price, no card
+   chrome pretending there is something behind it — an outline and a date. */
+.slot{grid-column:span 4;border:1px dashed var(--line-dark);
+  padding:clamp(1.25rem,2.6vw,2rem);display:flex;flex-direction:column;
+  justify-content:space-between;min-height:clamp(150px,17vw,210px)}
+.light .slot,.paper .slot{border-color:var(--line-light)}
+.slot-cat{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--acc,var(--blue))}
+.slot h3{margin:.6rem 0 0;font-size:var(--f-md);font-weight:500;letter-spacing:-.015em}
+.slot p{margin-top:.5rem;font-size:var(--f-sm);line-height:1.55;color:var(--on-dark-dim)}
+.light .slot p,.paper .slot p{color:var(--ink-soft)}
+.slot .when{margin-top:clamp(1rem,2vw,1.5rem);font-family:Azeret,ui-monospace,monospace;
+  font-size:var(--f-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark-dim)}
+@media(max-width:900px){.slot{grid-column:span 6}}
+@media(max-width:560px){.slot{grid-column:span 12}}
+
+/* ---- release marker: the brand ships numbered releases, and the number is
+   the point. Set in the mono face at display size so it reads as a serial. */
+.rel-n{font-family:Azeret,ui-monospace,monospace;
+  font-size:clamp(3.2rem,2rem + 6vw,8.5rem);font-weight:500;line-height:.85;
+  letter-spacing:-.04em;color:var(--acc,var(--blue))}
+.rel-k{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
+  letter-spacing:.24em;text-transform:uppercase;color:var(--on-dark-dim);
+  display:block;margin-bottom:.65rem}
+.light .rel-k,.paper .rel-k{color:var(--ink-soft)}
+
+/* ---- breadcrumb, so a deep product page says where it sits in the store ---- */
+.crumb{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark-dim);
+  display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}
+.light .crumb,.paper .crumb{color:var(--ink-soft)}
+.crumb a{text-decoration:none;min-height:24px;display:inline-flex;align-items:center}
+.crumb a:hover{color:var(--blue)}
+.crumb i{font-style:normal;opacity:.5}
+
+/* the three elevations shown together want more height than a spot figure */
+.dwg-set .fig-sm img{height:clamp(11rem,22vw,20rem)}
+
+/* The signup moved onto a light section when the store gained a catalogue.
+   It had only ever been styled for the dark ground, so the field was white
+   text on a silver panel with a near-invisible border. */
+.light .nl input,.paper .nl input{border-color:var(--line-light);color:var(--ink)}
+.light .nl input::placeholder,.paper .nl input::placeholder{color:var(--ink-soft)}
+.light .nl-note,.paper .nl-note{color:var(--ink-soft)}
+
+/* A short row of facts sitting inside a narrower cell. Its own three columns,
+   not the page's twelve, so it never pretends to be on the page grid. */
+.factrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--s3) var(--gut);margin:clamp(2rem,4vw,3rem) 0 0}
+.factrow dd{margin:.35rem 0 0;font-weight:500;color:var(--white)}
+.light .factrow dd,.paper .factrow dd{color:var(--ink)}
+@media(max-width:520px){.factrow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* SC 2.5.8 again: the rating link is a standalone control, not a word inside a
+   sentence, so the inline exception does not cover it. */
+.buy-rating{min-height:24px;align-items:center}

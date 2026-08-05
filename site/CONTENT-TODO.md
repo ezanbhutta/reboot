@@ -11,7 +11,9 @@ is confirmed. Each item lists exactly where it appears so it can be swapped quic
 | **Retail price** | `$79` | Header CTA (all pages), hero, product buy box, sticky mobile bar, close section |
 | **Runtime per charge** | "To be confirmed" | Product specification |
 | **Weight** | not stated anywhere | — |
-| **Second colourway name** | "Soft White" | Product swatches, spec lists |
+| **Colourway name** | "Soft White" | Product buy box, spec list, shop card |
+| **GA4 measurement ID** | empty in `assets/js/analytics.js` | every page |
+| **Meta Pixel ID** | empty in `assets/js/analytics.js` | every page |
 
 Only one figure is still open. Everything else on the specification table now comes
 from the manufacturer's own packaging artwork for model SK-CYQ-D, dated 2024-05-14:
@@ -63,27 +65,53 @@ has to decide which one is right; the site should not quietly adopt the box.
 
 - **Reviews** — no review section exists anywhere. Per strategy, it renders absent
   rather than empty at zero count, and gets added once genuine reviews arrive.
-- **Professional endorsement** — the section on the homepage is designed but holds an
-  explicit "awaiting content" note instead of quotes. It needs three named
-  practitioners with verifiable credentials. No anonymous quotes, no stock portraits.
+- **Professional endorsement** — designed, and currently removed from the home page
+  along with the rest of the flosser-specific argument. It needs three named
+  practitioners with verifiable credentials before it goes back, on the product
+  page rather than the home page. No anonymous quotes, no stock portraits.
+- **Products 002 onward** — the catalogue lists Move, Work and Connect as shelves
+  with nothing on them. That is deliberate and honest, but it does mean three
+  quarters of the store's structure is currently empty. If the client would rather
+  not show that publicly, the shelves can be collapsed to a single "more coming"
+  line without touching the underlying structure.
 - **Media mentions, social gallery, before/after** — not built. See `docs/08-strategy.md §4`.
 
 ## Imagery
 
-Every product visual is the manufacturer's own CAD line work, lifted from the
-engineering sheets supplied with the model: front, rear and side elevations, the
-plan view of the nozzle socket, and the water tank on its own. Nothing is
-rendered, retouched or generated. The drawings' own proportions agree with the
-stated 69 x 76 x 215 mm to within two per cent, which is the closest thing to a
-verification we have.
+Two sets, doing two different jobs.
 
-Before launch this still needs photography: a studio pack of the unit in both
-colourways, the five nozzles laid out, and one in-hand frame for scale. The
-drawings should stay when the photography arrives; they are doing work a photo
-cannot, and they are the thing that makes the site look like nobody else's.
+**Glossy renders** are built from the manufacturer's own render mesh, shaded per
+material group and lit on a three-point studio rig. Front, three-quarter (both
+hands), profile and rear, all in Soft White. These carry the emotional moments:
+hero, release section, shop card, and the full-bleed object.
+
+**CAD line work** is traced from the engineering sheets: front, rear and side
+elevations, the plan view of the nozzle socket, and the tank on its own. These sit
+with the specification, because they answer a different question. The drawings'
+own proportions agree with the stated 69 x 76 x 215 mm to within two per cent,
+which is the closest thing to a verification we have.
+
+**Only white appears anywhere.** Per client direction, no black product imagery is
+used. Note that SRS §5 lists "Variants: 2 Colors" — the site and the SRS disagree
+on this point and the client should confirm which is correct before launch.
+
+Before launch this still needs photography: a studio pack of the unit, the five
+nozzles laid out, and one in-hand frame for scale. Both existing sets should stay
+when the photography arrives; they are doing work a photo cannot.
 
 The **how-to-use animation** required by the SRS is represented by a static frame
 and a labelled placeholder in both places it belongs.
+
+## Analytics
+
+GA4 and Meta Pixel are installed on every page via `assets/js/analytics.js`, wired
+to `view_item`, `add_to_cart` and `sign_up`, and mapped to the Meta equivalents.
+**Both IDs are empty**, so nothing is sent anywhere until the client fills them in
+at the top of that file. The script also honours Do Not Track and Global Privacy
+Control before loading either vendor.
+
+On Shopify this becomes a snippet included from `theme.liquid` with the two IDs
+coming from theme settings rather than being edited in the file.
 
 ## Not wired up
 
