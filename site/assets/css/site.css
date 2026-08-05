@@ -12,8 +12,11 @@
   --ink-3:#242A2C;
   /* layered surfaces: the page steps between these three rather than
      between dark and silver */
-  --surface-0:#0B0E0F;      /* deepest, used for insets and stages */
-  --surface-1:#121618;      /* the alternate section ground */
+  --surface-0:#0C0E0F;      /* graphite, deepest; insets and stages */
+  --surface-1:#131618;      /* warm off-black, the alternate section ground */
+  --cream:#F4F3EF;          /* paper cream, for anything that must read as printed */
+  --ochre:#E07A5F;          /* warm ochre  6.56:1 on graphite, 6.00:1 on ink */
+  --ochre-text:#9C4526;     /* the same hue dark enough for cream grounds */
   --glass:rgba(13,17,19,.72);
   --glass-line:rgba(255,255,255,.09);
   --blue:#079DE0;
@@ -549,9 +552,13 @@ ul{margin:0;padding:0;list-style:none}
 .opt{margin-top:var(--s4)}
 .opt-lbl{font-size:var(--f-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-dim);
   font-weight:500;margin-bottom:0.75rem;display:block}
-.swatches{display:flex;gap:.5rem}
+/* three swatches, one of them carrying a "considered" tag, do not fit one row
+   in a narrow buy rail */
+.swatches{display:flex;gap:.5rem;flex-wrap:wrap}
 .sw{display:flex;align-items:center;gap:0.5rem;padding:.75rem 1rem;border:1px solid var(--line-dark);
-  cursor:pointer;font-size:var(--f-sm);border-radius:2px;transition:border-color .25s}
+  cursor:pointer;font-size:var(--f-sm);border-radius:2px;transition:border-color .25s;
+  min-width:0;max-width:100%}
+.sw i{flex:0 0 auto}
 .sw:hover{border-color:var(--on-dark-dim)}
 .sw[aria-pressed=true]{border-color:var(--blue)}
 .sw i{width:15px;height:15px;border-radius:50%;display:block;border:1px solid rgba(255,255,255,.22)}
@@ -1371,9 +1378,12 @@ body::after{
 
 /* ============ PDP GALLERY ============ */
 .plate-stage{position:relative;cursor:zoom-in}
+/* background-size carries the image's own ratio (width x height of the rendered
+   <img>, both multiplied by the same factor), so the zoom magnifies rather than
+   stretching to the stage's shape. */
 .lens{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s var(--ease);
   background-repeat:no-repeat;background-color:var(--surface-0);
-  background-size:var(--zw) var(--zh);background-position:var(--bx) var(--by)}
+  background-size:var(--zw,100%) var(--zh,100%);background-position:var(--bx,0) var(--by,0)}
 .plate-stage.lensing .lens{opacity:1}
 @media(hover:none),(prefers-reduced-motion:reduce){.lens{display:none}.plate-stage{cursor:default}}
 .plate-thumbs{display:flex;gap:.5rem;margin-top:var(--s3);overflow-x:auto;
@@ -1476,3 +1486,110 @@ body::after{
 .btn.added>span{color:#04222F}
 
 .pcard-buy{grid-column:span 12;display:flex;flex-wrap:wrap;gap:.75rem;margin-top:var(--s3)}
+
+/* ============================================================================
+   EDITORIAL VOICE
+   A serif italic against the geometric sans. There is no italic in the woff2
+   set and adding one would cost a round trip for a handful of words, so this
+   uses the system serif — which is also the more honest choice: it renders in
+   whatever the reader's machine actually has, the way print does.
+   ========================================================================= */
+.ed{
+  font-family:Iowan Old Style,Charter,Palatino,Georgia,"Times New Roman",serif;
+  font-style:italic;font-weight:400;letter-spacing:-.012em;
+}
+h1 .ed,h2 .ed,h3 .ed{letter-spacing:-.026em}
+/* the serif runs optically larger than Poppins at the same size */
+.t-3xl .ed,.t-2xl .ed,.d1 .ed,.d2 .ed{font-size:.94em}
+.ed-note{font-family:Iowan Old Style,Charter,Palatino,Georgia,serif;font-style:italic;
+  font-size:var(--f-md);line-height:1.6;color:var(--on-dark);max-width:52ch}
+.light .ed-note,.paper .ed-note{color:var(--ink-soft)}
+
+/* ============ DEPTH ============
+   Two shadows only, both soft and both warm-neutral rather than pure black, so
+   they read as a lifted object rather than as a drop-shadow filter. */
+:root{
+  --lift-1:0 1px 2px rgba(0,0,0,.28),0 6px 18px -8px rgba(0,0,0,.5);
+  --lift-2:0 2px 6px rgba(0,0,0,.32),0 18px 44px -16px rgba(0,0,0,.62);
+}
+.drawer,.modal-card{box-shadow:var(--lift-2)}
+.pcard,.insp-stage,.sim-stage,.match,.citem-fig{box-shadow:var(--lift-1)}
+.btn-primary{box-shadow:var(--lift-1)}
+@media(prefers-reduced-motion:reduce){.pcard{transition:none}}
+
+/* ============ iOS SAFE AREA ============
+   The sticky buy bar and the drawer footer sit on the home indicator without
+   this, and the drawer's own scroll runs under it. */
+.stickybuy{padding-bottom:calc(var(--s2) + env(safe-area-inset-bottom,0px))}
+.drawer{padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer-bd{padding-bottom:calc(var(--s4) + env(safe-area-inset-bottom,0px))}
+.hdr-in{padding-left:max(var(--pad),env(safe-area-inset-left,0px));
+  padding-right:max(var(--pad),env(safe-area-inset-right,0px))}
+
+/* ============ CURSOR HALO ============
+   A soft light that follows the pointer across a product plate. Position is
+   written as two custom properties on pointermove; the element itself never
+   changes size, so this costs one composite and no layout. */
+.halo{position:relative;overflow:hidden}
+.halo::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0;
+  transition:opacity .35s var(--ease);
+  background:radial-gradient(220px circle at var(--hx,50%) var(--hy,50%),
+    rgba(9,208,220,.13) 0%,rgba(9,208,220,.05) 40%,transparent 70%);
+}
+.halo.lit::after{opacity:1}
+@media(hover:none),(prefers-reduced-motion:reduce){.halo::after{display:none}}
+
+/* ============ PRESSURE SLIDER ============
+   A real <input type=range>, restyled. Not a div with pointer handlers: the
+   native control already gives arrow keys, Home/End, page-up, touch dragging
+   and the correct role, and none of that is worth rewriting badly. */
+.psi-slider{margin-bottom:var(--s4)}
+.psi-rail{position:relative;padding-block:.75rem}
+.psi-slider input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;
+  margin:0;cursor:grab;display:block;
+}
+.psi-slider input[type=range]:active{cursor:grabbing}
+.psi-slider input[type=range]::-webkit-slider-runnable-track{
+  height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) var(--fill,0%),
+    rgba(255,255,255,.14) var(--fill,0%),rgba(255,255,255,.14) 100%);
+}
+.psi-slider input[type=range]::-moz-range-track{
+  height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) var(--fill,0%),
+    rgba(255,255,255,.14) var(--fill,0%),rgba(255,255,255,.14) 100%);
+}
+.psi-slider input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-9px;
+  border-radius:50%;background:var(--white);border:0;box-shadow:var(--lift-1);
+  transition:transform .22s var(--ease);
+}
+.psi-slider input[type=range]::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:var(--white);border:0;
+  box-shadow:var(--lift-1);transition:transform .22s var(--ease);
+}
+.psi-slider input[type=range]:hover::-webkit-slider-thumb,
+.psi-slider input[type=range]:focus-visible::-webkit-slider-thumb{transform:scale(1.18)}
+.psi-slider input[type=range]:hover::-moz-range-thumb,
+.psi-slider input[type=range]:focus-visible::-moz-range-thumb{transform:scale(1.18)}
+.psi-slider input[type=range]:focus-visible{outline:2px solid var(--blue);outline-offset:6px;border-radius:4px}
+/* the four stops, labelled under the rail */
+.psi-stops{display:grid;grid-template-columns:repeat(4,1fr);margin-top:.35rem}
+.psi-stops button{
+  font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--on-dark-dim);cursor:pointer;padding:.5rem .25rem;
+  min-height:44px;text-align:left;transition:color .25s var(--ease);
+}
+.psi-stops button:nth-child(2),.psi-stops button:nth-child(3){text-align:center}
+.psi-stops button:last-child{text-align:right}
+.psi-stops button:hover{color:var(--white)}
+.psi-stops button[aria-current=true]{color:var(--blue)}
+@media(pointer:coarse){.psi-slider input[type=range]{height:48px}}
+
+/* a colourway that is being considered, not sold. Not a button, because there
+   is nothing to press, and a disabled control that still looks pressable is
+   worse than no control. */
+.sw-soon{opacity:.55;cursor:default}
+.sw-soon em{font-style:normal;font-family:Azeret,ui-monospace,monospace;font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ochre);margin-left:.4rem}
+.light .sw-soon em,.paper .sw-soon em{color:var(--ochre)}

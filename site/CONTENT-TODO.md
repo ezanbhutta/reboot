@@ -3,6 +3,20 @@
 Everything below is a placeholder chosen so the design can be evaluated. None of it
 is confirmed. Each item lists exactly where it appears so it can be swapped quickly.
 
+## Invented in this prototype, needs the client's word
+
+| Item | Where it came from | Appears in |
+|---|---|---|
+| **The product name "Gloss"** | supplied in the brief, not in the SRS or on the packaging | nav, page titles, PDP heading, shop card, cart, footer |
+| **"Matte Carbon" and "Sage" colourways** | supplied in the brief | PDP swatch row, marked *Considered* |
+| **Nozzle four-pack at $12** | invented, needed a second SKU for the cart upsell | cart drawer |
+| **SKU codes `RB-001-WHT`, `RB-NOZ-4`** | invented | cart, analytics events |
+
+The two extra colourways are shown as *Considered* and cannot be selected,
+because the site's whole argument is that it does not claim things it cannot
+back. If the client has not costed them, take them out rather than soften the
+label. Note also that SRS §5 says "Variants: 2 Colors" and the site ships one.
+
 ## Blocking — must be confirmed before this goes live
 
 | Item | Placeholder used | Appears in |

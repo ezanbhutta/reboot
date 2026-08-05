@@ -182,12 +182,46 @@
      across a reload would imply one. On Shopify this module talks to
      /cart/*.js and everything below the fetch boundary is unchanged.
      ================================================================== */
-  var CATALOGUE = {
-    'RB-001-WHT': { name: 'Water Flosser', variant: 'Soft White', price: 79,
-                    img: 'assets/img/prod-white.webp' },
-    'RB-NOZ-4':   { name: 'Nozzle set, four pack', variant: 'Mixed tips', price: 12,
-                    img: 'assets/img/dwg-top.svg' }
+  /* ------------------------------------------------------------------
+     The store's data. Adding Release 002 is one entry in PRODUCTS and one
+     variant in its `variants` list — no UI code changes. CATEGORIES is the
+     permanent shelf structure; a product declares which shelf it sits on.
+     On Shopify these two objects are what the Liquid templates emit, and
+     everything below this line is unchanged.
+     ------------------------------------------------------------------ */
+  var CATEGORIES = {
+    live:    { n: '01', name: 'Live',    accent: '#079DE0' },
+    move:    { n: '02', name: 'Move',    accent: '#E07A5F' },
+    work:    { n: '03', name: 'Work',    accent: '#09D0DC' },
+    connect: { n: '04', name: 'Connect', accent: '#68E69D' }
   };
+  var PRODUCTS = {
+    'gloss': {
+      release: '001', category: 'live', name: 'Gloss',
+      subtitle: 'Cordless water flosser', price: 79, status: 'live',
+      url: 'product.html',
+      variants: [
+        { sku: 'RB-001-WHT', name: 'Soft White', swatch: '#E9EAEA',
+          img: 'assets/img/prod-white.webp', status: 'available' }
+      ]
+    }
+  };
+  var ACCESSORIES = {
+    'RB-NOZ-4': { name: 'Nozzle set, four pack', variant: 'Mixed tips', price: 12,
+                  img: 'assets/img/dwg-top.svg' }
+  };
+
+  /* flatten to sku -> line item, which is all the cart needs to know */
+  var CATALOGUE = {};
+  Object.keys(PRODUCTS).forEach(function (k) {
+    var p = PRODUCTS[k];
+    p.variants.forEach(function (v) {
+      CATALOGUE[v.sku] = { name: p.name, variant: v.name, price: p.price, img: v.img };
+    });
+  });
+  Object.keys(ACCESSORIES).forEach(function (k) { CATALOGUE[k] = ACCESSORIES[k]; });
+  window.rbStore = { PRODUCTS: PRODUCTS, CATEGORIES: CATEGORIES, CATALOGUE: CATALOGUE };
+
   var FREE_SHIPPING_AT = 79;
   var cart = [];
 
@@ -478,17 +512,27 @@
     var stage = plate.closest('.plate-stage');
     var lens = stage && $('.lens', stage);
     if (stage && lens && !coarse && !reduce) {
+      var ZOOM = 2.4;
       stage.addEventListener('pointerenter', function () {
         lens.style.backgroundImage = 'url("' + (plate.currentSrc || plate.src) + '")';
         stage.classList.add('lensing');
       });
       stage.addEventListener('pointermove', function (e) {
-        var r = stage.getBoundingClientRect();
-        var zw = r.width * 2.2, zh = r.height * 2.2;
+        /* Size the zoom from the IMAGE's rendered box, not the stage's. The
+           stage is roughly square and the render is 1:4, so scaling to the
+           stage's dimensions stretched the product instead of magnifying it.
+           Offsets are clamped so the pointer never drags past the artwork. */
+        var s = stage.getBoundingClientRect();
+        var i = plate.getBoundingClientRect();
+        var zw = i.width * ZOOM, zh = i.height * ZOOM;
         lens.style.setProperty('--zw', zw + 'px');
         lens.style.setProperty('--zh', zh + 'px');
-        lens.style.setProperty('--bx', (((e.clientX - r.left) / r.width) * (r.width - zw)) + 'px');
-        lens.style.setProperty('--by', (((e.clientY - r.top) / r.height) * (r.height - zh)) + 'px');
+        var px = Math.min(1, Math.max(0, (e.clientX - s.left) / s.width));
+        var py = Math.min(1, Math.max(0, (e.clientY - s.top) / s.height));
+        /* keep the magnified image covering the stage at both extremes */
+        var bx = (s.width - zw) * px, by = (s.height - zh) * py;
+        lens.style.setProperty('--bx', Math.min(0, bx) + 'px');
+        lens.style.setProperty('--by', Math.min(0, by) + 'px');
       });
       stage.addEventListener('pointerleave', function () { stage.classList.remove('lensing'); });
     }
@@ -503,6 +547,54 @@
     if (stage) stage.addEventListener('click', showLightbox);
     var lbBtn = $('[data-lightbox-open]');
     if (lbBtn) lbBtn.addEventListener('click', function (e) { e.preventDefault(); showLightbox(); });
+  }
+
+  /* ---- swipe the gallery on touch ----
+     Horizontal intent only, and only past a real threshold, so a diagonal
+     scroll never steals the page's vertical gesture. */
+  (function () {
+    var stage = $('.plate-stage');
+    if (!stage || !plateTabs.length) return;
+    var x0 = 0, y0 = 0, tracking = false;
+    stage.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) return;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; tracking = true;
+    }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+      if (!tracking) return;
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
+      var list = plateTabs.filter(function (b) { return b.closest('.plate-tabs'); });
+      var i = list.findIndex(function (b) { return b.getAttribute('aria-selected') === 'true'; });
+      if (i < 0) i = 0;
+      var nxt = list[(i + (dx < 0 ? 1 : list.length - 1)) % list.length];
+      if (nxt) nxt.click();
+    }, { passive: true });
+  })();
+
+  /* ---- cursor halo over product plates ----
+     Writes two percentages; the element never resizes, so this is one
+     composite per frame and no layout at all. */
+  if (!reduce && !coarse) {
+    $$('.halo').forEach(function (el) {
+      var pending = false, hx = 50, hy = 50;
+      el.addEventListener('pointerenter', function () { el.classList.add('lit'); });
+      el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        hx = ((e.clientX - r.left) / r.width) * 100;
+        hy = ((e.clientY - r.top) / r.height) * 100;
+        if (pending) return;
+        pending = true;
+        raf(function () {
+          pending = false;
+          el.style.setProperty('--hx', hx.toFixed(1) + '%');
+          el.style.setProperty('--hy', hy.toFixed(1) + '%');
+        });
+      });
+    });
   }
 
   /* colourway swatches, for when there is more than one to choose */
@@ -527,7 +619,7 @@
     var marks = $$('[data-mark]', insp);
     var els = $$('.insp-el', insp);
     var stageCap = $('[data-insp-cap]', insp);
-    var light = function (key) {
+    let light = function (key) {
       rows.forEach(function (r) { r.classList.toggle('on', !!key && r.getAttribute('data-spec') === key); });
       marks.forEach(function (m) { m.classList.toggle('on', !!key && m.getAttribute('data-mark') === key); });
       if (!key) return;
@@ -569,15 +661,13 @@
       pulse: { psi: '40–120', rate: 0.42, db: 4, loud: '~65 dB',
         who: 'Alternates strong and weak along the gumline rather than holding one pressure. It is a massage setting rather than a cleaning one.' }
     };
-    var simBtns = $$('[data-mode]', sim);
+    /* the stop labels are the mode buttons; there is no second, hidden tablist */
+    var simBtns = $$('[data-psi-stop]', sim);
     var psiOut = $('[data-sim-psi]', sim), whoOut = $('[data-sim-who]', sim);
     var jets = $$('.jet', sim), bars = $$('.db i', sim), dbOut = $('[data-sim-db]', sim);
-    var setMode = function (key) {
+    let setMode = function (key) {
       var m = MODES[key];
       if (!m) return;
-      simBtns.forEach(function (b) {
-        b.setAttribute('aria-selected', b.getAttribute('data-mode') === key ? 'true' : 'false');
-      });
       if (psiOut) psiOut.textContent = m.psi;
       if (whoOut) {
         whoOut.textContent = m.who;
@@ -587,16 +677,38 @@
       bars.forEach(function (b, i) { b.classList.toggle('on', i < m.db); });
       if (dbOut) dbOut.textContent = m.loud;
     };
-    simBtns.forEach(function (b) {
-      b.addEventListener('click', function () { setMode(b.getAttribute('data-mode')); });
-      b.addEventListener('keydown', function (e) {
-        var i = simBtns.indexOf(b), n = null;
-        if (e.key === 'ArrowRight') n = simBtns[(i + 1) % simBtns.length];
-        if (e.key === 'ArrowLeft') n = simBtns[(i - 1 + simBtns.length) % simBtns.length];
-        if (n) { e.preventDefault(); n.focus(); n.click(); }
+    /* The slider and the stop labels are two views of one value. A native
+       range input carries arrow keys, Home/End and touch dragging already. */
+    var ORDER = ['soft', 'standard', 'high', 'pulse'];
+    var range = $('[data-psi-range]', sim);
+    var stops = $$('[data-psi-stop]', sim);
+
+    let syncControls = function (key) {
+      var i = ORDER.indexOf(key);
+      if (range) {
+        range.value = i;
+        range.style.setProperty('--fill', (i / (ORDER.length - 1) * 100) + '%');
+        range.setAttribute('aria-valuetext', MODES[key].label + ', ' + MODES[key].psi + ' PSI');
+      }
+      stops.forEach(function (b) {
+        b.setAttribute('aria-current', b.getAttribute('data-psi-stop') === key ? 'true' : 'false');
       });
+    };
+    /* named for its module. Both this and the review filter were called
+       `apply`; `var` hoists to the enclosing function, so the reviews module
+       overwrote this one and every press of a pressure stop ran the review
+       filter instead. `let` below keeps them block-scoped from now on. */
+    let applyMode = function (key) { setMode(key); syncControls(key); };
+
+    if (range) {
+      range.addEventListener('input', function () {
+        applyMode(ORDER[Math.round(range.value)] || 'soft');
+      });
+    }
+    stops.forEach(function (b) {
+      b.addEventListener('click', function () { applyMode(b.getAttribute('data-psi-stop')); });
     });
-    setMode('soft');
+    applyMode('soft');
   }
 
   /* ==================================================================
@@ -608,7 +720,7 @@
   var diagSets = $$('.diag-set');
   if (diagTabs.length && diagSets.length) {
     var matchTip = $('[data-match-tip]'), matchMode = $('[data-match-mode]'), matchNote = $('[data-match-note]');
-    var pick = function (btn) {
+    let pick = function (btn) {
       var key = btn.getAttribute('data-case');
       diagTabs.forEach(function (t) { t.setAttribute('aria-selected', t === btn ? 'true' : 'false'); });
       diagSets.forEach(function (set) { set.hidden = set.getAttribute('data-case') !== key; });
@@ -650,13 +762,17 @@
     var counter = $('[data-rev-count]', revRoot);
     var none = $('[data-rev-none]', revRoot);
     var filter = 'all';
-    var apply = function () {
+    let applyFilter = function () {
       var q = ((search && search.value) || '').trim().toLowerCase();
       var shown = 0;
       cards.forEach(function (c) {
         var stars = parseInt(c.getAttribute('data-stars'), 10);
-        var ok = filter === 'all' ||
-                 (filter === 'critical' ? stars <= 3 : stars === parseInt(filter, 10));
+        var topics = (c.getAttribute('data-topics') || '').split(/\s+/);
+        var ok;
+        if (filter === 'all') ok = true;
+        else if (filter === 'critical') ok = stars <= 3;             /* the honest ones */
+        else if (/^[1-5]$/.test(filter)) ok = stars === parseInt(filter, 10);
+        else ok = topics.indexOf(filter) > -1;                        /* what it is about */
         if (ok && q) ok = c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !ok;
         if (ok) shown++;
@@ -668,7 +784,7 @@
       c.addEventListener('click', function () {
         filter = c.getAttribute('data-filter');
         chips.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
-        apply();
+        applyFilter();
       });
     });
     if (search) {
@@ -676,7 +792,7 @@
       search.addEventListener('input', function () {
         clearTimeout(st);
         st = setTimeout(function () {
-          apply();
+          applyFilter();
           var q = search.value.trim();
           if (q.length > 2 && window.rbTrack) window.rbTrack('search', { search_term: q });
         }, 220);
@@ -691,7 +807,7 @@
         if (out) out.textContent = on ? n : n + 1;
       });
     });
-    apply();
+    applyFilter();
   }
 
   /* ==================================================================
