@@ -98,6 +98,34 @@
   });
 
 
+  /* ---------- diagnosis ----------
+     Self-selection, not a filter. Every answer is already in the box; the choice
+     only decides where the reader starts. Nothing is hidden behind it. */
+  var diagTabs = document.querySelectorAll('[data-case]');
+  var diagSets = document.querySelectorAll('.diag-set');
+  if (diagTabs.length && diagSets.length) {
+    diagTabs.forEach(function (btn) {
+      if (btn.tagName !== 'BUTTON') return;
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-case');
+        diagTabs.forEach(function (t) {
+          if (t.tagName === 'BUTTON') t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
+        });
+        diagSets.forEach(function (set) {
+          set.hidden = set.getAttribute('data-case') !== key;
+        });
+      });
+      /* left/right arrows move between choices, as a tablist should */
+      btn.addEventListener('keydown', function (e) {
+        var list = [].filter.call(diagTabs, function (t) { return t.tagName === 'BUTTON'; });
+        var i = list.indexOf(btn), n = null;
+        if (e.key === 'ArrowRight') n = list[(i + 1) % list.length];
+        if (e.key === 'ArrowLeft') n = list[(i - 1 + list.length) % list.length];
+        if (n) { e.preventDefault(); n.focus(); n.click(); }
+      });
+    });
+  }
+
   /* ---------- sticky buy bar ---------- */
   var sticky = document.querySelector('.stickybuy');
   var anchor = document.querySelector('[data-buy-anchor]');
