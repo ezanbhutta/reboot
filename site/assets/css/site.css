@@ -1979,4 +1979,59 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
     padding-bottom:.5rem;scrollbar-width:thin}
   .story-rail .story{scroll-snap-align:start}
 }
+
+/* ============ HERO GROUND ============
+   Two layers, both decorative, neither animating anything but transform and
+   opacity. The grid is the engineering sheet the product came off; the rings
+   are pressure leaving the nozzle, which is the one thing this product does.
+   Both are masked so they never reach the headline — a field running under
+   type is the thing that makes a hero look busy rather than deep. */
+.hero-fx{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  --fx-gap:clamp(44px,4.4vw,72px);
+  /* one mask for both layers, so the rings fade out before the headline the
+     same way the grid does. Masking only the grid left a hard arc crossing
+     the type at full strength. */
+  -webkit-mask-image:radial-gradient(ellipse 64% 104% at 84% 50%,#000 0%,rgba(0,0,0,.72) 38%,transparent 88%);
+  mask-image:radial-gradient(ellipse 64% 104% at 84% 50%,#000 0%,rgba(0,0,0,.72) 38%,transparent 88%)}
+.fx-grid{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(to right,rgba(var(--tint),.14) 0 1px,transparent 1px var(--fx-gap)),
+    repeating-linear-gradient(to bottom,rgba(var(--tint),.14) 0 1px,transparent 1px var(--fx-gap));
+}
+/* centred on the product, not on the section: the rings read as coming off the
+   nozzle rather than as a decoration parked in the middle of the page */
+.fx-ripple{position:absolute;top:47%;left:87%;transform:translate(-50%,-50%);
+  width:min(40vw,560px);aspect-ratio:1}
+/* Three rings on one 13s loop at even thirds, so two are always in flight and
+   the third is arriving. One ring on its own reads as a stray circle. */
+.fx-ripple i{position:absolute;inset:0;border-radius:50%;
+  border:1px solid var(--blue);opacity:0;
+  animation:fxRing 13s var(--ease-io) infinite}
+.fx-ripple i:nth-child(2){animation-delay:-4.33s}
+.fx-ripple i:nth-child(3){animation-delay:-8.66s}
+@keyframes fxRing{
+  0%{transform:scale(.3);opacity:0}
+  10%{opacity:.30}
+  55%{opacity:.13}
+  100%{transform:scale(2.15);opacity:0}
+}
+/* On a phone the product is centred above the headline rather than beside it,
+   so the rings and the mask both move with it. */
+@media(max-width:820px){
+  .fx-ripple{left:50%;top:30%;width:min(96vw,420px)}
+  .hero-fx{-webkit-mask-image:radial-gradient(ellipse 96% 42% at 50% 28%,#000 0%,rgba(0,0,0,.7) 44%,transparent 86%);
+    mask-image:radial-gradient(ellipse 96% 42% at 50% 28%,#000 0%,rgba(0,0,0,.7) 44%,transparent 86%)}
+}
+/* one ring, held still, rather than nothing: the composition still resolves */
+@media(prefers-reduced-motion:reduce){
+  .fx-ripple i{animation:none;opacity:0}
+  .fx-ripple i:first-child{opacity:.16;transform:scale(1)}
+}
+/* Ink lines on white carry further than white lines on graphite, so the pale
+   theme takes the grid down rather than sharing one alpha. */
+:root[data-theme="light"] .fx-grid{
+  background-image:
+    repeating-linear-gradient(to right,rgba(var(--tint),.085) 0 1px,transparent 1px var(--fx-gap)),
+    repeating-linear-gradient(to bottom,rgba(var(--tint),.085) 0 1px,transparent 1px var(--fx-gap));
 }
