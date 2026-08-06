@@ -22,14 +22,6 @@ var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('j
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<div class="promo">
-  <div class="wrap">
-    <span><b>Free shipping</b> on every order</span><i aria-hidden="true"></i>
-    <span><b>30 days</b> to return it, postage on us</span><i aria-hidden="true"></i>
-    <span><b>12 month</b> warranty</span>
-  </div>
-</div>
-
 <header class="hdr">
   <div class="wrap hdr-in">
     <a class="brand" href="index.html" aria-label="reboot home"><img src="assets/img/logo.svg" alt="reboot" width="140" height="40"></a>
@@ -64,26 +56,6 @@ var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('j
         <div class="tilt glow">
           <img src="assets/img/r01.webp" width="628" height="2544" alt=""
                fetchpriority="high" decoding="async">
-          <!-- Three hotspots, on the three things a buyer actually asks about.
-               Each is a real button, so keyboard and screen readers get the
-               same information the pointer does. -->
-          <div class="hotspots">
-            <button type="button" class="hs" style="--x:49%;--y:37%" aria-expanded="false"
-                    aria-label="Mode and power controls">
-              <i aria-hidden="true"></i>
-              <span class="hs-tip"><b>Four modes</b><span>Massage, Soft, Normal and Clean, stepped through with the lower button.</span></span>
-            </button>
-            <button type="button" class="hs" style="--x:50%;--y:79%" aria-expanded="false"
-                    aria-label="Water tank">
-              <i aria-hidden="true"></i>
-              <span class="hs-tip"><b>300 ml tank</b><span>About ninety seconds of water. Twists off to fill and to clean.</span></span>
-            </button>
-            <button type="button" class="hs" data-side="left" style="--x:20%;--y:66%" aria-expanded="false"
-                    aria-label="Water resistance rating">
-              <i aria-hidden="true"></i>
-              <span class="hs-tip"><b>IPX7</b><span>Rated for immersion, so it is safe to use and rinse in the shower.</span></span>
-            </button>
-          </div>
         </div>
       </div>
       <div class="grid">
@@ -239,6 +211,59 @@ var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('j
         <span>IPX7, shower-safe</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
         <span>Stops itself after two minutes</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
         <span>USB-C, two to three hours</span><img src="assets/img/mark-blue.svg" alt="" width="15" height="15">
+      </div>
+    </div>
+  </section>
+
+  <!-- IN USE. The wall for the brand film, the creator cuts and anything a
+       recognisable face is holding. Every frame below is a reserved slot at a
+       fixed aspect, so dropping the finished assets in is a src swap and
+       nothing reflows. Nothing here claims an endorsement we do not have. -->
+  <section class="sec light" id="stories">
+    <div class="wrap">
+      <div class="grid rv" style="align-items:end">
+        <div class="c7 s1">
+          <div class="eyeline"><span>In use</span></div>
+          <h2 class="t-2xl optical">People, not renders.</h2>
+        </div>
+        <div class="c4 s9">
+          <p class="t-sm dim">The film and the creator cuts are being shot. These frames are held at the sizes the finished pieces will be delivered in.</p>
+        </div>
+      </div>
+
+      <div class="stories" style="margin-top:var(--s5)">
+        <figure class="story story-lead rv">
+          <div class="story-media" data-slot>
+            <span class="story-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M10 8.2l6.2 3.8-6.2 3.8z"/></svg>
+            </span>
+            <span class="story-spec">16:9 &middot; 1920 &times; 1080</span>
+          </div>
+          <figcaption><b>The brand film</b><span>Thirty seconds. What the R01 is for, shot in a real bathroom rather than a studio cyclorama.</span></figcaption>
+        </figure>
+
+        <div class="story-rail" role="list" aria-label="Creator and press slots">
+          <figure class="story rv" role="listitem">
+            <div class="story-media" data-slot><span class="story-spec">9:16</span></div>
+            <figcaption><b>Creator cut</b><span>Vertical, thirty seconds, sound on.</span></figcaption>
+          </figure>
+          <figure class="story rv rv-d1" role="listitem">
+            <div class="story-media" data-slot><span class="story-spec">9:16</span></div>
+            <figcaption><b>Creator cut</b><span>Vertical, thirty seconds, sound on.</span></figcaption>
+          </figure>
+          <figure class="story rv rv-d2" role="listitem">
+            <div class="story-media" data-slot><span class="story-spec">9:16</span></div>
+            <figcaption><b>Press still</b><span>Vertical, product held, colour unretouched.</span></figcaption>
+          </figure>
+          <figure class="story rv rv-d1" role="listitem">
+            <div class="story-media" data-slot><span class="story-spec">9:16</span></div>
+            <figcaption><b>Press still</b><span>Vertical, product held, colour unretouched.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:var(--s4)">
+        <div class="c7 s1"><p class="t-sm dim">We will name whoever appears and say plainly whether they were paid. A frame stays empty here until there is something real to put in it.</p></div>
       </div>
     </div>
   </section>

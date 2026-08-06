@@ -37,10 +37,29 @@ inspector where they answer a question a photograph cannot.
 Still outstanding: the lifestyle photography listed further down this file, and
 a second colourway shot if Matte Carbon or Sage is ever costed.
 
+## The "In use" wall needs assets
+
+The home page carries a reserved media section between the marquee and the
+object shot. Nothing in it is invented — every frame is an empty slot at the
+aspect the finished asset will be delivered in, and dropping a file in is a
+`src` swap with no reflow.
+
+| Slot | Aspect | What it is |
+|---|---|---|
+| The brand film | 16:9, 1920 × 1080 | Thirty seconds. What the R01 is for. |
+| Creator cut ×2 | 9:16 | Vertical, thirty seconds, sound on. |
+| Press still ×2 | 9:16 | Vertical, product held, colour unretouched. |
+
+Put `<img>` or `<video>` straight inside `.story-media` — it is already set to
+`object-fit:cover` and clipped to the frame's corner radius. If a recognisable
+person appears, the caption must name them and state plainly whether they were
+paid; that is the line the copy in that section commits to.
+
 ## Both grounds
 
 The site now ships a **light and a dark theme**, toggled from the masthead and
-remembered per visitor. A first-time visitor gets whichever their operating
+remembered per visitor. The pale ground is pure white, and the footer always
+runs inverted — black under the light theme, paper under the dark one. A first-time visitor gets whichever their operating
 system asks for. The two are one token set, not two stylesheets: `--tint`,
 `--white` and `--on-white` invert and every component rule follows. The CAD line
 drawings are inverted by filter on the pale ground; the inline anatomical

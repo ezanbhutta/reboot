@@ -189,19 +189,30 @@
   }
 
   /* ==================================================================
-     scroll progress
+     scroll progress, and the masthead's ground
+     The bar is transparent over the top of the page and takes its glass on
+     the way down. One handler, because both read the same scroll position
+     and neither should schedule its own frame.
      ================================================================== */
   var prog = $('[data-prog]');
-  var ticking = false;
+  var hdr = $('.hdr');
+  var ticking = false, wasStuck = null;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     raf(function () {
       ticking = false;
+      var y = window.pageYOffset;
       if (prog) {
         var h = document.documentElement.scrollHeight - window.innerHeight;
         /* transform, not width: this runs every frame on a 10,000px document */
-        prog.style.transform = 'scaleX(' + (h > 0 ? window.pageYOffset / h : 0) + ')';
+        prog.style.transform = 'scaleX(' + (h > 0 ? y / h : 0) + ')';
+      }
+      if (hdr) {
+        /* only touch the class when it actually changes; setting it every
+           frame invalidates style on every scroll tick for nothing */
+        var stuck = y > 24;
+        if (stuck !== wasStuck) { wasStuck = stuck; hdr.classList.toggle('stuck', stuck); }
       }
     });
   }
