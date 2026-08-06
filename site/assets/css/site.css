@@ -2028,7 +2028,21 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
   mask-image:radial-gradient(ellipse 64% 104% at 84% 50%,#000 0%,rgba(0,0,0,.72) 38%,transparent 88%)}
 /* centred on the product, not on the section: the rings read as coming off the
    nozzle rather than as a decoration parked in the middle of the page */
-.fx-ripple{position:absolute;top:47%;left:86%;transform:translate(-50%,-50%);
+/* Concentric with the product at every width, derived rather than guessed.
+   The hero is exactly 100svh minus the masthead, the photograph is 86% of that
+   capped at 740px, and its aspect is 628:2544 — so half its width is that
+   height over 8.1018. Anchoring from the right by the same inset the product
+   uses, plus that half width, puts the rings dead on it. A single left:%
+   cannot: the product's centre drifts from 83% to 87% of the viewport as the
+   window changes shape. */
+.fx-ripple{position:absolute;top:50%;left:auto;
+  --prod-h:min(calc(0.86 * (100svh - 76px)),740px);
+  /* the product is positioned inside .hero-body, which is the 1800px wrap and
+     is centred — so the same offset measured from the viewport has to add back
+     whatever centring margin the wrap is carrying */
+  right:calc(max(0px,(100vw - var(--wrap)) / 2) + clamp(1.5rem,7vw,9rem)
+             + var(--prod-h) / 8.1018);
+  transform:translate(50%,-50%);
   width:min(40vw,560px);aspect-ratio:1}
 /* Three rings on one 13s loop at even thirds, so two are always in flight and
    the third is arriving. One ring on its own reads as a stray circle. */
@@ -2048,7 +2062,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 /* 1100, not 820: that is where the hero stops putting the product beside the
    headline and centres it above instead, so the rings have to move with it. */
 @media(max-width:1100px){
-  .fx-ripple{left:50%;top:30%;width:min(96vw,420px)}
+  .fx-ripple{left:50%;right:auto;top:30%;width:min(96vw,420px);transform:translate(-50%,-50%)}
   .hero-fx{-webkit-mask-image:radial-gradient(ellipse 96% 42% at 50% 28%,#000 0%,rgba(0,0,0,.7) 44%,transparent 86%);
     mask-image:radial-gradient(ellipse 96% 42% at 50% 28%,#000 0%,rgba(0,0,0,.7) 44%,transparent 86%)}
 }
