@@ -316,7 +316,10 @@ ul{margin:0;padding:0;list-style:none}
 @media(prefers-reduced-motion:reduce){.hdr{transition:none}}
 .hdr-in{display:flex;align-items:center;gap:var(--s3);min-height:76px}
 .brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
-.brand img{height:24px;width:auto}
+/* The wordmark file has no padding of its own — the space around it is the
+   bar's. Sized up so it reads edge to edge in the slot it sits in. */
+.brand img{height:30px;width:auto}
+@media(max-width:520px){.brand img{height:26px}}
 .nav{display:flex;gap:var(--s4);margin-left:auto}
 .nav a{
   position:relative;text-decoration:none;font-size:var(--f-sm);font-weight:400;color:var(--on-dark);
@@ -607,7 +610,7 @@ ul{margin:0;padding:0;list-style:none}
 .ftr li{margin-bottom:0.5rem}
 .ftr a{text-decoration:none;font-size:var(--f-sm);color:var(--on-dark);transition:color .25s}
 .ftr a:hover{color:var(--blue)}
-.ftr-brand img{height:22px;margin-bottom:var(--s2)}
+.ftr-brand img{height:28px;margin-bottom:var(--s2)}
 /* Eight pages carry .ftr-grid and three carry .grid. .ftr-grid had no rule at
    all, so on those eight the entire footer collapsed into one stacked column.
    Same twelve-column layout as the others, weighted left so the link columns
@@ -892,7 +895,9 @@ ul{margin:0;padding:0;list-style:none}
 /* Lifted above the text grid, which is later in source and otherwise paints
    over the product area and swallows the hotspots' pointer events. The two
    never overlap horizontally, so nothing is obscured by the change. */
-.hero-draw{position:absolute;top:0;bottom:0;right:var(--pad);z-index:3;display:flex;align-items:center;
+/* Pulled in from the right edge. Once the gutter came down to 32px the
+   product was sitting hard against the viewport with nothing under it. */
+.hero-draw{position:absolute;top:0;bottom:0;right:clamp(1.5rem,7vw,9rem);z-index:3;display:flex;align-items:center;
   pointer-events:none}
 .hero-draw img{height:min(86%,740px);width:auto;max-width:none;opacity:.95}
 .hero-body{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
@@ -2023,7 +2028,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
   mask-image:radial-gradient(ellipse 64% 104% at 84% 50%,#000 0%,rgba(0,0,0,.72) 38%,transparent 88%)}
 /* centred on the product, not on the section: the rings read as coming off the
    nozzle rather than as a decoration parked in the middle of the page */
-.fx-ripple{position:absolute;top:47%;left:87%;transform:translate(-50%,-50%);
+.fx-ripple{position:absolute;top:47%;left:86%;transform:translate(-50%,-50%);
   width:min(40vw,560px);aspect-ratio:1}
 /* Three rings on one 13s loop at even thirds, so two are always in flight and
    the third is arriving. One ring on its own reads as a stray circle. */
@@ -2040,7 +2045,9 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 }
 /* On a phone the product is centred above the headline rather than beside it,
    so the rings and the mask both move with it. */
-@media(max-width:820px){
+/* 1100, not 820: that is where the hero stops putting the product beside the
+   headline and centres it above instead, so the rings have to move with it. */
+@media(max-width:1100px){
   .fx-ripple{left:50%;top:30%;width:min(96vw,420px)}
   .hero-fx{-webkit-mask-image:radial-gradient(ellipse 96% 42% at 50% 28%,#000 0%,rgba(0,0,0,.7) 44%,transparent 86%);
     mask-image:radial-gradient(ellipse 96% 42% at 50% 28%,#000 0%,rgba(0,0,0,.7) 44%,transparent 86%)}
