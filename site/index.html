@@ -9,7 +9,9 @@
 <link rel="preload" href="assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/azeret-500.woff2" as="font" type="font/woff2" crossorigin>
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(){var t=null;try{t=localStorage.getItem('rb-theme')}catch(e){}
+if(t!=='light'&&t!=='dark')t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('js')})()</script>
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="assets/img/mark-blue.svg" type="image/svg+xml">
 <meta property="og:title" content="reboot — everyday tech worth keeping">
@@ -19,6 +21,14 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<div class="promo">
+  <div class="wrap">
+    <span><b>Free shipping</b> on every order</span><i aria-hidden="true"></i>
+    <span><b>30 days</b> to return it, postage on us</span><i aria-hidden="true"></i>
+    <span><b>12 month</b> warranty</span>
+  </div>
+</div>
 
 <header class="hdr">
   <div class="wrap hdr-in">
@@ -31,6 +41,10 @@
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
+    <button type="button" class="themebtn" data-theme-toggle aria-pressed="false" aria-label="Switch to light">
+      <svg class="t-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.6 8.6 0 0 1 9.4 4 8.6 8.6 0 1 0 20 14.6Z"/></svg>
+      <svg class="t-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.7v2.1M12 19.2v2.1M4.8 12H2.7M21.3 12h-2.1M6.6 6.6 5.1 5.1M18.9 18.9l-1.5-1.5M17.4 6.6l1.5-1.5M5.1 18.9l1.5-1.5"/></svg>
+    </button>
     <button type="button" class="cartbtn" data-cart-open aria-label="Open cart" aria-controls="cart-drawer">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h15l-1.4 9.3a2 2 0 0 1-2 1.7H7.8a2 2 0 0 1-2-1.7L4 4H1.6"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
       <span class="cart-badge" data-cart-badge>0</span>
@@ -48,23 +62,23 @@
     <div class="wrap hero-body">
       <div class="hero-draw" data-tilt>
         <div class="tilt glow">
-          <img src="assets/img/prod-white-34.webp" width="362" height="1400" alt=""
+          <img src="assets/img/r01.webp" width="628" height="2544" alt=""
                fetchpriority="high" decoding="async">
           <!-- Three hotspots, on the three things a buyer actually asks about.
                Each is a real button, so keyboard and screen readers get the
                same information the pointer does. -->
           <div class="hotspots">
-            <button type="button" class="hs" style="--x:53%;--y:22%" aria-expanded="false"
+            <button type="button" class="hs" style="--x:49%;--y:37%" aria-expanded="false"
                     aria-label="Mode and power controls">
               <i aria-hidden="true"></i>
-              <span class="hs-tip"><b>Four modes</b><span>Soft, Standard, High and Pulse, stepped through with the lower button.</span></span>
+              <span class="hs-tip"><b>Four modes</b><span>Massage, Soft, Normal and Clean, stepped through with the lower button.</span></span>
             </button>
-            <button type="button" class="hs" style="--x:57%;--y:63%" aria-expanded="false"
+            <button type="button" class="hs" style="--x:50%;--y:79%" aria-expanded="false"
                     aria-label="Water tank">
               <i aria-hidden="true"></i>
               <span class="hs-tip"><b>300 ml tank</b><span>About ninety seconds of water. Twists off to fill and to clean.</span></span>
             </button>
-            <button type="button" class="hs" data-side="left" style="--x:46%;--y:88%" aria-expanded="false"
+            <button type="button" class="hs" data-side="left" style="--x:20%;--y:66%" aria-expanded="false"
                     aria-label="Water resistance rating">
               <i aria-hidden="true"></i>
               <span class="hs-tip"><b>IPX7</b><span>Rated for immersion, so it is safe to use and rinse in the shower.</span></span>
@@ -120,7 +134,7 @@
         <a class="pc rv" href="product.html" style="--acc:#079DE0">
           <div class="pc-fig">
             <span class="pc-tag">In stock</span>
-            <img src="assets/img/prod-white-34.webp" width="362" height="1400" loading="lazy"
+            <img src="assets/img/r01.webp" width="628" height="2544" loading="lazy"
                  alt="reboot R01 cordless water flosser, three quarter view">
           </div>
           <div class="pc-bd">
@@ -180,8 +194,8 @@
     <div class="wrap">
       <div class="feat">
         <figure class="feat-fig glow halo" style="margin:0">
-          <img src="assets/img/prod-white-34l.webp" width="362" height="1400" loading="lazy"
-               alt="reboot R01 cordless water flosser in Soft White">
+          <img src="assets/img/r01.webp" width="628" height="2544" loading="lazy"
+               alt="reboot R01 cordless water flosser in Soft White, with the smoke grey tank below the body">
         </figure>
         <div class="rv">
           <span class="pc-cat">Live &middot; Out now</span>
@@ -193,7 +207,7 @@
           <div class="feat-pr"><b>$79</b><span>Free shipping &middot; 30 day returns &middot; 12 month warranty</span></div>
           <ul class="feat-list">
             <li>Cleans along the gumline, where a toothbrush cannot reach</li>
-            <li>Four pressure modes, from Soft to High</li>
+            <li>Four modes &mdash; Massage, Soft, Normal and Clean</li>
             <li>Five nozzles in the box, including one for braces</li>
             <li>300 ml tank, USB-C, waterproof enough for the shower</li>
           </ul>
@@ -232,8 +246,8 @@
   <section class="moment sec-air" aria-labelledby="objh">
     <div class="wrap bleed">
       <h2 id="objh" class="vh">The object</h2>
-      <img src="assets/img/prod-white-34.webp" width="362" height="1400" loading="lazy"
-           alt="reboot Water Flosser in Soft White, three quarter view showing the power and mode buttons and the tank window">
+      <img src="assets/img/r01.webp" width="628" height="2544" loading="lazy"
+           alt="The R01 seen straight on, showing the power and mode buttons, the mode indicators and the tank">
       <dl class="moment-facts">
         <div><dt>Height</dt><dd>215 mm</dd></div>
         <div><dt>Tank</dt><dd>300 ml</dd></div>

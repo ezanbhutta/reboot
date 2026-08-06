@@ -7,13 +7,23 @@
 <title>Privacy | reboot</title>
 <meta name="description" content="What data reboot collects, why, and what we do not do with it.">
 <link rel="preload" href="assets/fonts/poppins-light.woff2" as="font" type="font/woff2" crossorigin>
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(){var t=null;try{t=localStorage.getItem('rb-theme')}catch(e){}
+if(t!=='light'&&t!=='dark')t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('js')})()</script>
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="assets/img/mark-blue.svg" type="image/svg+xml">
 <script src="assets/js/analytics.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="promo">
+  <div class="wrap">
+    <span><b>Free shipping</b> on every order</span><i aria-hidden="true"></i>
+    <span><b>30 days</b> to return it, postage on us</span><i aria-hidden="true"></i>
+    <span><b>12 month</b> warranty</span>
+  </div>
+</div>
+
 <header class="hdr">
   <div class="wrap hdr-in">
     <a class="brand" href="index.html" aria-label="reboot home"><img src="assets/img/logo.svg" alt="reboot" width="140" height="40"></a>
@@ -25,6 +35,10 @@
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
+    <button type="button" class="themebtn" data-theme-toggle aria-pressed="false" aria-label="Switch to light">
+      <svg class="t-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.6 8.6 0 0 1 9.4 4 8.6 8.6 0 1 0 20 14.6Z"/></svg>
+      <svg class="t-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.7v2.1M12 19.2v2.1M4.8 12H2.7M21.3 12h-2.1M6.6 6.6 5.1 5.1M18.9 18.9l-1.5-1.5M17.4 6.6l1.5-1.5M5.1 18.9l1.5-1.5"/></svg>
+    </button>
     <button type="button" class="cartbtn" data-cart-open aria-label="Open cart" aria-controls="cart-drawer">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h15l-1.4 9.3a2 2 0 0 1-2 1.7H7.8a2 2 0 0 1-2-1.7L4 4H1.6"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
       <span class="cart-badge" data-cart-badge>0</span>
@@ -38,13 +52,13 @@
   <h1 class="d2 measure">Privacy</h1>
   <p class="lede measure" style="margin-top:1.25rem">We collect what an order needs. Nothing else.</p>
 </div></div></div></section>
-<section class="sec"><div class="wrap"><div class="grid"><div class="prose"><div class="notice" style="margin-top:0;margin-bottom:2rem"><p><strong style="color:#fff;font-weight:500">The short version:</strong> we collect what's needed to take payment, ship your order and answer your questions. We don't sell your data. You can ask us to delete it.</p></div>
+<section class="sec"><div class="wrap"><div class="grid"><div class="prose"><div class="notice" style="margin-top:0;margin-bottom:2rem"><p><strong style="color:var(--white);font-weight:500">The short version:</strong> we collect what's needed to take payment, ship your order and answer your questions. We don't sell your data. You can ask us to delete it.</p></div>
 <h2 id="what">What we collect</h2>
 <ul>
-<li><strong style="color:#fff;font-weight:500">When you order:</strong> name, delivery and billing address, email, phone number if you give one, and order contents. Card details go straight to our payment processor. We never see or store them.</li>
-<li><strong style="color:#fff;font-weight:500">When you contact us:</strong> your message and contact details, so we can reply and keep a record.</li>
-<li><strong style="color:#fff;font-weight:500">When you subscribe:</strong> your email address, until you unsubscribe.</li>
-<li><strong style="color:#fff;font-weight:500">When you browse:</strong> standard analytics covering pages viewed, roughly where you are, and what device you used.</li>
+<li><strong style="color:var(--white);font-weight:500">When you order:</strong> name, delivery and billing address, email, phone number if you give one, and order contents. Card details go straight to our payment processor. We never see or store them.</li>
+<li><strong style="color:var(--white);font-weight:500">When you contact us:</strong> your message and contact details, so we can reply and keep a record.</li>
+<li><strong style="color:var(--white);font-weight:500">When you subscribe:</strong> your email address, until you unsubscribe.</li>
+<li><strong style="color:var(--white);font-weight:500">When you browse:</strong> standard analytics covering pages viewed, roughly where you are, and what device you used.</li>
 </ul>
 <h2 id="why">Why</h2>
 <p>To take payment, deliver your order, handle returns and warranty claims, answer questions, meet our legal and tax obligations, and understand which parts of the site are and aren't working.</p>

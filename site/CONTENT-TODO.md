@@ -23,17 +23,43 @@ Newly added from the manual because the site had never mentioned them: the
 three second crescendo on start-up, mode memory, and the 45° angle and lowest
 pressure for the periodontal tip.
 
+## Photography
+
+The product images are now the **manufacturer's own product photograph**, lifted
+at full resolution from the packaging artwork (`Reboot_Packaging_Design_.pdf`,
+848 × 2608 with its alpha channel intact). It carries the printed `reboot`
+wordmark on the body and shows the true finish: a white upper shell over a
+smoke-grey translucent tank. The three detail views on the product page —
+controls, tank, nozzle — are crops of that same frame, so nothing on the site is
+a render any more. The CAD line drawings remain, but only in the specification
+inspector where they answer a question a photograph cannot.
+
+Still outstanding: the lifestyle photography listed further down this file, and
+a second colourway shot if Matte Carbon or Sage is ever costed.
+
+## Both grounds
+
+The site now ships a **light and a dark theme**, toggled from the masthead and
+remembered per visitor. A first-time visitor gets whichever their operating
+system asks for. The two are one token set, not two stylesheets: `--tint`,
+`--white` and `--on-white` invert and every component rule follows. The CAD line
+drawings are inverted by filter on the pale ground; the inline anatomical
+diagrams keep a dark plate on both, because their fills are baked in.
+
 **The warranty change matters commercially.** The site had been promising two
 years in six places, including the buy box and the warranty page. The card the
 customer gets in the box says twelve months. Twelve is now what the site says.
 
 ## Still to resolve
 
-**The mode names disagree with themselves.** The manual's table calls them
-Massage, Soft, Normal and Clean; the diagram on the same page labels them Pulse,
-Soft, Standard and Strong. The site currently uses Soft, Standard, High and
-Pulse. One set needs to be chosen and used in the manual, on the box and on the
-site. Until then the site is following its own earlier naming.
+**The mode names still disagree inside the manual itself.** Its table calls
+them Massage, Soft, Normal and Clean; the diagram on the same page labels the
+same four positions Pulse, Soft, Standard and Strong. **The site now follows the
+table** — the set printed in words — and uses Massage, Soft, Normal and Clean
+everywhere: the pressure simulator, the specification list, the diagnosis
+matcher, the home page hotspot and the nozzle guidance. The diagram on page 04
+of the manual should be relabelled to match before the next print run, or the
+box and the site will say different things.
 
 **The registration number** for REBOOTME (SMC-PRIVATE) LIMITED is still missing
 from the terms page.
