@@ -1,7 +1,45 @@
 # Content placeholders in this prototype
 
-Everything below is a placeholder chosen so the design can be evaluated. None of it
-is confirmed. Each item lists exactly where it appears so it can be swapped quickly.
+## Corrected against the client's own documents
+
+The warranty card, user manual and packaging artwork arrived after the site was
+built, and several things the site stated turned out to be wrong. All of these
+are now taken from those documents rather than assumed:
+
+| Was | Now | Source |
+|---|---|---|
+| 2 year warranty | **12 months** | warranty card |
+| Shuts off at 90 seconds | **about 2 minutes** | manual §08 |
+| Runtime "to be confirmed" | **~70 minutes on Soft** | manual §02 |
+| Weight not stated | **260 g ±5%** | manual §02 |
+| Battery "3.7 V" | **1100 mAh / 3.7 V** | packaging |
+| Model SK-CYQ-D | **R01 (SK-CYQ-D1)** | packaging |
+| `hello@reboot.example` | **hello@reboot-lifestyle.com** | card, manual, box |
+| Company details "to be published" | **REBOOTME (SMC-PRIVATE) LIMITED**, Kohat, Pakistan | packaging |
+| Standard jet ×2 + four others | **five distinct tips**, incl. a plaque brush | manual §06 |
+| "Clean where brushing stops" | **"Clean beyond brushing"** | box, manual |
+
+Newly added from the manual because the site had never mentioned them: the
+three second crescendo on start-up, mode memory, and the 45° angle and lowest
+pressure for the periodontal tip.
+
+**The warranty change matters commercially.** The site had been promising two
+years in six places, including the buy box and the warranty page. The card the
+customer gets in the box says twelve months. Twelve is now what the site says.
+
+## Still to resolve
+
+**The mode names disagree with themselves.** The manual's table calls them
+Massage, Soft, Normal and Clean; the diagram on the same page labels them Pulse,
+Soft, Standard and Strong. The site currently uses Soft, Standard, High and
+Pulse. One set needs to be chosen and used in the manual, on the box and on the
+site. Until then the site is following its own earlier naming.
+
+**The registration number** for REBOOTME (SMC-PRIVATE) LIMITED is still missing
+from the terms page.
+
+**The domain** on all printed material is reboot-lifestyle.com. The site should
+be deployed there rather than to the Vercel preview URL.
 
 ## The primary typeface is a stand-in, and needs licensing
 
