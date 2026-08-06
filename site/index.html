@@ -27,7 +27,7 @@
     <nav class="nav" aria-label="Primary">
       <a href="shop.html">Shop All</a>
       <a href="#shelves">Categories</a>
-      <a href="product.html">Release 001: Gloss</a>
+      <a href="product.html">R01</a>
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
@@ -80,21 +80,10 @@
         <div class="c5 s1">
           <p class="lede hero-lede">We make a small number of things for how you live, move, work and connect. One product at a time, and only when it is ready.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary mag" href="product.html"><span>Explore Release 001 &mdash; $79</span></a>
+            <a class="btn btn-primary mag" href="product.html"><span>Shop the R01 &mdash; $79</span></a>
             <a class="btn btn-ghost" href="shop.html"><span>See the catalogue</span></a>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="hero-bar">
-      <span class="scrollcue">Scroll <i></i></span>
-      <div class="wrap">
-        <dl class="grid">
-          <div class="c3 s1"><dt>Out now</dt><dd>Release 001</dd></div>
-          <div class="c3 s4"><dt>Shipping</dt><dd>Free</dd></div>
-          <div class="c3 s7"><dt>Returns</dt><dd>30 days</dd></div>
-          <div class="c3 s10"><dt>Warranty</dt><dd>2 years</dd></div>
-        </dl>
       </div>
     </div>
   </section>
@@ -103,7 +92,7 @@
     <div class="wrap">
       <div class="grid">
         <div class="c7 s1 rv">
-          <q>Most gadgets get used twice and then live in a drawer.</q>
+          <q>Most gadgets get used twice, then live in a drawer.</q>
           <p class="attr">We would rather make four things you keep than forty you don't</p>
         </div>
       </div>
@@ -118,82 +107,66 @@
     <div class="wrap">
       <div class="grid rv">
         <div class="c7 s1">
-          <div class="eyeline"><span>What we build for</span></div>
-          <h2 class="t-2xl optical">Four shelves. One of them has something on it.</h2>
-          <p class="sub">This is the whole shape of the company. Open any of the empty three to see how far it has actually got.</p>
+          <h2 class="t-2xl optical">Shop the range</h2>
+          <p class="sub">One product out now, three categories still being worked on. We would rather show you the gaps than fill them with things we do not believe in.</p>
         </div>
       </div>
 
-      <div class="cat" style="margin-top:var(--s6)">
-        <a class="cat-row rv" href="product.html" style="--acc:#079DE0">
-          <span class="cat-ix">01</span>
-          <h3 class="cat-nm">Live</h3>
-          <p class="cat-sc">The daily maintenance. Bathroom shelf, bedside table, the things you touch every morning without thinking about it.</p>
-          <span class="cat-st"><b>In stock</b>1 product</span>
-          <div class="cat-stock">
-            <img src="assets/img/prod-white.webp" width="344" height="1400" loading="lazy"
-                 alt="reboot Water Flosser in Soft White, front view">
-            <div>
-              <h4>Gloss &mdash; Release 001</h4>
-              <p>A cordless flosser built for the gumline. $79, five nozzles in the box, two year warranty.</p>
-            </div>
+      <!-- Cards, because that is the pattern a shopper already knows. One card
+           per product plus one per category that is still empty, labelled as
+           empty rather than dressed up as buyable. Adding Release 002 adds a
+           card; nothing about the grid changes. -->
+      <div class="coll" style="margin-top:var(--s5)">
+        <a class="pc rv" href="product.html" style="--acc:#079DE0">
+          <div class="pc-fig">
+            <span class="pc-tag">In stock</span>
+            <img src="assets/img/prod-white-34.webp" width="362" height="1400" loading="lazy"
+                 alt="reboot R01 cordless water flosser, three quarter view">
+          </div>
+          <div class="pc-bd">
+            <span class="pc-cat">Live</span>
+            <h3 class="pc-nm">R01 Water Flosser</h3>
+            <p class="pc-ds">For the gumline a toothbrush cannot reach. Four modes, five nozzles in the box.</p>
+            <span class="pc-stars">
+              <span class="dots" role="img" aria-label="Rated 4.6 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="half"></i></span>
+              4.6 &middot; 128 reviews</span>
+            <div class="pc-ft"><span class="pc-pr">$79</span><span class="pc-go">Shop now</span></div>
           </div>
         </a>
 
-        <div class="cat-row rv" data-shelf style="--acc:#F97400">
-          <span class="cat-ix">02</span>
-          <h3 class="cat-nm"><button type="button" class="shelf-t" aria-expanded="false" aria-controls="shelf-move">Move<span class="cat-chev" aria-hidden="true"></span></button></h3>
-          <p class="cat-sc">What travels with you. Sized for a bag rather than a shelf, and expected to survive being thrown into one.</p>
-          <span class="cat-st"><b>In development</b>Nothing to show yet</span>
-          <div class="shelf-more" id="shelf-move" role="region" aria-label="Move, current state">
-            <div><div class="shelf-in">
-              <img class="shelf-wire" src="assets/img/dwg-tank.svg" alt="" width="120" height="140" loading="lazy">
-              <div>
-                <h4>Where Move has got to</h4>
-                <p>Concept work only. What we can say is the constraint we set ourselves: it has to survive a year in a bag without a case, and charge from the same cable as everything else you own.</p>
-                <button type="button" class="shelf-cta" data-modal-open="waitlist">Join the Release 002 list</button>
-              </div>
-            </div></div>
+        <div class="pc empty-slot rv" style="--acc:#F97400">
+          <div class="pc-fig"><span class="pc-tag soon">In development</span><span>Move</span></div>
+          <div class="pc-bd">
+            <span class="pc-cat">Move</span>
+            <h3 class="pc-nm">Nothing here yet</h3>
+            <p class="pc-ds">What travels with you. Sized for a bag rather than a shelf.</p>
+            <div class="pc-ft"><button type="button" class="pc-go" data-modal-open="waitlist">Tell me when it lands</button></div>
           </div>
         </div>
 
-        <div class="cat-row rv" data-shelf style="--acc:#09D0DC">
-          <span class="cat-ix">03</span>
-          <h3 class="cat-nm"><button type="button" class="shelf-t" aria-expanded="false" aria-controls="shelf-work">Work<span class="cat-chev" aria-hidden="true"></span></button></h3>
-          <p class="cat-sc">The desk. Things that stay out of the way until the moment you need them, and do one job without asking for attention.</p>
-          <span class="cat-st"><b>In development</b>Nothing to show yet</span>
-          <div class="shelf-more" id="shelf-work" role="region" aria-label="Work, current state">
-            <div><div class="shelf-in">
-              <img class="shelf-wire" src="assets/img/dwg-top.svg" alt="" width="120" height="140" loading="lazy">
-              <div>
-                <h4>Where Work has got to</h4>
-                <p>Concept work only. The rule here is that it does one job and then gets out of the way. If it needs an app to be useful, we have got it wrong.</p>
-                <button type="button" class="shelf-cta" data-modal-open="waitlist">Join the Release 002 list</button>
-              </div>
-            </div></div>
+        <div class="pc empty-slot rv rv-d1" style="--acc:#09D0DC">
+          <div class="pc-fig"><span class="pc-tag soon">In development</span><span>Work</span></div>
+          <div class="pc-bd">
+            <span class="pc-cat">Work</span>
+            <h3 class="pc-nm">Nothing here yet</h3>
+            <p class="pc-ds">The desk. Things that stay out of the way until you need them.</p>
+            <div class="pc-ft"><button type="button" class="pc-go" data-modal-open="waitlist">Tell me when it lands</button></div>
           </div>
         </div>
 
-        <div class="cat-row rv" data-shelf style="--acc:#68E69D">
-          <span class="cat-ix">04</span>
-          <h3 class="cat-nm"><button type="button" class="shelf-t" aria-expanded="false" aria-controls="shelf-connect">Connect<span class="cat-chev" aria-hidden="true"></span></button></h3>
-          <p class="cat-sc">Sound and sharing. The category we are slowest on, because it is the one most crowded with things that are nearly good enough.</p>
-          <span class="cat-st"><b>Concept</b>No date</span>
-          <div class="shelf-more" id="shelf-connect" role="region" aria-label="Connect, current state">
-            <div><div class="shelf-in">
-              <img class="shelf-wire" src="assets/img/dwg-side.svg" alt="" width="120" height="140" loading="lazy">
-              <div>
-                <h4>Where Connect has got to</h4>
-                <p>Earliest stage of the four, and the one we are most likely to abandon. We would rather ship nothing here than ship the fourth-best version of something that already exists.</p>
-                <button type="button" class="shelf-cta" data-modal-open="waitlist">Join the Release 002 list</button>
-              </div>
-            </div></div>
+        <div class="pc empty-slot rv rv-d2" style="--acc:#68E69D">
+          <div class="pc-fig"><span class="pc-tag soon">Concept</span><span>Connect</span></div>
+          <div class="pc-bd">
+            <span class="pc-cat">Connect</span>
+            <h3 class="pc-nm">Nothing here yet</h3>
+            <p class="pc-ds">Sound and sharing. The category we are slowest on, on purpose.</p>
+            <div class="pc-ft"><button type="button" class="pc-go" data-modal-open="waitlist">Tell me when it lands</button></div>
           </div>
         </div>
       </div>
 
       <div class="grid" style="margin-top:var(--s4)">
-        <div class="c6 s1"><p class="t-sm dim">Categories are how the store is built, not a promise about dates. When something is genuinely ready it appears on its shelf and not before.</p></div>
+        <div class="c6 s1"><p class="t-sm dim">Dates are not promised. When something is genuinely ready it appears here and not before.</p></div>
       </div>
     </div>
   </section>
@@ -201,46 +174,33 @@
   <!-- RELEASE 001. The product gets one section on the home page instead of
        eleven. The depth lives on its own page, where someone who has decided
        to care about a flosser can go and read all of it. -->
+  <!-- FEATURED PRODUCT. What a storefront puts here: the thing you can buy,
+       its price, what people rated it, and one button. -->
   <section class="sec sec-air-b light" id="release">
     <div class="wrap">
-      <!-- Every text block in this section starts on column 1: the serial, the
-           headline, the copy, the buttons and the facts. The photograph is the
-           only thing that sits anywhere else. -->
-      <div class="grid">
-        <div class="c8 s1 rv">
-          <span class="rel-k">Release</span>
-          <span class="rel-n" style="--acc:#056C9B">001</span>
-        </div>
-      </div>
-      <div class="grid" style="margin-top:var(--s4)">
-        <div class="c8 s1 rv rv-d1">
-          <h2 class="t-2xl optical">We started with the <span class="ed">boring</span> one.</h2>
-          <p class="sub">A cordless water flosser. Not the product that makes a brand look exciting, but the one where the gap between what is sold and what actually works was widest.</p>
-        </div>
-      </div>
-
-      <div class="grid" style="margin-top:var(--s6)">
-        <div class="c6 s1 rv rv-d1">
-          <p class="t-lg" style="color:var(--ink);font-weight:400">Nearly everyone who gives up on a water flosser was using it wrong, and nobody had told them how.</p>
-          <p class="t-md" style="margin-top:var(--s3)">So the product page is mostly technique. Where to aim it, which mode to start on, and what the first fortnight actually looks like. The hardware was the easy half.</p>
-          <div class="hero-actions" style="margin-top:var(--s5)">
+      <div class="feat">
+        <figure class="feat-fig glow halo" style="margin:0">
+          <img src="assets/img/prod-white-34l.webp" width="362" height="1400" loading="lazy"
+               alt="reboot R01 cordless water flosser in Soft White">
+        </figure>
+        <div class="rv">
+          <span class="pc-cat">Live &middot; Out now</span>
+          <h2 class="t-2xl optical" style="margin-top:.4rem">R01 Water Flosser</h2>
+          <a class="buy-rating" href="product.html#reviews" style="margin-top:var(--s2)">
+            <span class="dots" role="img" aria-label="Rated 4.6 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="half"></i></span>
+            <span>4.6 &nbsp;/&nbsp; 128 reviews</span>
+          </a>
+          <div class="feat-pr"><b>$79</b><span>Free shipping &middot; 30 day returns &middot; 2 year warranty</span></div>
+          <ul class="feat-list">
+            <li>Cleans along the gumline, where a toothbrush cannot reach</li>
+            <li>Four pressure modes, from Soft to High</li>
+            <li>Five nozzles in the box, including one for braces</li>
+            <li>300 ml tank, USB-C, waterproof enough for the shower</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:var(--s4)">
             <button type="button" class="btn btn-primary mag" data-add="RB-001-WHT"><span>Add to cart &mdash; $79</span></button>
-            <a class="btn btn-ghost" href="product.html"><span>Read the product page</span></a>
+            <a class="btn btn-ghost" href="product.html"><span>See the details</span></a>
           </div>
-          <!-- three facts inside a six-column cell. A nested .grid would inherit
-               twelve columns and stop lining up with anything. -->
-          <dl class="factrow">
-            <div><dt class="label">Pressure</dt><dd>40&ndash;120 PSI</dd></div>
-            <div><dt class="label">Tank</dt><dd>300 ml</dd></div>
-            <div><dt class="label">Rating</dt><dd>IPX7</dd></div>
-          </dl>
-        </div>
-        <div class="c5 s8 rv rv-d2">
-          <figure class="glow halo" style="margin:0;background:var(--surface-0);border:1px solid var(--line-dark);padding:clamp(1.5rem,4vw,3rem);display:grid;place-items:center">
-            <img src="assets/img/prod-white-34l.webp" width="362" height="1400" loading="lazy"
-                 style="height:min(52vh,520px);width:auto"
-                 alt="reboot Water Flosser in Soft White, three quarter view showing the power and mode buttons and the tank window">
-          </figure>
         </div>
       </div>
     </div>
@@ -290,8 +250,7 @@
     <div class="wrap">
       <div class="grid rv">
         <div class="c8 s1">
-          <div class="eyeline"><span>How we choose</span></div>
-          <h2 class="t-quiet optical">Four tests before anything gets a <span class="ed">release number.</span></h2>
+          <h2 class="t-2xl optical">How we decide what to make</h2>
         </div>
       </div>
       <div class="ladder" style="margin-top:var(--s6)">
@@ -360,7 +319,7 @@
         <img src="assets/img/logo.svg" alt="reboot" width="140" height="40">
         <p class="t-sm dim measure-s">Everyday tech for how you live, move, work and connect. One product at a time, and only when it is ready.</p>
       </div>
-      <div class="c2 s5"><h4>Shop</h4><ul><li><a href="shop.html">All products</a></li><li><a href="product.html">Gloss &mdash; Release 001</a></li><li><a href="index.html#shelves">Categories</a></li></ul></div>
+      <div class="c2 s5"><h4>Shop</h4><ul><li><a href="shop.html">All products</a></li><li><a href="product.html">R01</a></li><li><a href="index.html#shelves">Categories</a></li></ul></div>
       <div class="c2 s7"><h4>Support</h4><ul><li><a href="contact.html">Contact us</a></li><li><a href="warranty.html">Warranty claim</a></li><li><a href="product.html#faq">FAQ</a></li></ul></div>
       <div class="c2 s9"><h4>Policies</h4><ul><li><a href="shipping.html">Shipping</a></li><li><a href="returns.html">Returns</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
     </div>
