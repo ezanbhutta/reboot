@@ -197,7 +197,7 @@
   };
   var PRODUCTS = {
     'gloss': {
-      release: '001', category: 'live', name: 'Gloss',
+      release: '001', category: 'live', name: 'R01',
       subtitle: 'Cordless water flosser', price: 79, status: 'live',
       url: 'product.html',
       variants: [
@@ -453,25 +453,6 @@
       e.preventDefault();
       e.stopPropagation();
       showModal($('#' + b.getAttribute('data-modal-open')));
-    });
-  });
-
-  /* ==================================================================
-     shelf teasers
-     ================================================================== */
-  var shelves = $$('[data-shelf]');
-  shelves.forEach(function (row) {
-    var toggle = $('.shelf-t', row);
-    if (!toggle) return;
-    toggle.addEventListener('click', function () {
-      var open = row.classList.contains('open');
-      shelves.forEach(function (r) {
-        r.classList.remove('open');
-        var t = $('.shelf-t', r);
-        if (t) t.setAttribute('aria-expanded', 'false');
-      });
-      row.classList.toggle('open', !open);
-      toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
     });
   });
 
