@@ -9,13 +9,23 @@
 <link rel="preload" href="assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/azeret-500.woff2" as="font" type="font/woff2" crossorigin>
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(){var t=null;try{t=localStorage.getItem('rb-theme')}catch(e){}
+if(t!=='light'&&t!=='dark')t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('js')})()</script>
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="icon" href="assets/img/mark-blue.svg" type="image/svg+xml">
 <script src="assets/js/analytics.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<div class="promo">
+  <div class="wrap">
+    <span><b>Free shipping</b> on every order</span><i aria-hidden="true"></i>
+    <span><b>30 days</b> to return it, postage on us</span><i aria-hidden="true"></i>
+    <span><b>12 month</b> warranty</span>
+  </div>
+</div>
 
 <header class="hdr">
   <div class="wrap hdr-in">
@@ -27,6 +37,10 @@
       <a href="about.html">About</a>
       <a href="contact.html">Support</a>
     </nav>
+    <button type="button" class="themebtn" data-theme-toggle aria-pressed="false" aria-label="Switch to light">
+      <svg class="t-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.6 8.6 0 0 1 9.4 4 8.6 8.6 0 1 0 20 14.6Z"/></svg>
+      <svg class="t-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.7v2.1M12 19.2v2.1M4.8 12H2.7M21.3 12h-2.1M6.6 6.6 5.1 5.1M18.9 18.9l-1.5-1.5M17.4 6.6l1.5-1.5M5.1 18.9l1.5-1.5"/></svg>
+    </button>
     <button type="button" class="cartbtn" data-cart-open aria-label="Open cart" aria-controls="cart-drawer">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h15l-1.4 9.3a2 2 0 0 1-2 1.7H7.8a2 2 0 0 1-2-1.7L4 4H1.6"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
       <span class="cart-badge" data-cart-badge>0</span>
@@ -49,28 +63,29 @@
           <div class="plate-hd">
             <span class="plate-view" data-plate-label>Soft White</span>
             <div class="plate-tabs" role="tablist" aria-label="Product views">
-              <button type="button" role="tab" aria-selected="true"  data-src="prod-white.webp"      data-label="Soft White">Front</button>
-              <button type="button" role="tab" aria-selected="false" data-src="prod-white-34.webp"   data-label="Three quarter">3/4</button>
-              <button type="button" role="tab" aria-selected="false" data-src="prod-white-side.webp" data-label="Profile">Profile</button>
-              <button type="button" role="tab" aria-selected="false" data-src="prod-white-rear.webp" data-label="Rear">Rear</button>
+              <button type="button" role="tab" aria-selected="true"  data-src="r01.webp"          data-label="Soft White">Product</button>
+              <button type="button" role="tab" aria-selected="false" data-src="r01-controls.webp" data-label="Power and mode">Controls</button>
+              <button type="button" role="tab" aria-selected="false" data-src="r01-tank.webp"     data-label="300 ml tank">Tank</button>
+              <button type="button" role="tab" aria-selected="false" data-src="r01-tip.webp"      data-label="Standard jet">Tip</button>
             </div>
           </div>
           <div class="plate-stage glow halo">
-            <img data-plate src="assets/img/prod-white.webp" width="344" height="1400"
-                 alt="reboot Water Flosser in Soft White, front view" fetchpriority="high">
+            <img data-plate src="assets/img/r01.webp" width="628" height="2544"
+                 alt="reboot R01 water flosser in Soft White, with the smoke grey tank below the body"
+                 fetchpriority="high">
             <span class="lens" aria-hidden="true"></span>
           </div>
           <!-- Thumbnails carry the same data-src as the tabs above, so one
                handler drives both and they can never disagree. -->
           <div class="plate-thumbs" role="tablist" aria-label="Product views, thumbnails">
-            <button type="button" role="tab" aria-selected="true"  data-src="prod-white.webp" data-label="Soft White" aria-label="Front view">
-              <img src="assets/img/prod-white.webp" alt="" width="52" height="72" loading="lazy"></button>
-            <button type="button" role="tab" aria-selected="false" data-src="prod-white-34.webp" data-label="Three quarter" aria-label="Three quarter view">
-              <img src="assets/img/prod-white-34.webp" alt="" width="52" height="72" loading="lazy"></button>
-            <button type="button" role="tab" aria-selected="false" data-src="prod-white-side.webp" data-label="Profile" aria-label="Profile view">
-              <img src="assets/img/prod-white-side.webp" alt="" width="52" height="72" loading="lazy"></button>
-            <button type="button" role="tab" aria-selected="false" data-src="prod-white-rear.webp" data-label="Rear" aria-label="Rear view">
-              <img src="assets/img/prod-white-rear.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="true"  data-src="r01.webp" data-label="Soft White" aria-label="The whole product">
+              <img src="assets/img/r01.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="false" data-src="r01-controls.webp" data-label="Power and mode" aria-label="Power and mode buttons">
+              <img src="assets/img/r01-controls.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="false" data-src="r01-tank.webp" data-label="300 ml tank" aria-label="The tank">
+              <img src="assets/img/r01-tank.webp" alt="" width="52" height="72" loading="lazy"></button>
+            <button type="button" role="tab" aria-selected="false" data-src="r01-tip.webp" data-label="Standard jet" aria-label="The nozzle">
+              <img src="assets/img/r01-tip.webp" alt="" width="52" height="72" loading="lazy"></button>
           </div>
           <div class="plate-tools">
             <button type="button" class="tool" data-lightbox-open>
@@ -84,7 +99,7 @@
           </div>
           <figcaption class="plate-ft">
             <span>69 &#215; 76 &#215; 215 mm</span>
-            <span>Rendered from the manufacturer&#8217;s own 3D model</span>
+            <span>Photographed for the packaging artwork</span>
           </figcaption>
         </figure>
       </div>
@@ -129,6 +144,29 @@
     </div>
   </section>
 
+  <!-- The four things a buyer checks before the price. Stated once, here,
+       rather than repeated as a badge on every module below. -->
+  <section class="wrap">
+    <div class="trust">
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+        <div><b>Free shipping</b><span>Dispatched within one working day</span></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 2 5.3"/><path d="M4 5v5h5"/></svg>
+        <div><b>30 day returns</b><span>We pay the return postage</span></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div><b>12 month warranty</b><span>Parts and labour, claimed online</span></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.4 6 10.2A6 6 0 0 1 6 13.2C6 9.4 12 3 12 3Z"/></svg>
+        <div><b>IPX7 waterproof</b><span>Rinse the whole body under the tap</span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- BAND -->
   <section class="band">
     <div class="wrap">
@@ -153,6 +191,68 @@
         <div class="c6 s1 rv rv-d1">
           <p class="t-lg ed" style="color:var(--ink)">Used together they cover the whole mouth.</p>
           <p class="t-md" style="margin-top:var(--s2)">If you are buying this to throw your floss away, we would rather tell you now than have you find out in a month.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IN THE BOX. Page 01 of the manual, counted rather than described. -->
+  <section class="sec" id="inbox">
+    <div class="wrap">
+      <div class="grid rv">
+        <div class="c7 s1">
+          <div class="eyeline"><span>In the box</span></div>
+          <h2 class="t-2xl optical">Everything you need is in it.</h2>
+          <p class="sub">Nothing here is sold separately later. The five nozzles cover every job the manual describes, and the tank doubles as the place you keep the spare ones.</p>
+        </div>
+      </div>
+      <div class="box-list" style="margin-top:var(--s5)">
+        <div class="box-item rv"><span class="n">1&#215;</span><div><h3>R01 flosser</h3><p>The body, with the tank fitted. 260&nbsp;g, 215&nbsp;mm tall.</p></div></div>
+        <div class="box-item rv"><span class="n">1&#215;</span><div><h3>Detachable water tank</h3><p>300&nbsp;ml. Twists off for filling and rinsing, and stores the spare tips.</p></div></div>
+        <div class="box-item rv"><span class="n">5&#215;</span><div><h3>Nozzles</h3><p>Standard jet, plaque brush, periodontal, orthodontic and tongue scraper.</p></div></div>
+        <div class="box-item rv"><span class="n">1&#215;</span><div><h3>USB&#8209;C charging cable</h3><p>The same cable as everything else on the shelf. No proprietary dock.</p></div></div>
+        <div class="box-item rv"><span class="n">1&#215;</span><div><h3>Manual and warranty card</h3><p>Twelve months, and the technique guide on the reverse.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GET TO KNOW IT. The manual's page 02, with the photograph doing the work
+       the line drawing does on paper. Hover or take a row to light its pin. -->
+  <section class="sec light" id="anatomy">
+    <div class="wrap">
+      <div class="grid rv">
+        <div class="c8 s1">
+          <div class="eyeline"><span>Get to know it</span></div>
+          <h2 class="t-2xl optical">Two buttons, and six lights.</h2>
+          <p class="sub">The whole interface. There is no app, no pairing and nothing to set up.</p>
+        </div>
+      </div>
+      <div class="anat rv" data-anat style="margin-top:var(--s5)">
+        <div class="anat-fig glow">
+          <span class="anat-img">
+            <img src="assets/img/r01.webp" width="628" height="2544" loading="lazy"
+                 alt="The R01 with its parts labelled: nozzle, charging port, power button, mode button, mode indicators, battery light, tank release and water tank">
+            <button type="button" class="anat-pin" data-part="tip"   style="left:50%;top:12%"  aria-label="Nozzle"></button>
+            <button type="button" class="anat-pin" data-part="port"  style="left:78%;top:30%"  aria-label="Charging port"></button>
+            <button type="button" class="anat-pin" data-part="power" style="left:49%;top:34%"  aria-label="Power button"></button>
+            <button type="button" class="anat-pin" data-part="mode"  style="left:49%;top:41%"  aria-label="Mode button"></button>
+            <button type="button" class="anat-pin" data-part="dots"  style="left:49%;top:49%"  aria-label="Mode indicators"></button>
+            <button type="button" class="anat-pin" data-part="batt"  style="left:49%;top:54%"  aria-label="Battery light"></button>
+            <button type="button" class="anat-pin" data-part="lock"  style="left:83%;top:59%"  aria-label="Tank release"></button>
+            <button type="button" class="anat-pin" data-part="tank"  style="left:50%;top:79%"  aria-label="Water tank"></button>
+          </span>
+        </div>
+        <div>
+          <div class="anat-list">
+            <button type="button" class="anat-row" data-part="tip"><span class="n">01</span><span><span class="k">Nozzle</span><span class="d">Pushes in until it clicks and turns a full circle in the collar, so you point the tip rather than your wrist.</span></span></button>
+            <button type="button" class="anat-row" data-part="port"><span class="n">02</span><span><span class="k">Charging port</span><span class="d">USB&#8209;C, on the back of the body under a seal. Two to three hours from flat.</span></span></button>
+            <button type="button" class="anat-row" data-part="power"><span class="n">03</span><span><span class="k">Power button</span><span class="d">On and off. Pressure ramps up over three seconds rather than arriving all at once.</span></span></button>
+            <button type="button" class="anat-row" data-part="mode"><span class="n">04</span><span><span class="k">Mode button</span><span class="d">Tap to step from one mode to the next: Massage, Soft, Normal, Clean.</span></span></button>
+            <button type="button" class="anat-row" data-part="dots"><span class="n">05</span><span><span class="k">Mode indicators</span><span class="d">Four dots. It starts in whichever mode you left it in, so most people set it once.</span></span></button>
+            <button type="button" class="anat-row" data-part="batt"><span class="n">06</span><span><span class="k">Battery light</span><span class="d">Blinks while charging, solid green when the battery is full.</span></span></button>
+            <button type="button" class="anat-row" data-part="lock"><span class="n">07</span><span><span class="k">Tank release</span><span class="d">Hold the body, turn the tank counter&#8209;clockwise, pull down. That is the whole disassembly.</span></span></button>
+            <button type="button" class="anat-row" data-part="tank"><span class="n">08</span><span><span class="k">Water tank</span><span class="d">300&nbsp;ml of lukewarm water, about ninety seconds of running. Spare tips store inside it.</span></span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -221,11 +321,35 @@
         </div>
         <div class="c5 s7 rv rv-d2">
           <div class="steps">
-            <div class="step" style="border-color:var(--line-light)"><span class="step-n">Step 01</span><h3>Start on Soft</h3><p>Lukewarm water, and press the mode button until you are on Soft. Build up over the first week rather than starting at maximum.</p></div>
+            <div class="step" style="border-color:var(--line-light)"><span class="step-n">Step 01</span><h3>Start on Soft</h3><p>Fill the tank with clean, lukewarm water and tap the mode button until you are on Soft. It ramps up over three seconds rather than hitting full pressure at once, and it remembers where you left it.</p></div>
             <div class="step" style="border-color:var(--line-light);margin-top:var(--s4)"><span class="step-n">Step 02</span><h3>Aim where the tooth meets the gum</h3><p>Hold the nozzle at roughly ninety degrees and trace the line where the tooth meets the gum. Pause briefly at each one.</p></div>
             <div class="step" style="border-color:var(--line-light);margin-top:var(--s4)"><span class="step-n">Step 03</span><h3>Lean over the sink, lips nearly closed</h3><p>Let the water fall out as you go. Forty seconds, no mess.</p></div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE FIRST NIGHT. Charging is page 03 of the manual and the five steps
+       are page 05, in the manual's own order and its own words. -->
+  <section class="sec" id="howto">
+    <div class="wrap">
+      <div class="grid rv">
+        <div class="c7 s1">
+          <div class="eyeline"><span>Your first night</span></div>
+          <h2 class="t-2xl optical">Charge it, then five steps.</h2>
+          <p class="sub">Charge for two to three hours before the first use. The light blinks while it charges and turns solid green when it is full. After that, one charge lasts about seventy minutes of running on Soft.</p>
+        </div>
+      </div>
+      <div class="howto" style="margin-top:var(--s5)">
+        <div class="howto-s rv"><span class="n">01</span><h3>Fill the tank</h3><p>Clean, lukewarm water. Not hot &#8212; the tank is not built for it.</p></div>
+        <div class="howto-s rv rv-d1"><span class="n">02</span><h3>Fit a nozzle</h3><p>Push it into the top until you hear it click, then turn it to point where you want it.</p></div>
+        <div class="howto-s rv rv-d2"><span class="n">03</span><h3>Lean over the sink</h3><p>Tip in your mouth, lips a little closed, so the water runs back into the basin rather than the mirror.</p></div>
+        <div class="howto-s rv rv-d1"><span class="n">04</span><h3>Turn it on and move slowly</h3><p>Along the gumline, pausing for a moment between each tooth. It cuts out on its own after about two minutes.</p></div>
+        <div class="howto-s rv rv-d2"><span class="n">05</span><h3>Switch off, empty the tank</h3><p>Every time. Standing water in the tank is the one thing that shortens the life of one of these.</p></div>
+      </div>
+      <div class="grid" style="margin-top:var(--s4)">
+        <div class="c7 s1 rv"><p class="t-sm dim">Light gum bleeding in the first one to two weeks is normal for a lot of people and usually stops as the gums settle. Begin on Soft and build up slowly.</p></div>
       </div>
     </div>
   </section>
@@ -237,7 +361,7 @@
         <div class="c8 s1">
           <div class="eyeline"><span>Control</span></div>
           <h2 class="t-2xl optical">Four modes, and the one to start on.</h2>
-          <p class="sub">Drag the rail, or use the arrow keys. On the device itself the mode button steps through the same four. Pressure runs from 40 to 120 PSI, pulsing 1600 times a minute.</p>
+          <p class="sub">Massage, Soft, Normal and Clean, in the order the mode button steps through them. Drag the rail or use the arrow keys. Pressure runs from 40 to 120 PSI, pulsing 1600 times a minute, and the flosser starts in whichever mode you left it in.</p>
         </div>
       </div>
 
@@ -275,14 +399,14 @@
           <div class="psi-slider">
             <label class="vh" for="psi">Pressure mode</label>
             <div class="psi-rail">
-              <input id="psi" type="range" min="0" max="3" step="1" value="0"
-                     data-psi-range aria-valuetext="Soft, 40 PSI" style="--fill:0%">
+              <input id="psi" type="range" min="0" max="3" step="1" value="1"
+                     data-psi-range aria-valuetext="Soft, 40 PSI" style="--fill:33.333%">
             </div>
             <div class="psi-stops">
+              <button type="button" data-psi-stop="massage" aria-current="false">Massage</button>
               <button type="button" data-psi-stop="soft" aria-current="true">Soft</button>
-              <button type="button" data-psi-stop="standard" aria-current="false">Standard</button>
-              <button type="button" data-psi-stop="high" aria-current="false">High</button>
-              <button type="button" data-psi-stop="pulse" aria-current="false">Pulse</button>
+              <button type="button" data-psi-stop="normal" aria-current="false">Normal</button>
+              <button type="button" data-psi-stop="clean" aria-current="false">Clean</button>
             </div>
           </div>
           <div class="sim-read">
@@ -313,7 +437,7 @@
       </div>
 
       <div class="grid" style="margin-top:var(--s5)">
-        <div class="c6 s1 rv"><p class="t-sm dim">Four indicator dots show the mode. The fifth light is the battery: green while running, red on charge, green again when it is full. It stops on its own after about two minutes.</p></div>
+        <div class="c6 s1 rv"><p class="t-sm dim">Four indicator dots show the mode, reading Massage at the bottom to Clean at the top. The light below them is the battery: it blinks while charging and turns solid green when the battery is full. The flosser stops on its own after about two minutes.</p></div>
       </div>
     </div>
   </section>
@@ -352,7 +476,7 @@
         <div class="c5 s7 rv rv-d2" style="grid-row:1">
           <dl class="spec">
             <div><dt>Water pressure</dt><dd>40 to 120 PSI, 1600 pulses a minute</dd></div>
-            <div><dt>Modes</dt><dd>Soft, Standard, High, Pulse</dd></div>
+            <div><dt>Modes</dt><dd>Massage, Soft, Normal, Clean</dd></div>
             <div><dt>Auto shut-off</dt><dd>About 2 minutes</dd></div>
             <div><dt>Start-up</dt><dd>3 second crescendo, not full pressure at once</dd></div>
             <div><dt>Memory</dt><dd>Starts in the last mode you used</dd></div>
@@ -487,7 +611,7 @@
       <div class="diag-out" id="diag-out">
           <div class="diag-set" data-case="braces">
             <div class="diag-cell"><span>Your tip</span><b>Orthodontic</b><p>Brackets, bands and bonded wires trap what floss cannot get around.</p></div>
-            <div class="diag-cell"><span>Your mode</span><b>Standard</b><p>Expect visible debris in the first few days. That is the backlog clearing, not a problem.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Normal</b><p>Expect visible debris in the first few days. That is the backlog clearing, not a problem.</p></div>
           </div>
           <div class="diag-set" data-case="implants" hidden>
             <div class="diag-cell"><span>Your tip</span><b>Plaque brush</b><p>Margins and abutments need cleaning without anything abrasive touching them.</p></div>
@@ -495,7 +619,7 @@
           </div>
           <div class="diag-set" data-case="pockets" hidden>
             <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Where a dentist has measured a pocket and asked you to clean below the gumline. Hold it at 45&#176; to the gumline.</p></div>
-            <div class="diag-cell"><span>Your mode</span><b>Soft, then High</b><p>Two weeks on Soft before you go anywhere near High. Bleeding early is normal and settles.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Soft, then Clean</b><p>Two weeks on Soft before you go anywhere near Clean. Bleeding early is normal and settles.</p></div>
           </div>
           <div class="diag-set" data-case="recession" hidden>
             <div class="diag-cell"><span>Your tip</span><b>Periodontal</b><p>Brushing harder is what caused it. More pressure is not the answer here either. Hold it at 45&#176; and stay on the lowest setting.</p></div>
@@ -503,11 +627,11 @@
           </div>
           <div class="diag-set" data-case="tight" hidden>
             <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>Floss shreds or will not pass. Water goes where the string cannot.</p></div>
-            <div class="diag-cell"><span>Your mode</span><b>Standard</b><p>You may see less come out than you expected. Judge it by how your gums look, not by debris.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Normal</b><p>You may see less come out than you expected. Judge it by how your gums look, not by debris.</p></div>
           </div>
           <div class="diag-set" data-case="wisdom" hidden>
             <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>The gap behind the last molar that nothing else reaches.</p></div>
-            <div class="diag-cell"><span>Your mode</span><b>High</b><p>Forty seconds, and most of it spent at the back. This is the one that changes fastest.</p></div>
+            <div class="diag-cell"><span>Your mode</span><b>Clean</b><p>Forty seconds, and most of it spent at the back. This is the one that changes fastest.</p></div>
           </div>
           <div class="diag-set" data-case="unsure" hidden>
             <div class="diag-cell"><span>Your tip</span><b>Standard jet</b><p>Most people start here and never need anything else.</p></div>
@@ -523,7 +647,7 @@
           </div>
           <div>
             <span class="match-k">Your setup</span>
-            <p class="match-t">Fit the <em data-match-tip>Orthodontic</em> tip, start on <em data-match-mode>Standard</em>.</p>
+            <p class="match-t">Fit the <em data-match-tip>Orthodontic</em> tip, start on <em data-match-mode>Normal</em>.</p>
             <p class="match-p" data-match-note></p>
           </div>
           <button type="button" class="btn btn-primary mag" data-add="RB-001-WHT"><span>Add to cart &mdash; $79</span></button>
@@ -642,6 +766,53 @@
     </div>
   </section>
 
+  <!-- CARE AND SAFETY. Pages 07, 09 and 10 of the manual. It belongs on the
+       product page and not only in the box, because two of these change
+       whether somebody should buy one at all. -->
+  <section class="sec light" id="care">
+    <div class="wrap">
+      <div class="grid rv">
+        <div class="c8 s1">
+          <div class="eyeline"><span>Care and safety</span></div>
+          <h2 class="t-2xl optical">What the manual says, before you own it.</h2>
+          <p class="sub">Printed on the sheet in the box. It is here too, because the last two points are worth knowing before you spend the money rather than after.</p>
+        </div>
+      </div>
+      <div class="care rv" style="margin-top:var(--s5)">
+        <div>
+          <h3>Changing a nozzle</h3>
+          <ul>
+            <li>To remove: press the release button and pull the nozzle out.</li>
+            <li>To fit: push a new one in until it clicks.</li>
+            <li>Replace a tip when it deforms or the spray stops running straight, roughly every three to six months.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cleaning it</h3>
+          <ul>
+            <li>Turn the power off and empty the tank after every use.</li>
+            <li>Hold the body in one hand and the tank in the other, rotate counter&#8209;clockwise, then pull down to detach it.</li>
+            <li>The whole body is IPX7, so it is safe to rinse under the tap. Wipe it with a soft damp cloth.</li>
+            <li>No strong cleaners, and nothing abrasive.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Safety</h3>
+          <ul>
+            <li>Do not use it with an open wound in your mouth or on your tongue.</li>
+            <li>Do not direct the jet under the tongue, or into the ears or nose.</li>
+            <li>Children under six need an adult supervising.</li>
+            <li>Do not fill the tank with very hot water.</li>
+            <li>Charge only with the cable that came in the box, and check the cable for damage before the first use and from time to time after.</li>
+            <li>Keep it away from fire and heated surfaces. Do not put the charger in water or handle it with wet hands.</li>
+            <li>Stop using it and contact us if it looks damaged or has been dropped.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="care-note rv">The full list is in the manual. If you have gum disease under active treatment, recent oral surgery or a newly placed crown or implant, ask your dentist before you start.</p>
+    </div>
+  </section>
+
   <!-- 08 FAQ -->
   <section class="sec" id="faq">
     <div class="wrap">
@@ -657,6 +828,9 @@
             <details><summary><span>My gums bleed. Should I stop?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Usually not. It is generally existing inflammation rather than damage, and it typically settles within one to two weeks. Start low. If it has not improved after a fortnight, speak to your dentist.</p></div></details>
             <details><summary><span>Is it messy?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Only if you stand upright with your mouth open. Lean over the sink, lips almost closed. Everyone gets it within a couple of uses.</p></div></details>
             <details><summary><span>What if I do not get on with it?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Thirty days from delivery, we pay return postage, and you get a full refund. Use it properly for a few weeks first. That is what the window is for.</p></div></details>
+            <details><summary><span>How long does a charge last?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">About seventy minutes of running on Soft, from a two to three hour charge over USB&#8209;C. At forty seconds a night that is most of two months. The light blinks while it charges and goes solid green when it is full.</p></div></details>
+            <details><summary><span>Where do the spare nozzles live?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Inside the tank. It comes off the body with a counter&#8209;clockwise twist, and the manual is explicit that it is meant to store the tips you are not using. No separate caddy to lose.</p></div></details>
+            <details><summary><span>Can I rinse the whole thing?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Yes. The body is IPX7, so it can go under the tap and be wiped with a damp cloth. Keep strong cleaners away from it, and keep the charging cable dry.</p></div></details>
             <details><summary><span>Who should not use one?</span><span class="chev"></span></summary><div class="ans"><p class="t-sm">Check with your dentist first if you have gum disease under active treatment, recent oral surgery, or a newly placed crown or implant. Not intended for young children.</p></div></details>
           </div>
         </div>
@@ -692,7 +866,7 @@
     <button type="button" class="modal-x" data-modal-close aria-label="Close">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
     </button>
-    <img data-lightbox-img src="assets/img/prod-white.webp" alt="" width="344" height="1400">
+    <img data-lightbox-img src="assets/img/r01.webp" alt="" width="628" height="2544">
   </div>
 </div>
 
@@ -736,7 +910,7 @@
 </div>
 
 <div class="stickybuy">
-  <div class="m"><b>Water Flosser $79</b><span>Soft White</span></div>
+  <div class="m"><b>R01 Water Flosser &nbsp;$79</b><span>Soft White &nbsp;/&nbsp; Free shipping</span></div>
   <a class="btn btn-primary" href="#buy"><span>Add to cart</span></a>
 </div>
 

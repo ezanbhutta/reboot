@@ -12,6 +12,39 @@
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
 
   /* ==================================================================
+     theme
+     The attribute is written by the inline script in <head> before first
+     paint, so the page never flashes the wrong ground. This only handles the
+     toggle and remembering the choice. Somebody who has never pressed the
+     button keeps following their system setting, including if it changes
+     while the tab is open.
+     ================================================================== */
+  var THEME_KEY = 'rb-theme';
+  var root = document.documentElement;
+  var sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+  function setTheme(t, remember) {
+    root.setAttribute('data-theme', t);
+    $$('[data-theme-toggle]').forEach(function (b) {
+      b.setAttribute('aria-pressed', t === 'light' ? 'true' : 'false');
+      b.setAttribute('aria-label', t === 'light' ? 'Switch to dark' : 'Switch to light');
+    });
+    if (remember) { try { localStorage.setItem(THEME_KEY, t); } catch (e) {} }
+  }
+  setTheme(root.getAttribute('data-theme') || 'dark', false);
+  $$('[data-theme-toggle]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light', true);
+    });
+  });
+  if (sysDark.addEventListener) {
+    sysDark.addEventListener('change', function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem(THEME_KEY); } catch (err) {}
+      if (!saved) setTheme(e.matches ? 'dark' : 'light', false);
+    });
+  }
+
+  /* ==================================================================
      shared: focus trap, used by the drawer and every modal
      ================================================================== */
   var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])';
@@ -202,7 +235,7 @@
       url: 'product.html',
       variants: [
         { sku: 'RB-001-WHT', name: 'Soft White', swatch: '#E9EAEA',
-          img: 'assets/img/prod-white.webp', status: 'available' }
+          img: 'assets/img/r01.webp', status: 'available' }
       ]
     }
   };
@@ -596,9 +629,9 @@
      ================================================================== */
   var insp = $('[data-inspector]');
   if (insp) {
-    var rows = $$('.insp-row', insp);
-    var marks = $$('[data-mark]', insp);
-    var els = $$('.insp-el', insp);
+    let rows = $$('.insp-row', insp);
+    let marks = $$('[data-mark]', insp);
+    let els = $$('.insp-el', insp);
     var stageCap = $('[data-insp-cap]', insp);
     let light = function (key) {
       rows.forEach(function (r) { r.classList.toggle('on', !!key && r.getAttribute('data-spec') === key); });
@@ -628,19 +661,56 @@
   }
 
   /* ==================================================================
+     anatomy
+     The manual's "get to know your flosser" page. Pins are placed as a
+     percentage of the photograph rather than in pixels, so they stay on the
+     part they name at every size. Taking a row lights its pin and the other
+     way round; hover previews, click holds, which is the same contract the
+     drawing inspector uses further down the page.
+     ================================================================== */
+  var anat = $('[data-anat]');
+  if (anat) {
+    /* `let`, and names of their own. Both this module and the drawing
+       inspector below want to call their list of rows `rows`; `var` hoists to
+       the enclosing function, so declaring it twice leaves one module reading
+       the other's elements. */
+    let anatPins = $$('.anat-pin', anat), anatRows = $$('.anat-row', anat);
+    let markAnat = function (key) {
+      anatPins.forEach(function (p) { p.classList.toggle('on', p.getAttribute('data-part') === key); });
+      anatRows.forEach(function (r) { r.classList.toggle('on', r.getAttribute('data-part') === key); });
+    };
+    let heldAnat = null;
+    anatPins.concat(anatRows).forEach(function (el) {
+      var key = el.getAttribute('data-part');
+      el.addEventListener('mouseenter', function () { if (!coarse) markAnat(key); });
+      el.addEventListener('focus', function () { markAnat(key); });
+      el.addEventListener('click', function () {
+        heldAnat = heldAnat === key ? null : key;
+        markAnat(heldAnat);
+      });
+    });
+    anat.addEventListener('mouseleave', function () { markAnat(heldAnat); });
+  }
+
+  /* ==================================================================
      pressure simulator
      ================================================================== */
   var sim = $('[data-sim]');
   if (sim) {
+    /* Named as the manual names them, in the order the mode button steps
+       through them. The manual's own diagram uses a second set of labels
+       (Pulse, Soft, Standard, Strong) for the same four positions; the table
+       on that page is the one printed in words, so the table wins and the site
+       says the same thing as the sheet in the box. */
     var MODES = {
-      soft: { psi: '40', rate: 1.4, db: 2, loud: '~58 dB',
-        who: 'Where to start, and where to stay while your gums settle. Also the mode to use if anything feels tender, or if a dentist has asked you to clean around a new crown or implant.' },
-      standard: { psi: '70', rate: 0.95, db: 3, loud: '~65 dB',
-        who: 'Daily cleaning once the first fortnight is behind you. Most people end up here and stop thinking about it.' },
-      high: { psi: '120', rate: 0.6, db: 5, loud: '~65 dB',
-        who: 'The most pressure the pump gives. Useful around brackets, bridges and behind the last molar. Unnecessary everywhere else, and no better for being stronger.' },
-      pulse: { psi: '40–120', rate: 0.42, db: 4, loud: '~65 dB',
-        who: 'Alternates strong and weak along the gumline rather than holding one pressure. It is a massage setting rather than a cleaning one.' }
+      massage: { label: 'Massage', psi: '40–120', rate: 0.42, db: 4, loud: '~65 dB',
+        who: 'Pulsating rather than steady. It clears debris from between the teeth while it works the gums, which is why it sits first on the button rather than last.' },
+      soft: { label: 'Soft', psi: '40', rate: 1.4, db: 2, loud: '~58 dB',
+        who: 'Gentle pressure, for sensitive gums and for anybody new to this. Where to start, and where to stay while your gums settle. Also the mode to use for the tongue scraper.' },
+      normal: { label: 'Normal', psi: '70', rate: 0.95, db: 3, loud: '~65 dB',
+        who: 'A steady stream for everyday cleaning. Most people end up here once the first fortnight is behind them, and stop thinking about it.' },
+      clean: { label: 'Clean', psi: '120', rate: 0.6, db: 5, loud: '~65 dB',
+        who: 'The strongest stream the pump gives, for tough stains and plaque. Useful around brackets, bridges and behind the last molar. No better for being stronger everywhere else.' }
     };
     /* the stop labels are the mode buttons; there is no second, hidden tablist */
     var simBtns = $$('[data-psi-stop]', sim);
@@ -660,7 +730,7 @@
     };
     /* The slider and the stop labels are two views of one value. A native
        range input carries arrow keys, Home/End and touch dragging already. */
-    var ORDER = ['soft', 'standard', 'high', 'pulse'];
+    var ORDER = ['massage', 'soft', 'normal', 'clean'];
     var range = $('[data-psi-range]', sim);
     var stops = $$('[data-psi-stop]', sim);
 

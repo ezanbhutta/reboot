@@ -18,7 +18,7 @@
   --ochre:#E07A5F;          /* warm ochre  6.56:1 on graphite, 6.00:1 on ink */
   --ochre-text:#9C4526;     /* the same hue dark enough for cream grounds */
   --glass:rgba(13,17,19,.72);
-  --glass-line:rgba(255,255,255,.09);
+  --glass-line:rgba(var(--tint),.09);
   --blue:#079DE0;
   --blue-text:#056C9B;      /* 4.61:1 on Soft Silver, 5.79:1 on white */
   --orange-text:#A44D00;   /* 4.59:1 on Soft Silver, 5.77:1 on white */
@@ -34,9 +34,9 @@
      genuinely sits ON a white surface must not follow it, or it turns
      white-on-white. */
   --on-white:#15191A;
-  --on-dark:rgba(255,255,255,.68);
-  --on-dark-dim:rgba(255,255,255,.44);
-  --line-dark:rgba(255,255,255,.12);
+  --on-dark:rgba(var(--tint),.68);
+  --on-dark-dim:rgba(var(--tint),.44);
+  --line-dark:rgba(var(--tint),.12);
   --line-light:#D2D3D8;
   --ink-soft:#4A5154;
 
@@ -74,7 +74,51 @@
 
   --ease:cubic-bezier(.22,.61,.36,1);
   --ease-io:cubic-bezier(.65,0,.35,1);
+
+  /* ---- theme axis ----
+     Two grounds, one set of rules. --tint is the channel that lightens a
+     surface, and it is the only thing sixty-odd rgba() values in this file
+     refer to; --white is the colour text takes ON the ground and --on-white
+     is the ground itself, so a primary button is always the inverse of the
+     page. Flipping those three inverts the entire site without touching a
+     single component rule. */
+  --tint:255,255,255;
+  --glass-solid:#0D1113;
+  --dim-2:#878C8E;
+  --blue-band:var(--blue);      /* accent on an alternate band */
+  --orange-band:var(--orange);
+  --plate:#0F1214;              /* technical drawings keep their dark plate
+                                   in both themes: the line work is white */
 }
+
+/* The light ground. The brand book runs Soft Silver Gray as its paper, so the
+   page becomes paper and the alternate bands become white and silver rather
+   than graphite and off-black. Blue and orange step down to their dark-on-pale
+   values throughout, which is the same pair the book specifies for print. */
+:root[data-theme="light"]{
+  --tint:21,25,26;
+  --ink:#F2F1ED;
+  --ink-2:#E9E8E3;
+  --ink-3:#DDDCD7;
+  --surface-0:#FFFFFF;
+  --surface-1:#E5E5E9;
+  --white:#15191A;
+  --on-white:#F7F6F3;
+  --glass:rgba(242,241,237,.78);
+  --glass-solid:#F2F1ED;
+  --dim-2:#5B6163;
+  --blue:#056C9B;
+  --blue-band:#056C9B;
+  --orange:#A44D00;
+  --orange-band:#A44D00;
+  --ochre:#9C4526;
+  --teal:#0A7F87;
+  --line-light:#C9CAC6;
+  --ink-soft:#4A5154;
+  --on-dark-dim:rgba(var(--tint),.60);
+  color-scheme:light;
+}
+:root{color-scheme:dark}
 
 /* The brand's primary face is Aloevera, a geometric sans. It is a commercial
    licence and cannot be redistributed here, so this ships Poppins: the same
@@ -153,11 +197,11 @@ ul{margin:0;padding:0;list-style:none}
    resolves to the value that is correct on a dark ground. */
 .light,.paper{
   color:var(--white);
-  --ink:#FFFFFF;
-  --ink-soft:rgba(255,255,255,.66);
-  --line-light:rgba(255,255,255,.12);
-  --blue-text:var(--blue);
-  --orange-text:var(--orange);
+  --ink:var(--white);
+  --ink-soft:rgba(var(--tint),.66);
+  --line-light:rgba(var(--tint),.12);
+  --blue-text:var(--blue-band);
+  --orange-text:var(--orange-band);
 }
 .light{background:var(--surface-1)}
 .paper{background:var(--surface-0)}
@@ -179,7 +223,7 @@ ul{margin:0;padding:0;list-style:none}
 .lede{font-size:var(--f-md);line-height:1.45;color:var(--on-dark);font-weight:400}
 .light .lede,.paper .lede{color:var(--ink-soft)}
 .dim{color:var(--on-dark-dim)}
-.light .dim,.paper .dim{color:#878C8E}
+.light .dim,.paper .dim{color:var(--dim-2)}
 .accent{color:var(--blue)}
 .light .accent,.paper .accent{color:var(--blue-text)}
 .measure{max-width:52ch}
@@ -191,7 +235,7 @@ ul{margin:0;padding:0;list-style:none}
   font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;text-transform:uppercase;
   color:var(--on-dark-dim);display:block;
 }
-.light .label,.paper .label{color:#878C8E}
+.light .label,.paper .label{color:var(--dim-2)}
 
 /* section index number, hung in the margin */
 .snum{
@@ -201,7 +245,7 @@ ul{margin:0;padding:0;list-style:none}
 .light .snum,.paper .snum{color:var(--blue-text)}
 .snum b{font-weight:500}
 .snum span{color:var(--on-dark-dim);text-transform:uppercase}
-.light .snum span,.paper .snum span{color:#878C8E}
+.light .snum span,.paper .snum span{color:var(--dim-2)}
 
 /* ============ BUTTONS ============ */
 .btn{
@@ -242,7 +286,7 @@ ul{margin:0;padding:0;list-style:none}
 /* the blur is the whole point of the bar; without support, fall back to opaque
    rather than to translucent-and-unreadable */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .hdr{background:#0D1113}
+  .hdr{background:var(--glass-solid)}
 }
 .hdr-in{display:flex;align-items:center;gap:var(--s3);min-height:76px}
 .brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
@@ -319,7 +363,7 @@ ul{margin:0;padding:0;list-style:none}
 .fig-sm img{height:clamp(7rem,13vw,11rem);width:auto}
 .fig-sm figcaption{margin-top:var(--s2);font-size:var(--f-xs);font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-dim)}
-.light .fig-sm figcaption,.paper .fig-sm figcaption{color:#878C8E}
+.light .fig-sm figcaption,.paper .fig-sm figcaption{color:var(--dim-2)}
 
 /* measured range. Two numbers and the distance between them, nothing invented */
 .scale{display:flex;align-items:center;gap:var(--s3)}
@@ -375,7 +419,7 @@ ul{margin:0;padding:0;list-style:none}
 .score b{display:block;font-size:clamp(3rem,6vw,4.6rem);font-weight:600;
   letter-spacing:-.04em;line-height:1}
 .score-n{display:block;margin-top:0.75rem;font-size:var(--f-xs);font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:#878C8E}
+  letter-spacing:.14em;text-transform:uppercase;color:var(--dim-2)}
 .dots{display:inline-flex;gap:0.25rem;margin-top:var(--s2)}
 .dots i{width:9px;height:9px;border-radius:50%;border:1px solid var(--blue-text);
   background:transparent;flex:0 0 auto}
@@ -384,10 +428,10 @@ ul{margin:0;padding:0;list-style:none}
 
 .dist{margin:0;display:grid;gap:0.5rem}
 .dist>div{display:grid;grid-template-columns:1.2rem 1fr 2.2rem;gap:var(--s2);align-items:center}
-.dist dt{font-size:var(--f-xs);font-weight:500;color:#878C8E;font-feature-settings:"tnum" 1}
+.dist dt{font-size:var(--f-xs);font-weight:500;color:var(--dim-2);font-feature-settings:"tnum" 1}
 .dist dd{margin:0;height:3px;background:var(--line-light)}
 .dist dd span{display:block;height:100%;width:var(--p);background:var(--blue-text)}
-.dist em{font-style:normal;font-size:var(--f-xs);font-weight:500;color:#878C8E;
+.dist em{font-style:normal;font-size:var(--f-xs);font-weight:500;color:var(--dim-2);
   text-align:right;font-feature-settings:"tnum" 1}
 
 .reviews{margin-top:var(--s6);border-top:1px solid var(--line-light)}
@@ -396,7 +440,7 @@ ul{margin:0;padding:0;list-style:none}
 .rev-who{grid-column:1/span 4;grid-row:1}
 .rev-body{grid-column:5/span 6;grid-row:1}
 .rev-date{grid-column:11/span 2;grid-row:1;justify-self:end;font-size:var(--f-xs);
-  font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#878C8E}
+  font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--dim-2)}
 .rev-who .dots{margin-top:0}
 .rev-who b{display:block;margin-top:0.75rem;font-size:var(--f-sm);font-weight:500;color:var(--ink)}
 .rev-tag{display:block;margin-top:.25rem;font-size:var(--f-xs);font-weight:500;
@@ -472,10 +516,10 @@ ul{margin:0;padding:0;list-style:none}
 .light .case-tip,.paper .case-tip{color:var(--blue-text)}
 .case-q{margin-left:0.5rem;font-size:var(--f-xs);font-weight:500;
   letter-spacing:.08em;color:var(--on-dark-dim);vertical-align:.35em}
-.light .case-q,.paper .case-q{color:#878C8E}
+.light .case-q,.paper .case-q{color:var(--dim-2)}
 .light .case,.paper .case{border-color:var(--line-light)}
 .case:hover{background:var(--ink-2)}
-.light .case:hover,.paper .case:hover{background:rgba(255,255,255,.04)}
+.light .case:hover,.paper .case:hover{background:rgba(var(--tint),.04)}
 .case h3{font-size:var(--f-lg);font-weight:500;letter-spacing:-.014em;line-height:1.3}
 .case p{font-size:var(--f-sm)}
 
@@ -486,7 +530,7 @@ ul{margin:0;padding:0;list-style:none}
   border-bottom:1px solid var(--line-dark);font-size:var(--f-sm)}
 .light .spec div,.paper .spec div{border-color:var(--line-light)}
 .spec dt{color:var(--on-dark-dim)}
-.light .spec dt,.paper .spec dt{color:#878C8E}
+.light .spec dt,.paper .spec dt{color:var(--dim-2)}
 .spec dd{margin:0;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
 .pending{font-weight:300;font-style:italic;color:var(--on-dark-dim)}
 .light .pending,.paper .pending{color:#9AA0A2}
@@ -582,7 +626,7 @@ ul{margin:0;padding:0;list-style:none}
 .sw i{flex:0 0 auto}
 .sw:hover{border-color:var(--on-dark-dim)}
 .sw[aria-pressed=true]{border-color:var(--blue)}
-.sw i{width:15px;height:15px;border-radius:50%;display:block;border:1px solid rgba(255,255,255,.22)}
+.sw i{width:15px;height:15px;border-radius:50%;display:block;border:1px solid rgba(var(--tint),.22)}
 .buy-actions{margin-top:var(--s4);display:grid;gap:0.5rem}
 .reassure{margin-top:var(--s4);border-top:1px solid var(--line-dark)}
 .reassure div{display:flex;gap:var(--s2);padding-block:1rem;border-bottom:1px solid var(--line-dark);font-size:var(--f-sm)}
@@ -715,7 +759,7 @@ ul{margin:0;padding:0;list-style:none}
 .light .hang-n b,.paper .hang-n b{color:var(--blue-text)}
 .hang-n span{display:block;font-size:var(--f-xs);letter-spacing:.16em;text-transform:uppercase;
   color:var(--on-dark-dim);margin-top:0.5rem}
-.light .hang-n span,.paper .hang-n span{color:#878C8E}
+.light .hang-n span,.paper .hang-n span{color:var(--dim-2)}
 
 /* B. full-bleed statement band, used to change tempo between sections */
 .band{background:var(--ink);color:var(--white);padding-block:clamp(5rem,12vw,10rem);
@@ -769,7 +813,7 @@ ul{margin:0;padding:0;list-style:none}
 .empty p{font-size:var(--f-sm);max-width:46ch;margin-inline:auto}
 .empty .why{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--line-dark);
   font-size:var(--f-xs);color:var(--on-dark-dim);letter-spacing:.02em}
-.light .empty .why,.paper .empty .why{border-top-color:var(--line-light);color:#878C8E}
+.light .empty .why,.paper .empty .why{border-top-color:var(--line-light);color:var(--dim-2)}
 
 /* ============ PDP RHYTHM ============ */
 .pdp-grid{align-items:start}
@@ -782,10 +826,10 @@ ul{margin:0;padding:0;list-style:none}
    Type steps are fixed so a heading never competes with its neighbour. */
 .eyeline{margin-bottom:var(--s3)}
 .eyeline span{display:block;font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--on-dark-dim)}
-.light .eyeline span,.paper .eyeline span{color:#878C8E}
+.light .eyeline span,.paper .eyeline span{color:var(--dim-2)}
 .sub{font-size:var(--f-md);line-height:1.45;margin-top:var(--s2);max-width:56ch}
 .sub-dim{color:var(--on-dark-dim)}
-.light .sub-dim,.paper .sub-dim{color:#878C8E}
+.light .sub-dim,.paper .sub-dim{color:var(--dim-2)}
 
 /* figures gain a slow settle on reveal */
 .js .figure img,.js .diagram{transition:transform 1.2s var(--ease-io),opacity .9s var(--ease)}
@@ -932,8 +976,8 @@ ul{margin:0;padding:0;list-style:none}
 .cat-stock p{font-size:var(--f-sm);color:var(--on-dark);line-height:1.55}
 .light .cat-stock p,.paper .cat-stock p{color:var(--ink-soft)}
 a.cat-row{text-decoration:none;transition:background .25s var(--ease)}
-a.cat-row:hover{background:rgba(255,255,255,.03)}
-.light a.cat-row:hover,.paper a.cat-row:hover{background:rgba(255,255,255,.04)}
+a.cat-row:hover{background:rgba(var(--tint),.03)}
+.light a.cat-row:hover,.paper a.cat-row:hover{background:rgba(var(--tint),.04)}
 a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 @media(max-width:820px){
   .cat-ix{grid-column:1/span 12}
@@ -1178,7 +1222,7 @@ body::after{
 .ship-meter{margin-bottom:var(--s4)}
 .ship-meter p{font-size:var(--f-xs);letter-spacing:.06em;color:var(--on-dark);margin-bottom:.6rem}
 .ship-meter b{color:var(--teal);font-weight:500}
-.ship-bar{height:3px;background:rgba(255,255,255,.11);overflow:hidden}
+.ship-bar{height:3px;background:rgba(var(--tint),.11);overflow:hidden}
 .ship-bar i{display:block;height:100%;width:100%;background:var(--teal);
   transform:scaleX(var(--p,0));transform-origin:0 50%;
   transition:transform .6s cubic-bezier(.16,1,.3,1)}
@@ -1382,7 +1426,7 @@ body::after{
   font-variant-numeric:tabular-nums;letter-spacing:.02em}
 /* loudness read-out: five bars, lit according to the mode */
 .db{display:inline-flex;align-items:flex-end;gap:3px;height:15px;margin-top:.35rem}
-.db i{width:4px;background:rgba(255,255,255,.18);transition:background .3s var(--ease),height .3s var(--ease)}
+.db i{width:4px;background:rgba(var(--tint),.18);transition:background .3s var(--ease),height .3s var(--ease)}
 .db i:nth-child(1){height:5px}.db i:nth-child(2){height:8px}.db i:nth-child(3){height:11px}
 .db i:nth-child(4){height:13px}.db i:nth-child(5){height:15px}
 .db i.on{background:var(--teal)}
@@ -1581,11 +1625,11 @@ h1 .ed,h2 .ed,h3 .ed{letter-spacing:inherit}
 .psi-slider input[type=range]:active{cursor:grabbing}
 .psi-slider input[type=range]::-webkit-slider-runnable-track{
   height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) var(--fill,0%),
-    rgba(255,255,255,.14) var(--fill,0%),rgba(255,255,255,.14) 100%);
+    rgba(var(--tint),.14) var(--fill,0%),rgba(var(--tint),.14) 100%);
 }
 .psi-slider input[type=range]::-moz-range-track{
   height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) var(--fill,0%),
-    rgba(255,255,255,.14) var(--fill,0%),rgba(255,255,255,.14) 100%);
+    rgba(var(--tint),.14) var(--fill,0%),rgba(var(--tint),.14) 100%);
 }
 .psi-slider input[type=range]::-webkit-slider-thumb{
   -webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-9px;
@@ -1714,3 +1758,141 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 .light .feat-list li,.paper .feat-list li{color:var(--ink-soft)}
 .feat-list li::before{content:"";flex:0 0 auto;width:6px;height:6px;margin-top:.5em;
   border-radius:50%;background:var(--blue)}
+
+/* ============ THEME ============
+   The technical drawings are white line work with a transparent ground, so on
+   the pale theme they are inverted rather than re-drawn: one filter, no second
+   set of files. The inline diagrams carry baked-in fills instead, so they keep
+   their dark plate in both themes — a drawing on a dark sheet is a convention
+   the reader already knows from the engineering pack. */
+.diagram,.light .diagram,.paper .diagram{background:var(--plate)}
+.sim-stage{background:var(--plate)}
+/* The inspector keeps the page's own ground: its drawings are inverted on the
+   pale theme, so they need a pale sheet to be inverted onto. */
+:root[data-theme="light"] img[src*="dwg-"]{filter:invert(1)}
+:root[data-theme="light"] .glow::before{
+  background:radial-gradient(ellipse 62% 46% at 50% 46%,rgba(7,157,224,.13) 0%,rgba(7,157,224,.05) 45%,transparent 78%)}
+:root[data-theme="light"] body::after{opacity:.02}
+
+.themebtn{
+  position:relative;width:44px;height:44px;flex:0 0 auto;cursor:pointer;border-radius:2px;
+  display:grid;place-items:center;border:1px solid var(--line-dark);
+  transition:border-color .25s var(--ease),color .25s var(--ease);
+}
+.themebtn:hover{border-color:var(--blue);color:var(--blue)}
+.themebtn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round}
+.themebtn .t-sun{display:none}
+:root[data-theme="light"] .themebtn .t-sun{display:block}
+:root[data-theme="light"] .themebtn .t-moon{display:none}
+
+/* ============ ANNOUNCEMENT BAR ============
+   The one line a storefront is allowed above the masthead. It states the two
+   things that change whether somebody buys, and nothing else. */
+.promo{background:var(--surface-1);border-bottom:1px solid var(--line-dark);
+  color:var(--on-dark);font-size:var(--f-xs);letter-spacing:.06em}
+.promo .wrap{display:flex;align-items:center;justify-content:center;gap:var(--s3);
+  flex-wrap:wrap;min-height:38px;padding-block:.45rem;text-align:center}
+.promo b{font-weight:500;color:var(--white)}
+.promo i{width:3px;height:3px;border-radius:50%;background:var(--blue);flex:0 0 auto}
+@media(max-width:640px){.promo span:nth-child(n+4){display:none}}
+
+/* ============ TRUST ROW ============ */
+.trust{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  border-block:1px solid var(--line-dark)}
+@media(max-width:820px){.trust{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* the child div inside each cell must not inherit the cell's flex row */
+.trust>div{padding:var(--s4) var(--s3);display:flex;gap:var(--s2);align-items:flex-start;
+  border-left:1px solid var(--line-dark)}
+.trust>div:first-child{border-left:0}
+@media(max-width:820px){.trust>div:nth-child(3){border-left:0}}
+.trust svg{width:22px;height:22px;flex:0 0 auto;fill:none;stroke:var(--blue);
+  stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.trust b{display:block;font-size:var(--f-sm);font-weight:500;line-height:1.35}
+.trust span{display:block;font-size:var(--f-xs);color:var(--on-dark-dim);line-height:1.5;margin-top:.25rem}
+
+/* ============ IN THE BOX ============
+   Straight off page 01 of the manual. Counts, not adjectives. */
+.box-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:0;border-top:1px solid var(--line-dark)}
+.box-item{padding:var(--s4) var(--s3) var(--s4) 0;border-bottom:1px solid var(--line-dark);
+  display:flex;gap:var(--s3);align-items:baseline}
+.box-item .n{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-sm);font-weight:500;
+  color:var(--blue);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.box-item h3{font-size:var(--f-md);font-weight:500;letter-spacing:-.015em;line-height:1.3}
+.box-item p{font-size:var(--f-sm);color:var(--on-dark);line-height:1.55;margin-top:.35rem}
+
+/* ============ ANATOMY ============
+   The manual's "get to know your flosser" page, with the photograph doing the
+   work the line drawing does on paper. Every label is a real control. */
+.anat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
+  gap:clamp(1.5rem,5vw,4.5rem);align-items:center}
+@media(max-width:820px){.anat{grid-template-columns:1fr}}
+.anat-fig{display:grid;place-items:center;padding:var(--s4) 0}
+/* the pins are placed as a percentage of the photograph, so this box has to
+   shrink-wrap the image rather than fill the column */
+.anat-img{position:relative;display:block;height:min(64vh,620px)}
+.anat-img>img{height:100%;width:auto}
+@media(max-width:820px){.anat-img{height:min(52vh,460px)}}
+.anat-pin{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;cursor:pointer;
+  display:grid;place-items:center;border:1px solid var(--line-dark);
+  background:var(--glass);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  transition:border-color .25s var(--ease),transform .25s var(--ease)}
+.anat-pin::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);
+  transition:transform .3s var(--ease)}
+.anat-pin:hover,.anat-pin.on{border-color:var(--blue);transform:translate(-50%,-50%) scale(1.14)}
+.anat-pin.on::before{transform:scale(1.5)}
+.anat-list{border-top:1px solid var(--line-dark)}
+.anat-row{display:grid;grid-template-columns:auto 1fr;gap:var(--s3);width:100%;text-align:left;
+  align-items:baseline;cursor:pointer;padding-block:clamp(.75rem,1.5vw,1rem);
+  border-bottom:1px solid var(--line-dark);
+  transition:transform .35s var(--ease),color .25s var(--ease)}
+.anat-row .n{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);font-weight:500;
+  color:var(--on-dark-dim);font-variant-numeric:tabular-nums;transition:color .25s var(--ease)}
+.anat-row .k{font-size:var(--f-sm);font-weight:500;display:block}
+.anat-row .d{font-size:var(--f-xs);color:var(--on-dark-dim);line-height:1.55;display:block;margin-top:.2rem}
+.anat-row:hover,.anat-row.on{transform:translateX(.6rem)}
+.anat-row:hover .n,.anat-row.on .n,.anat-row:hover .k,.anat-row.on .k{color:var(--blue)}
+
+/* ============ HOW TO USE ============ */
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;
+  border-top:1px solid var(--line-dark)}
+.howto-s{padding:var(--s4) var(--s3) var(--s4) 0;border-bottom:1px solid var(--line-dark)}
+.howto-s .n{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);font-weight:500;
+  letter-spacing:.14em;color:var(--blue);display:block;margin-bottom:var(--s2)}
+.howto-s h3{font-size:var(--f-md);font-weight:500;letter-spacing:-.015em;line-height:1.3}
+.howto-s p{font-size:var(--f-sm);color:var(--on-dark);line-height:1.6;margin-top:.5rem}
+
+/* ============ CARE & SAFETY ============ */
+.care{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:clamp(1.5rem,4vw,3.5rem)}
+.care h3{font-size:var(--f-md);font-weight:500;letter-spacing:-.015em;
+  padding-bottom:var(--s2);border-bottom:1px solid var(--line-dark)}
+.care ul{margin-top:var(--s2)}
+.care li{font-size:var(--f-sm);color:var(--on-dark);line-height:1.6;
+  padding:.55rem 0 .55rem 1.35rem;position:relative}
+.care li::before{content:"";position:absolute;left:0;top:1.05rem;width:6px;height:1px;background:var(--blue)}
+.care-note{margin-top:var(--s4);font-size:var(--f-xs);color:var(--on-dark-dim)}
+
+/* Colour that has to survive both grounds. --blue steps down on the pale
+   theme, so a chip drawn in it needs white type rather than the dark type
+   that reads on the brighter dark-theme blue. The category accents come in
+   from the markup as raw brand hues; on a pale ground they are mixed toward
+   ink so a 12px label still clears 4.5:1 while keeping its hue. */
+:root[data-theme="light"] .pc-tag{color:#FFFFFF}
+:root[data-theme="light"] .pcard-cat,
+:root[data-theme="light"] .slot-cat{color:color-mix(in srgb,var(--acc,var(--blue)) 52%,#0B0E0F)}
+@supports not (color:color-mix(in srgb,red 50%,blue)){
+  :root[data-theme="light"] .pcard-cat,
+  :root[data-theme="light"] .slot-cat{color:var(--ink-soft)}
+}
+/* The inline diagrams keep a dark plate in both themes, so the colour any
+   currentColor inside them inherits has to be a dark-ground colour and not
+   the page's. */
+.diagram svg,.sim-stage svg{color:#E8EAEA}
+
+/* The wordmark is white artwork with a blue mark. On the pale theme it needs
+   the ink cut of the same file rather than a filter, which would swing the
+   blue to orange. */
+:root[data-theme="light"] .brand img,
+:root[data-theme="light"] .ftr-brand img{content:url(../img/logo-ink.svg)}
