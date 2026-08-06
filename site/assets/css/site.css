@@ -47,8 +47,8 @@
      side — 240 of centring margin plus a 64px pad; it is now 156, split 120
      and 36. The container carries most of the change, so the measure of the
      text columns is unchanged and only the empty margin narrows. */
-  --pad:clamp(1.1rem,2.6vw,2.25rem);
-  --wrap:1680px;
+  --pad:clamp(1rem,2.2vw,2rem);
+  --wrap:1800px;
 
   /* The brand book's ladder, ratio 1.2, read straight off the hierarchy page:
      Label 15.2 / P 16 / H6 21.20 / H5 25.30 / H4 30.47 / H3 36.96 / H2 44.20 /
@@ -791,7 +791,21 @@ ul{margin:0;padding:0;list-style:none}
 
 /* B. full-bleed statement band, used to change tempo between sections */
 .band{background:var(--ink);color:var(--white);padding-block:clamp(5rem,12vw,10rem);
-  border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)}
+  border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+  position:relative;overflow:hidden}
+/* The mark from the wordmark, oversized and run off the right edge. It is
+   painted through a mask rather than placed as an image, so one file tints
+   itself from --blue and follows the theme without a second asset. */
+.band::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  right:clamp(1rem,5vw,5rem);top:50%;transform:translateY(-50%);
+  width:min(34vw,520px);aspect-ratio:953.33/553.48;
+  background:var(--blue);opacity:.07;
+  -webkit-mask:url(../img/mark-white.svg) no-repeat center/contain;
+  mask:url(../img/mark-white.svg) no-repeat center/contain;
+}
+.band .wrap{position:relative;z-index:1}
+@media(max-width:900px){.band::after{right:-14%;width:62vw;opacity:.055}}
 .band q{quotes:none;display:block;font-size:var(--f-2xl);font-weight:700;letter-spacing:-.026em;
   line-height:1.2;max-width:22ch}
 .band .attr{margin-top:var(--s4);font-size:var(--f-xs);letter-spacing:.16em;text-transform:uppercase;
@@ -1713,16 +1727,33 @@ strong,b{font-weight:500}
    Adding a product adds a card; the grid does not change. */
 /* start, not stretch: the empty cards carry less than the real one and
    stretching them to match just prints a void under the copy */
-.coll{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:clamp(1rem,2vw,1.5rem);align-items:start}
+/* auto-FIT, not auto-fill. auto-fill keeps the empty tracks it created, so
+   four cards on a 1800px row sat in the left half with two dead columns beside
+   them. auto-fit collapses what is unused, so whatever is on the shelf — one
+   product or nine — spreads across the full width and the row still wraps on
+   its own when more arrive. */
+.coll{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:clamp(1rem,2vw,1.5rem);align-items:stretch}
 .pc{display:flex;flex-direction:column;border:1px solid var(--line-dark);border-radius:var(--r-lg);overflow:hidden;
   text-decoration:none;overflow:hidden;background:var(--surface-1);
   transition:border-color .3s var(--ease),transform .4s var(--ease)}
 .light .pc,.paper .pc{border-color:var(--line-light)}
 a.pc:hover{border-color:var(--acc,var(--blue));transform:translateY(-3px)}
+/* A definite height, not an aspect ratio. The product is 1:4, and with only a
+   ratio the image resolved its height:100% against a parent whose height
+   depended on the image — so it fell back to filling the card's width and made
+   the card four times taller than the ones beside it. */
 .pc-fig{position:relative;background:var(--surface-0);display:grid;place-items:center;
-  padding:clamp(1.25rem,3vw,2rem);aspect-ratio:4/5}
-.pc-fig img{height:100%;width:auto;object-fit:contain;
+  padding:clamp(1rem,2.4vw,1.6rem);height:clamp(210px,21vw,300px);overflow:hidden;
+  /* an explicit 1fr track, or the single auto row is sized by the image while
+     the image's height:100% is sized by the row — a cycle Chrome resolves in
+     favour of the image's intrinsic 2544px */
+  grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
+/* width and height at 100% of a definite box, with object-fit doing the
+   letterboxing. A percentage max-height on a grid item resolves against an
+   indefinite containing block in Chrome and is simply ignored, which left the
+   1:4 product sized by its width and 1470px tall inside a 300px frame. */
+.pc-fig img{width:100%;height:100%;object-fit:contain;
   transition:transform .5s var(--ease)}
 a.pc:hover .pc-fig img{transform:scale(1.04)}
 .pc-tag{position:absolute;top:.75rem;left:.75rem;padding:.3rem .6rem;
@@ -1981,24 +2012,15 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 }
 
 /* ============ HERO GROUND ============
-   Two layers, both decorative, neither animating anything but transform and
-   opacity. The grid is the engineering sheet the product came off; the rings
+   Three rings, decorative, animating nothing but transform and opacity. They
    are pressure leaving the nozzle, which is the one thing this product does.
-   Both are masked so they never reach the headline — a field running under
-   type is the thing that makes a hero look busy rather than deep. */
+   Masked so they never reach the headline — a field running under type is the
+   thing that makes a hero look busy rather than deep. */
 .hero-fx{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-  --fx-gap:clamp(44px,4.4vw,72px);
-  /* one mask for both layers, so the rings fade out before the headline the
-     same way the grid does. Masking only the grid left a hard arc crossing
-     the type at full strength. */
+  /* the rings fade out before the headline rather than being clipped by it;
+     an unmasked arc crossing the type at full strength reads as a mistake */
   -webkit-mask-image:radial-gradient(ellipse 64% 104% at 84% 50%,#000 0%,rgba(0,0,0,.72) 38%,transparent 88%);
   mask-image:radial-gradient(ellipse 64% 104% at 84% 50%,#000 0%,rgba(0,0,0,.72) 38%,transparent 88%)}
-.fx-grid{
-  position:absolute;inset:0;
-  background-image:
-    repeating-linear-gradient(to right,rgba(var(--tint),.14) 0 1px,transparent 1px var(--fx-gap)),
-    repeating-linear-gradient(to bottom,rgba(var(--tint),.14) 0 1px,transparent 1px var(--fx-gap));
-}
 /* centred on the product, not on the section: the rings read as coming off the
    nozzle rather than as a decoration parked in the middle of the page */
 .fx-ripple{position:absolute;top:47%;left:87%;transform:translate(-50%,-50%);
@@ -2027,11 +2049,4 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 @media(prefers-reduced-motion:reduce){
   .fx-ripple i{animation:none;opacity:0}
   .fx-ripple i:first-child{opacity:.16;transform:scale(1)}
-}
-/* Ink lines on white carry further than white lines on graphite, so the pale
-   theme takes the grid down rather than sharing one alpha. */
-:root[data-theme="light"] .fx-grid{
-  background-image:
-    repeating-linear-gradient(to right,rgba(var(--tint),.085) 0 1px,transparent 1px var(--fx-gap)),
-    repeating-linear-gradient(to bottom,rgba(var(--tint),.085) 0 1px,transparent 1px var(--fx-gap));
 }
