@@ -42,13 +42,17 @@
 
   /* grid */
   --cols:12;
-  --gut:clamp(.75rem,1.4vw,1.5rem);
-  /* The gutter is half what it was. Dead space at 1920 used to be 304px a
-     side — 240 of centring margin plus a 64px pad; it is now 156, split 120
-     and 36. The container carries most of the change, so the measure of the
+  /* Everything below is in rem, and rem is fluid (see html, further down), so
+     the whole page scales as one system rather than each value having its own
+     viewport curve. The min() caps are the only viewport terms left: they stop
+     the largest steps from overflowing a narrow screen, and do nothing at all
+     on a laptop or a desktop. */
+  --gut:min(1.5rem,3.4vw);
+  /* Dead space at 1920 used to be 304px a side — 240 of centring margin plus a
+     64px pad. The container carries most of the change, so the measure of the
      text columns is unchanged and only the empty margin narrows. */
-  --pad:clamp(1rem,2.2vw,2rem);
-  --wrap:1800px;
+  --pad:min(2rem,5vw);
+  --wrap:112.5rem;
 
   /* The brand book's ladder, ratio 1.2, read straight off the hierarchy page:
      Label 15.2 / P 16 / H6 21.20 / H5 25.30 / H4 30.47 / H3 36.96 / H2 44.20 /
@@ -62,19 +66,23 @@
   --f-sm:.875rem;                                         /* 14.00 small    */
   --f-base:1rem;                                          /* 16.00 P        */
   --f-label:.95rem;                                       /* 15.20 Label    */
-  --f-md:clamp(1.0625rem,.98rem + .35vw,1.325rem);        /* 21.20 H6       */
-  --f-lg:clamp(1.25rem,1.13rem + .55vw,1.58125rem);       /* 25.30 H5       */
-  --f-xl:clamp(1.5rem,1.28rem + .9vw,1.904rem);           /* 30.47 H4       */
-  --f-2xl:clamp(1.85rem,1.44rem + 1.8vw,2.7625rem);       /* 44.20 H2       */
-  --f-3xl:clamp(2.2rem,1.68rem + 2.3vw,3.3275rem);        /* 53.24 H1       */
-  --f-4xl:clamp(2.6rem,1.9rem + 3.1vw,4.792rem);          /* 76.67 display  */
+  --f-md:1.325rem;                                        /* 21.20 H6       */
+  --f-lg:1.58125rem;                                      /* 25.30 H5       */
+  --f-xl:1.904rem;                                        /* 30.47 H4       */
+  --f-2xl:min(2.7625rem,8vw);                             /* 44.20 H2       */
+  --f-3xl:min(3.3275rem,9.6vw);                           /* 53.24 H1       */
+  --f-4xl:min(4.792rem,13vw);                             /* 76.67 display  */
 
   /* space — 8pt */
   --s1:.5rem; --s2:1rem; --s3:1.5rem; --s4:2rem; --s5:3rem;
   --s6:4rem; --s7:6rem; --s8:8rem; --s9:12rem;
-  --sec-tight:clamp(2.25rem,3.5vw,3.5rem);
-  --sec:clamp(3.5rem,6vw,6.5rem);
-  --sec-air:clamp(6.5rem,13vw,13.5rem);
+  --sec-tight:min(3.5rem,9vw);
+  --sec:min(6.5rem,15vw);
+  --sec-air:min(13.5rem,26vw);
+
+  /* the masthead's own height, as a token: the hero, the sticky buy box and
+     every scroll-margin offset measure against it */
+  --hdr:4.75rem;
 
   --ease:cubic-bezier(.22,.61,.36,1);
   --ease-io:cubic-bezier(.65,0,.35,1);
@@ -156,7 +164,27 @@
 @font-face{font-family:Azeret;src:url(../fonts/azeret-500.woff2)format("woff2");font-weight:500;font-display:swap}
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+/* ============ THE SCALE ============
+   One fluid root, and everything else in rem. The page then looks the same on
+   every screen instead of being tuned to one laptop: the type ladder, the 8pt
+   space scale, the section rhythm and the container all move together, and
+   their ratios never change.
+
+   It reads both axes. A 1366x768 laptop and a 1366x1024 tablet are the same
+   width but not the same amount of room, and sizing off width alone is what
+   made the page feel oversized on a short screen — the whole reason a hero
+   tuned at 1440x900 was cramped at 1366x768. min() takes whichever axis is
+   tighter.
+
+   Reference points, rounded: 390 wide -> 15.0, 1280x800 -> 15.9,
+   1366x768 -> 15.6, 1440x900 -> 16.6, 1512x982 -> 17.0, 1920x1080 -> 18.4,
+   2560x1440 -> 19.0. The 1440x900 figure is the one this was drawn at, so
+   that screen is unchanged and every other screen now matches it in
+   proportion rather than in pixels. */
+html{
+  font-size:min(clamp(15px,0.55vw + 8.7px,19px),clamp(15px,0.9vh + 8.7px,19px));
+  -webkit-text-size-adjust:100%;scroll-behavior:smooth;
+}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;background:var(--ink);color:var(--white);
@@ -233,7 +261,7 @@ ul{margin:0;padding:0;list-style:none}
 .t-3xl{font-size:var(--f-3xl);letter-spacing:-.03em;line-height:1.1;text-wrap:balance}
 .t-2xl{font-size:var(--f-2xl);letter-spacing:-.026em;line-height:1.2;text-wrap:balance}
 /* a quieter head for sections that support rather than argue */
-.t-quiet{font-size:clamp(1.35rem,1.12rem + .95vw,1.904rem);font-weight:500;letter-spacing:-.018em;line-height:1.2}
+.t-quiet{font-size:1.904rem;font-weight:500;letter-spacing:-.018em;line-height:1.2}
 .t-xl{font-size:var(--f-xl);font-weight:500;letter-spacing:-.02em;line-height:1.2}
 .t-lg{font-size:var(--f-lg);font-weight:500;letter-spacing:-.014em;line-height:1.3}
 .t-md{font-size:var(--f-md);line-height:1.45}
@@ -314,7 +342,7 @@ ul{margin:0;padding:0;list-style:none}
   .hdr.stuck{background:var(--glass-solid)}
 }
 @media(prefers-reduced-motion:reduce){.hdr{transition:none}}
-.hdr-in{display:flex;align-items:center;gap:var(--s3);min-height:76px}
+.hdr-in{display:flex;align-items:center;gap:var(--s3);min-height:var(--hdr)}
 .brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
 /* The wordmark file has no padding of its own — the space around it is the
    bar's. Sized up so it reads edge to edge in the slot it sits in. */
@@ -374,7 +402,7 @@ ul{margin:0;padding:0;list-style:none}
   border-radius:var(--r-lg);overflow:hidden}
 .light .plate,.paper .plate{border-color:var(--line-light)}
 .plate-hd,.plate-ft{display:flex;justify-content:space-between;align-items:center;
-  gap:var(--s3);flex-wrap:wrap;padding:.85rem clamp(.9rem,2vw,1.4rem)}
+  gap:var(--s3);flex-wrap:wrap;padding:.85rem min(1.4rem,3.5vw)}
 .plate-hd{border-bottom:1px solid var(--line-dark)}
 .plate-ft{border-top:1px solid var(--line-dark);color:var(--on-dark-dim)}
 .light .plate-hd,.light .plate-ft{border-color:var(--line-dark)}
@@ -389,7 +417,7 @@ ul{margin:0;padding:0;list-style:none}
 .plate-tabs button[aria-selected=true]{color:var(--white);border-color:var(--line-dark)}
 /* the three elevations share one scale, so switching reads as turning a sheet */
 .plate-stage{display:flex;align-items:center;justify-content:center;
-  padding:clamp(1.25rem,2.5vw,2rem) clamp(1rem,3vw,2.5rem)}
+  padding:min(2rem,5vw) min(2.5rem,6.25vw)}
 .plate-stage img{height:min(62vh,610px);width:auto;max-width:100%;
   transition:opacity .22s var(--ease)}
 .plate-stage.swap img{opacity:0}
@@ -397,7 +425,7 @@ ul{margin:0;padding:0;list-style:none}
 @media(prefers-reduced-motion:reduce){.plate-stage img{transition:none}}
 
 .fig-sm{margin:0}
-.fig-sm img{height:clamp(7rem,13vw,11rem);width:auto}
+.fig-sm img{height:min(11rem,27.5vw);width:auto}
 .fig-sm figcaption{margin-top:var(--s2);font-size:var(--f-xs);font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-dim)}
 .light .fig-sm figcaption,.paper .fig-sm figcaption{color:var(--dim-2)}
@@ -422,7 +450,7 @@ ul{margin:0;padding:0;list-style:none}
 /* colourway plate — flat swatches, no rendering */
 .cw{display:flex;gap:var(--s2)}
 .cw div{flex:1}
-.cw i{display:block;height:clamp(5rem,11vw,8rem);border:1px solid var(--line-light);border-radius:var(--r-md)}
+.cw i{display:block;height:min(8rem,20vw);border:1px solid var(--line-light);border-radius:var(--r-md)}
 .cw span{display:block;margin-top:0.5rem;font-size:var(--f-xs);letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-soft)}
 
@@ -431,10 +459,10 @@ ul{margin:0;padding:0;list-style:none}
    purpose: there is nothing beside it to align to, and the change of pace is
    what stops eleven sections of argument reading as a wall. */
 .moment{background:var(--ink);border-block:1px solid var(--line-dark);
-  padding-block:clamp(2.5rem,4vw,4rem);text-align:center}
+  padding-block:min(4rem,10vw);text-align:center}
 .moment img{height:min(80vh,780px);width:auto;margin-inline:auto}
 .moment-facts{display:flex;flex-wrap:wrap;justify-content:center;
-  gap:clamp(2rem,6vw,5.5rem);margin:clamp(2rem,5vw,3.5rem) 0 0}
+  gap:min(5.5rem,13.75vw);margin:min(3.5rem,8.75vw) 0 0}
 .moment-facts dt{font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:0.5rem}
 .moment-facts dd{margin:0;font-size:var(--f-lg);font-weight:500;line-height:1.18;
@@ -453,7 +481,7 @@ ul{margin:0;padding:0;list-style:none}
    default template star that every storefront in the category already uses.
    Rows follow the same rule as every other editorial row: who at 1, what at 5,
    when hung off the end. */
-.score b{display:block;font-size:clamp(3rem,6vw,4.6rem);font-weight:600;
+.score b{display:block;font-size:min(4.6rem,11.5vw);font-weight:600;
   letter-spacing:-.04em;line-height:1}
 .score-n{display:block;margin-top:0.75rem;font-size:var(--f-xs);font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;color:var(--dim-2)}
@@ -511,7 +539,7 @@ ul{margin:0;padding:0;list-style:none}
 .diag-cell:nth-child(2){grid-column:7/span 5}
 .diag-cell span{display:block;font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:1rem}
-.diag-cell b{display:block;font-size:clamp(1.7rem,1.2rem + 2vw,3rem);font-weight:600;
+.diag-cell b{display:block;font-size:min(3rem,7.5vw);font-weight:600;
   letter-spacing:-.026em;line-height:1.2;margin-bottom:1rem}
 .diag-cell p{font-size:var(--f-sm);color:var(--on-dark);max-width:38ch}
 .js .diag-set{animation:diagIn .42s var(--ease) both}
@@ -533,7 +561,7 @@ ul{margin:0;padding:0;list-style:none}
 .step p{font-size:var(--f-sm)}
 
 /* ============ DIAGRAM ============ */
-.diagram{background:var(--ink);border:1px solid var(--line-dark);border-radius:var(--r-lg);padding:clamp(1.5rem,4vw,3.5rem);
+.diagram{background:var(--ink);border:1px solid var(--line-dark);border-radius:var(--r-lg);padding:min(3.5rem,8.75vw);
   height:100%;display:flex;flex-direction:column;justify-content:center}
 .diagram svg{width:100%;height:auto}
 .light .diagram,.paper .diagram{background:var(--surface-0);border-color:transparent}
@@ -638,7 +666,7 @@ ul{margin:0;padding:0;list-style:none}
   font-size:var(--f-xs);color:var(--on-dark-dim)}
 
 /* ============ PDP ============ */
-.pdp{display:grid;grid-template-columns:1.06fr .94fr;gap:clamp(2rem,4vw,4.5rem);align-items:start;padding-block:var(--s5)}
+.pdp{display:grid;grid-template-columns:1.06fr .94fr;gap:min(4.5rem,11.25vw);align-items:start;padding-block:var(--s5)}
 .buy h1{font-size:var(--f-2xl);margin-bottom:var(--s2)}
 .buy-rating{display:inline-flex;align-items:center;gap:0.75rem;margin-top:var(--s4);
   text-decoration:none;font-size:var(--f-xs);font-weight:500;letter-spacing:.12em;
@@ -682,7 +710,7 @@ ul{margin:0;padding:0;list-style:none}
 .prose{grid-column:1/span 6;max-width:none}
 @media(max-width:1100px){.prose{grid-column:1/span 9}}
 @media(max-width:820px){.prose{grid-column:1/-1}}
-.page-hd{padding-block:clamp(3.5rem,8vw,7rem) var(--s4);border-bottom:1px solid var(--line-dark)}
+.page-hd{padding-block:min(7rem,17.5vw) var(--s4);border-bottom:1px solid var(--line-dark)}
 .prose h2{font-size:var(--f-xl);margin:var(--s5) 0 var(--s2)}
 .prose h3{font-size:var(--f-lg);margin:var(--s4) 0 .6rem}
 .prose p{margin-bottom:1rem;color:var(--on-dark)}
@@ -700,7 +728,7 @@ ul{margin:0;padding:0;list-style:none}
 .field textarea{min-height:150px;resize:vertical}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);outline:none}
 .field .hint{font-size:var(--f-xs);color:var(--on-dark-dim);margin-top:0.5rem}
-.err{text-align:center;padding-block:clamp(5rem,14vw,10rem)}
+.err{text-align:center;padding-block:min(10rem,25vw)}
 .err .code{font-size:var(--f-4xl);font-weight:600;letter-spacing:-.05em;line-height:1;color:var(--blue)}
 
 /* ============ REVEAL ============ */
@@ -769,7 +797,7 @@ ul{margin:0;padding:0;list-style:none}
 .demo-stage img{max-height:19rem;width:auto}
 .demo-tag{position:absolute;left:var(--s3);bottom:var(--s3);font-size:var(--f-xs);
   letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-dim)}
-.demo-body{padding:clamp(1.5rem,3vw,2.5rem)}
+.demo-body{padding:min(2.5rem,6.25vw)}
 .demo-body h3{font-size:var(--f-lg);margin-bottom:var(--s2)}
 
 .stmt-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5);align-items:start;margin-top:var(--s4)}
@@ -800,7 +828,7 @@ ul{margin:0;padding:0;list-style:none}
 .light .hang-n span,.paper .hang-n span{color:var(--dim-2)}
 
 /* B. full-bleed statement band, used to change tempo between sections */
-.band{background:var(--ink);color:var(--white);padding-block:clamp(5rem,12vw,10rem);
+.band{background:var(--ink);color:var(--white);padding-block:min(10rem,25vw);
   border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
   position:relative;overflow:hidden}
 /* The mark from the wordmark, oversized and run off the right edge. It is
@@ -808,7 +836,7 @@ ul{margin:0;padding:0;list-style:none}
    itself from --blue and follows the theme without a second asset. */
 .band::after{
   content:"";position:absolute;z-index:0;pointer-events:none;
-  right:clamp(1rem,5vw,5rem);top:50%;transform:translateY(-50%);
+  right:min(5rem,12.5vw);top:50%;transform:translateY(-50%);
   width:min(34vw,520px);aspect-ratio:953.33/553.48;
   background:var(--blue);opacity:.07;
   -webkit-mask:url(../img/mark-white.svg) no-repeat center/contain;
@@ -858,7 +886,7 @@ ul{margin:0;padding:0;list-style:none}
 .is-ready .ldg{display:none}
 
 /* ============ EMPTY STATE ============ */
-.empty{border:1px solid var(--line-dark);padding:clamp(1.75rem,4vw,3rem);text-align:center;border-radius:var(--r-lg)}
+.empty{border:1px solid var(--line-dark);padding:min(3rem,7.5vw);text-align:center;border-radius:var(--r-lg)}
 .light .empty,.paper .empty{border-color:var(--line-light)}
 .empty .mk{width:30px;height:30px;margin:0 auto var(--s3);opacity:.6}
 .empty h3{font-size:var(--f-lg);font-weight:500;margin-bottom:var(--s2)}
@@ -869,7 +897,7 @@ ul{margin:0;padding:0;list-style:none}
 
 /* ============ PDP RHYTHM ============ */
 .pdp-grid{align-items:start}
-.buybox{position:sticky;top:calc(76px + var(--s3))}
+.buybox{position:sticky;top:calc(var(--hdr) + var(--s3))}
 @media(max-width:1100px){.buybox{position:static}}
 @media(prefers-reduced-motion:reduce){.ldg::after{animation:none;transform:none;width:100%}}
 
@@ -896,7 +924,7 @@ ul{margin:0;padding:0;list-style:none}
 /* ============ FULL-BLEED HERO ============
    Immersive first viewport. The product sits on the same ink ground as the
    page, so it reads as filling the screen rather than sitting in a box. */
-.hero-full{position:relative;min-height:calc(100svh - 76px);display:flex;flex-direction:column;
+.hero-full{position:relative;min-height:calc(100svh - var(--hdr));display:flex;flex-direction:column;
   justify-content:flex-end;overflow:hidden;border-bottom:1px solid var(--line-dark)}
 .hero-full>*{width:100%}  /* flex items must not shrink-wrap, or the hero leaves the page grid */
 /* Lifted above the text grid, which is later in source and otherwise paints
@@ -904,18 +932,20 @@ ul{margin:0;padding:0;list-style:none}
    never overlap horizontally, so nothing is obscured by the change. */
 /* Pulled in from the right edge. Once the gutter came down to 32px the
    product was sitting hard against the viewport with nothing under it. */
-.hero-draw{position:absolute;top:0;bottom:0;right:clamp(1.5rem,7vw,9rem);z-index:3;display:flex;align-items:center;
+.hero-draw{position:absolute;top:0;bottom:0;right:min(9rem,22.5vw);z-index:3;display:flex;align-items:center;
   pointer-events:none}
-.hero-draw img{height:min(86%,740px);width:auto;max-width:none;opacity:.95}
+.hero-draw img{height:min(86%,46.25rem);width:auto;max-width:none;opacity:.95}
 .hero-body{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
-  justify-content:center;padding-block:clamp(3rem,7vw,5rem)}
+  justify-content:center;padding-block:min(5rem,12.5vw)}
 .hero-body .grid{position:relative;z-index:2}
 /* .94 put the descender of "Upgrade" straight through the ascenders of the
    line below it. Measured ink extent for this face is 1.05-1.07em, so the
    leading has to clear that before it can be called tight. */
 /* the display step above --f-4xl, same 1.2 ratio: 92.00px */
-.hero-full h1{font-size:clamp(2.6rem,1.86rem + 3.7vw,5.75rem);letter-spacing:-.036em;line-height:1.1;font-weight:700}
-@media(max-width:380px){.hero-full h1{font-size:2.6rem}}
+/* the display step above --f-4xl, same 1.2 ratio, capped so it cannot
+   overflow a narrow screen */
+.hero-full h1{font-size:min(5.75rem,13vw);letter-spacing:-.036em;line-height:1.1;font-weight:700}
+
 .hero-full h1 em{font-style:normal;display:block;color:var(--blue)}
 .hero-lede{max-width:34ch;margin-top:var(--s3)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:var(--s4)}
@@ -940,8 +970,8 @@ ul{margin:0;padding:0;list-style:none}
 .marq-in{display:flex;width:max-content;animation:slide 46s linear infinite}
 .marq:hover .marq-in{animation-play-state:paused}
 .marq-set{display:flex;align-items:center;flex:0 0 auto}
-.marq-set span{font-size:clamp(1rem,1.6vw,1.35rem);font-weight:500;letter-spacing:-.015em;
-  white-space:nowrap;padding-inline:clamp(1.25rem,2.5vw,2.5rem);color:var(--white)}
+.marq-set span{font-size:min(1.35rem,3.38vw);font-weight:500;letter-spacing:-.015em;
+  white-space:nowrap;padding-inline:min(2.5rem,6.25vw);color:var(--white)}
 .marq-set img{width:15px;height:15px;flex:0 0 auto;opacity:.85}
 @keyframes slide{to{transform:translateX(-50%)}}
 
@@ -988,7 +1018,7 @@ ul{margin:0;padding:0;list-style:none}
 .light .empty .why,.paper .empty .why{color:var(--orange-text)}
 /* ============ WCAG 2.2 HARDENING ============ */
 /* SC 2.4.11: nothing keyboard-focused may land under the sticky header */
-[id],a[href],button,input,select,textarea,summary{scroll-margin-top:calc(76px + 1.5rem)}
+[id],a[href],button,input,select,textarea,summary{scroll-margin-top:calc(var(--hdr) + 1.5rem)}
 /* SC 2.5.8: every target reaches 24px minimum. Nav and footer links were 20px tall. */
 .nav a{padding-block:0.5rem}
 .ftr a{display:inline-block;padding-block:0.25rem}
@@ -1004,12 +1034,12 @@ ul{margin:0;padding:0;list-style:none}
 .cat{border-top:1px solid var(--line-dark)}
 .light .cat,.paper .cat{border-color:var(--line-light)}
 .cat-row{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));
-  gap:var(--gut);padding-block:clamp(1.75rem,3.2vw,2.75rem);
+  gap:var(--gut);padding-block:min(2.75rem,6.88vw);
   border-bottom:1px solid var(--line-dark);align-items:start}
 .light .cat-row,.paper .cat-row{border-color:var(--line-light)}
 .cat-ix{grid-column:1/span 1;font-family:Azeret,ui-monospace,monospace;
   font-size:var(--f-xs);letter-spacing:.14em;color:var(--acc,var(--blue))}
-.cat-nm{grid-column:2/span 4;margin:0;font-size:clamp(1.5rem,1.19rem + 1.35vw,2.31rem);
+.cat-nm{grid-column:2/span 4;margin:0;font-size:min(2.31rem,7vw);
   letter-spacing:-.026em;line-height:1.2}
 .cat-sc{grid-column:6/span 4;font-size:var(--f-sm);line-height:1.6;color:var(--on-dark)}
 .light .cat-sc,.paper .cat-sc{color:var(--ink-soft)}
@@ -1019,13 +1049,13 @@ ul{margin:0;padding:0;list-style:none}
 .light .cat-st,.paper .cat-st{color:var(--ink-soft)}
 .cat-st b{display:block;font-weight:500;color:var(--acc,var(--blue))}
 /* the shelf that has stock carries it inline; the empty shelves stay one line */
-.cat-stock{grid-column:2/span 9;margin-top:clamp(1.25rem,2.4vw,2rem);
-  display:grid;grid-template-columns:auto 1fr;gap:clamp(1.25rem,3vw,2.5rem);
+.cat-stock{grid-column:2/span 9;margin-top:min(2rem,5vw);
+  display:grid;grid-template-columns:auto 1fr;gap:min(2.5rem,6.25vw);
   align-items:center;border-left:2px solid var(--acc,var(--blue));
-  padding-left:clamp(1rem,2.2vw,1.75rem)}
+  padding-left:min(1.75rem,4.38vw)}
 /* bound by height, not width: the render is 1:4, so a width clamp makes the
    row four times taller than the copy sitting next to it */
-.cat-stock img{height:clamp(92px,11vw,148px);width:auto}
+.cat-stock img{height:min(9.25rem,23.12vw);width:auto}
 .cat-stock h4{margin:0 0 .35rem;font-size:var(--f-md);font-weight:500;letter-spacing:-.015em}
 .cat-stock p{font-size:var(--f-sm);color:var(--on-dark);line-height:1.55}
 .light .cat-stock p,.paper .cat-stock p{color:var(--ink-soft)}
@@ -1048,26 +1078,26 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 .rack{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));
   gap:var(--gut) var(--gut)}
 .pcard{grid-column:span 12;display:grid;
-  grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,3.5rem);
+  grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:min(3.5rem,8.75vw);
   align-items:center;border:1px solid var(--line-dark);
-  padding:clamp(1.5rem,3vw,2.5rem);text-decoration:none;
+  padding:min(2.5rem,6.25vw);text-decoration:none;
   transition:border-color .3s var(--ease)}
 .light .pcard,.paper .pcard{border-color:var(--line-light)}
 .pcard:hover{border-color:var(--acc,var(--blue))}
 .pcard-fig{background:var(--ink-2);border-radius:var(--r-lg);overflow:hidden;display:grid;place-items:center;
-  padding:clamp(1rem,2.5vw,2rem);min-height:clamp(200px,26vw,340px)}
-.pcard-fig img{height:clamp(170px,24vw,300px);width:auto;
+  padding:min(2rem,5vw);min-height:min(21.25rem,53.12vw)}
+.pcard-fig img{height:min(18.75rem,46.88vw);width:auto;
   transition:transform .5s var(--ease)}
 .pcard:hover .pcard-fig img{transform:scale(1.035)}
 .pcard-cat{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--acc,var(--blue))}
-.pcard h3{margin:.65rem 0 0;font-size:clamp(1.45rem,1.19rem + 1.1vw,2.31rem);
+.pcard h3{margin:.65rem 0 0;font-size:min(2.31rem,7vw);
   letter-spacing:-.026em;line-height:1.2}
 .pcard-sub{margin-top:.75rem;font-size:var(--f-sm);line-height:1.6;
   color:var(--on-dark);max-width:46ch}
 .light .pcard-sub,.paper .pcard-sub{color:var(--ink-soft)}
 .pcard-ft{display:flex;flex-wrap:wrap;align-items:baseline;
-  gap:.6rem clamp(1.25rem,3vw,2.25rem);margin-top:clamp(1.25rem,2.5vw,1.75rem)}
+  gap:.6rem min(2.25rem,5.62vw);margin-top:min(1.75rem,4.38vw)}
 .pcard-pr{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-lg);
   font-weight:500;letter-spacing:-.01em}
 .pcard-meta{font-size:var(--f-xs);letter-spacing:.1em;text-transform:uppercase;
@@ -1078,15 +1108,15 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 /* a slot for a product that does not exist yet. No image, no price, no card
    chrome pretending there is something behind it — an outline and a date. */
 .slot{grid-column:span 4;border:1px dashed var(--line-dark);border-radius:var(--r-lg);
-  padding:clamp(1.25rem,2.6vw,2rem);display:flex;flex-direction:column;
-  justify-content:space-between;min-height:clamp(150px,17vw,210px)}
+  padding:min(2rem,5vw);display:flex;flex-direction:column;
+  justify-content:space-between;min-height:min(13.125rem,32.81vw)}
 .light .slot,.paper .slot{border-color:var(--line-light)}
 .slot-cat{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--acc,var(--blue))}
 .slot h3{margin:.6rem 0 0;font-size:var(--f-md);font-weight:500;letter-spacing:-.015em}
 .slot p{margin-top:.5rem;font-size:var(--f-sm);line-height:1.55;color:var(--on-dark-dim)}
 .light .slot p,.paper .slot p{color:var(--ink-soft)}
-.slot .when{margin-top:clamp(1rem,2vw,1.5rem);font-family:Azeret,ui-monospace,monospace;
+.slot .when{margin-top:min(1.5rem,3.75vw);font-family:Azeret,ui-monospace,monospace;
   font-size:var(--f-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark-dim)}
 @media(max-width:900px){.slot{grid-column:span 6}}
 @media(max-width:560px){.slot{grid-column:span 12}}
@@ -1094,7 +1124,7 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 /* ---- release marker: the brand ships numbered releases, and the number is
    the point. Set in the mono face at display size so it reads as a serial. */
 .rel-n{display:block;font-family:Azeret,ui-monospace,monospace;
-  font-size:clamp(3.2rem,2rem + 6vw,8.5rem);font-weight:500;line-height:.9;
+  font-size:min(8.5rem,21.25vw);font-weight:500;line-height:.9;
   letter-spacing:-.04em;color:var(--acc,var(--blue))}
 .rel-k{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.24em;text-transform:uppercase;color:var(--on-dark-dim);
@@ -1111,7 +1141,7 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 .crumb i{font-style:normal;opacity:.5}
 
 /* the three elevations shown together want more height than a spot figure */
-.dwg-set .fig-sm img{height:clamp(11rem,22vw,20rem)}
+.dwg-set .fig-sm img{height:min(20rem,50vw)}
 
 /* The signup moved onto a light section when the store gained a catalogue.
    It had only ever been styled for the dark ground, so the field was white
@@ -1123,7 +1153,7 @@ a.cat-row:hover .cat-nm{color:var(--acc,var(--blue))}
 /* A short row of facts sitting inside a narrower cell. Its own three columns,
    not the page's twelve, so it never pretends to be on the page grid. */
 .factrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:var(--s3) var(--gut);margin:clamp(2rem,4vw,3rem) 0 0}
+  gap:var(--s3) var(--gut);margin:min(3rem,7.5vw) 0 0}
 .factrow dd{margin:.35rem 0 0;font-weight:500;color:var(--white)}
 .light .factrow dd,.paper .factrow dd{color:var(--ink)}
 @media(max-width:520px){.factrow{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -1347,10 +1377,10 @@ body::after{
 .cat-row.open .shelf-more{grid-template-rows:1fr}
 .shelf-more>div{min-height:0;overflow:hidden}
 @media(prefers-reduced-motion:reduce){.shelf-more{transition:none}}
-.shelf-in{display:grid;grid-template-columns:auto 1fr;gap:clamp(1.25rem,3vw,2.5rem);
-  align-items:center;margin-top:clamp(1.25rem,2.4vw,2rem);
-  border-left:2px solid var(--acc,var(--blue));padding-left:clamp(1rem,2.2vw,1.75rem)}
-.shelf-wire{width:clamp(88px,10vw,132px);height:auto;opacity:.5}
+.shelf-in{display:grid;grid-template-columns:auto 1fr;gap:min(2.5rem,6.25vw);
+  align-items:center;margin-top:min(2rem,5vw);
+  border-left:2px solid var(--acc,var(--blue));padding-left:min(1.75rem,4.38vw)}
+.shelf-wire{width:min(8.25rem,20.62vw);height:auto;opacity:.5}
 .shelf-in h4{margin:0 0 .35rem;font-size:var(--f-md);font-weight:500;letter-spacing:-.015em}
 .shelf-in p{font-size:var(--f-sm);color:var(--on-dark);line-height:1.55;max-width:48ch}
 .shelf-cta{margin-top:var(--s3);display:inline-flex;align-items:center;gap:.55rem;
@@ -1368,7 +1398,7 @@ body::after{
 .modal{position:fixed;inset:0;z-index:170;display:grid;place-items:center;padding:var(--s3);
   opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
 .modal.on{opacity:1;visibility:visible}
-.modal-card{width:min(520px,100%);padding:clamp(1.5rem,4vw,2.5rem);border-radius:var(--r-lg);
+.modal-card{width:min(520px,100%);padding:min(2.5rem,6.25vw);border-radius:var(--r-lg);
   background:var(--glass);border:1px solid var(--glass-line);
   -webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);
   transform:translateY(14px) scale(.985);transition:transform .45s cubic-bezier(.16,1,.3,1)}
@@ -1385,17 +1415,17 @@ body::after{
 
 /* ============ CAD INSPECTOR ============ */
 .insp{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
-  gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
+  gap:min(3.5rem,8.75vw);align-items:center}
 @media(max-width:820px){.insp{grid-template-columns:1fr}}
 .insp-stage{background:var(--surface-0);border:1px solid var(--line-dark);border-radius:var(--r-lg);
-  display:grid;place-items:center;padding:clamp(1.25rem,3vw,2.5rem);min-height:clamp(260px,34vw,440px)}
-.insp-stage img,.insp-stage svg{height:clamp(210px,28vw,380px);width:auto}
+  display:grid;place-items:center;padding:min(2.5rem,6.25vw);min-height:min(27.5rem,68.75vw)}
+.insp-stage img,.insp-stage svg{height:min(23.75rem,59.38vw);width:auto}
 /* the overlay traces the part being described; it sits above the drawing and
    is the only thing that changes when a row is hovered */
 /* fixed box: the drawings stack on top of each other and cross-fade, so the
    stage never changes size no matter which elevation is showing */
 .insp-wrap{position:relative;display:grid;place-items:center;
-  height:clamp(210px,28vw,380px);width:100%}
+  height:min(23.75rem,59.38vw);width:100%}
 .insp-el{position:absolute;top:0;left:50%;transform:translateX(-50%);
   height:100%;width:auto;opacity:0;transition:opacity .34s var(--ease)}
 .insp-el.on{opacity:1}
@@ -1416,7 +1446,7 @@ body::after{
    drawing again — a feedback loop, and a layout shift on every hover. */
 .insp-row{display:grid;grid-template-columns:1fr auto;gap:var(--s3);align-items:baseline;
   width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
-  padding-block:clamp(.9rem,1.8vw,1.25rem);border-bottom:1px solid var(--line-dark);
+  padding-block:min(1.25rem,3.12vw);border-bottom:1px solid var(--line-dark);
   transition:transform .35s var(--ease),color .25s var(--ease)}
 .insp-row .k{font-size:var(--f-sm);color:var(--on-dark);transition:color .25s var(--ease)}
 .insp-row .v{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-sm);
@@ -1427,9 +1457,9 @@ body::after{
 
 /* ============ PRESSURE SIMULATOR ============ */
 .sim{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);
-  gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
+  gap:min(3.5rem,8.75vw);align-items:start}
 @media(max-width:820px){.sim{grid-template-columns:1fr}}
-.sim-stage{background:var(--surface-0);border:1px solid var(--line-dark);padding:clamp(1rem,2.5vw,1.75rem);
+.sim-stage{background:var(--surface-0);border:1px solid var(--line-dark);padding:min(1.75rem,4.38vw);
   border-radius:var(--r-lg)}
 .sim-stage svg{width:100%;height:auto;display:block}
 .jet{stroke:var(--blue);stroke-width:3;stroke-linecap:round;
@@ -1465,12 +1495,12 @@ body::after{
 .db i.on{background:var(--teal)}
 
 /* ============ DIAGNOSIS MATCHER ============ */
-.match{margin-top:var(--s5);border:1px solid var(--line-dark);padding:clamp(1.25rem,3vw,2rem);
+.match{margin-top:var(--s5);border:1px solid var(--line-dark);padding:min(2rem,5vw);
   border-radius:var(--r-lg)}
-.match-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:clamp(1.25rem,3vw,2.25rem);
+.match-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:min(2.25rem,5.62vw);
   align-items:center}
 @media(max-width:760px){.match-in{grid-template-columns:1fr}}
-.match-fig{background:var(--surface-0);width:clamp(78px,9vw,104px);height:clamp(78px,9vw,104px);
+.match-fig{background:var(--surface-0);width:min(6.5rem,16.25vw);height:min(6.5rem,16.25vw);
   display:grid;place-items:center}
 .match-fig svg{width:60%;height:60%;stroke:var(--blue);fill:none;stroke-width:1.4}
 .match-k{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);letter-spacing:.16em;
@@ -1510,7 +1540,7 @@ body::after{
 .tool:hover{border-color:var(--blue);color:var(--blue)}
 .tool svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
 .lightbox .modal-card{width:min(1000px,100%);display:grid;place-items:center;
-  background:var(--surface-0);padding:clamp(1rem,3vw,2rem)}
+  background:var(--surface-0);padding:min(2rem,5vw)}
 .lightbox img{max-height:78vh;width:auto}
 
 /* ============ REVIEWS ============ */
@@ -1745,7 +1775,7 @@ strong,b{font-weight:500}
    product or nine — spreads across the full width and the row still wraps on
    its own when more arrive. */
 .coll{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:clamp(1rem,2vw,1.5rem);align-items:stretch}
+  gap:min(1.5rem,3.75vw);align-items:stretch}
 .pc{display:flex;flex-direction:column;border:1px solid var(--line-dark);border-radius:var(--r-lg);overflow:hidden;
   text-decoration:none;overflow:hidden;background:var(--surface-1);
   transition:border-color .3s var(--ease),transform .4s var(--ease)}
@@ -1756,7 +1786,7 @@ a.pc:hover{border-color:var(--acc,var(--blue));transform:translateY(-3px)}
    depended on the image — so it fell back to filling the card's width and made
    the card four times taller than the ones beside it. */
 .pc-fig{position:relative;background:var(--surface-0);display:grid;place-items:center;
-  padding:clamp(1rem,2.4vw,1.6rem);height:clamp(210px,21vw,300px);overflow:hidden;
+  padding:min(1.6rem,4vw);height:min(18.75rem,46.88vw);overflow:hidden;
   /* an explicit 1fr track, or the single auto row is sized by the image while
      the image's height:100% is sized by the row — a cycle Chrome resolves in
      favour of the image's intrinsic 2544px */
@@ -1772,7 +1802,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
   background:var(--blue);color:#04222F;font-family:Azeret,ui-monospace,monospace;
   font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 .pc-tag.soon{background:transparent;border:1px solid var(--line-dark);color:var(--on-dark-dim)}
-.pc-bd{padding:clamp(1rem,2vw,1.25rem);display:flex;flex-direction:column;gap:.4rem;flex:1}
+.pc-bd{padding:min(1.25rem,3.12vw);display:flex;flex-direction:column;gap:.4rem;flex:1}
 .pc-cat{font-size:var(--f-xs);color:var(--on-dark-dim);letter-spacing:.02em}
 .light .pc-cat,.paper .pc-cat{color:var(--ink-soft)}
 .pc-nm{margin:0;font-size:var(--f-md);font-weight:500;letter-spacing:-.02em;line-height:1.3}
@@ -1792,10 +1822,10 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 
 /* ============ FEATURED PRODUCT ============ */
 .feat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
-  gap:clamp(1.5rem,5vw,4.5rem);align-items:center}
+  gap:min(4.5rem,11.25vw);align-items:center}
 @media(max-width:820px){.feat{grid-template-columns:1fr}}
 .feat-fig{background:var(--surface-0);border:1px solid var(--line-dark);border-radius:var(--r-lg);overflow:hidden;
-  display:grid;place-items:center;padding:clamp(1.5rem,4vw,3rem);aspect-ratio:4/5}
+  display:grid;place-items:center;padding:min(3rem,7.5vw);aspect-ratio:4/5}
 .light .feat-fig,.paper .feat-fig{border-color:var(--line-light)}
 .feat-fig img{height:100%;width:auto;object-fit:contain}
 .feat-pr{display:flex;align-items:baseline;gap:.85rem;margin-top:var(--s3)}
@@ -1867,7 +1897,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    The manual's "get to know your flosser" page, with the photograph doing the
    work the line drawing does on paper. Every label is a real control. */
 .anat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
-  gap:clamp(1.5rem,5vw,4.5rem);align-items:center}
+  gap:min(4.5rem,11.25vw);align-items:center}
 @media(max-width:820px){.anat{grid-template-columns:1fr}}
 .anat-fig{display:grid;place-items:center;padding:var(--s4) 0}
 /* the pins are placed as a percentage of the photograph, so this box has to
@@ -1885,7 +1915,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 .anat-pin.on::before{transform:scale(1.5)}
 .anat-list{border-top:1px solid var(--line-dark)}
 .anat-row{display:grid;grid-template-columns:auto 1fr;gap:var(--s3);width:100%;text-align:left;
-  align-items:baseline;cursor:pointer;padding-block:clamp(.75rem,1.5vw,1rem);
+  align-items:baseline;cursor:pointer;padding-block:min(1rem,2.5vw);
   border-bottom:1px solid var(--line-dark);
   transition:transform .35s var(--ease),color .25s var(--ease)}
 .anat-row .n{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);font-weight:500;
@@ -1906,7 +1936,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 
 /* ============ CARE & SAFETY ============ */
 .care{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:clamp(1.5rem,4vw,3.5rem)}
+  gap:min(3.5rem,8.75vw)}
 .care h3{font-size:var(--f-md);font-weight:500;letter-spacing:-.015em;
   padding-bottom:var(--s2);border-bottom:1px solid var(--line-dark)}
 .care ul{margin-top:var(--s2)}
@@ -1990,7 +2020,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    fixed aspect box, so a finished asset drops in as a src and nothing on the
    page reflows. Empty frames are drawn as reserved slots rather than as grey
    rectangles pretending to be photographs. */
-.stories{display:grid;gap:clamp(1rem,2.4vw,2rem)}
+.stories{display:grid;gap:min(2rem,5vw)}
 .story{margin:0}
 .story-media{
   position:relative;display:grid;place-items:center;gap:.6rem;
@@ -2005,9 +2035,9 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    column of portraits leaves a quarter of the row empty at every width, and
    mixing 9:16 with 4:5 in one row leaves the row ragged. */
 .story-lead .story-media{aspect-ratio:16/9}
-.story-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1rem,2.4vw,2rem)}
+.story-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:min(2rem,5vw)}
 .story-rail .story-media{aspect-ratio:9/16}
-.story-play svg{width:clamp(38px,4vw,54px);height:clamp(38px,4vw,54px);
+.story-play svg{width:min(3.375rem,8.44vw);height:min(3.375rem,8.44vw);
   fill:none;stroke:var(--blue);stroke-width:1.1;stroke-linejoin:round}
 .story-spec{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
   letter-spacing:.14em;text-transform:uppercase;color:var(--dim-2)}
@@ -2043,11 +2073,11 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    cannot: the product's centre drifts from 83% to 87% of the viewport as the
    window changes shape. */
 .fx-ripple{position:absolute;top:50%;left:auto;
-  --prod-h:min(calc(0.86 * (100svh - 76px)),740px);
+  --prod-h:min(calc(0.86 * (100svh - var(--hdr))),46.25rem);
   /* the product is positioned inside .hero-body, which is the 1800px wrap and
      is centred — so the same offset measured from the viewport has to add back
      whatever centring margin the wrap is carrying */
-  right:calc(max(0px,(100vw - var(--wrap)) / 2) + clamp(1.5rem,7vw,9rem)
+  right:calc(max(0px,(100vw - var(--wrap)) / 2) + min(9rem,22.5vw)
              + var(--prod-h) / 8.1018);
   transform:translate(50%,-50%);
   width:min(40vw,560px);aspect-ratio:1}
