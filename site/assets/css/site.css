@@ -320,6 +320,13 @@ ul{margin:0;padding:0;list-style:none}
    bar's. Sized up so it reads edge to edge in the slot it sits in. */
 .brand img{height:30px;width:auto}
 @media(max-width:520px){.brand img{height:26px}}
+/* The wordmark is swapped per theme with content:url(). That substitution
+   drops the element's intrinsic width, so width:auto stretched the footer
+   copy to its whole column and the art was painted centred inside it — the
+   box was left aligned, the logo inside it was not. The ratio is restated in
+   CSS so width:auto has something to resolve against either way, and the
+   substituted image is pinned to the left rather than centred. */
+.brand img,.ftr-brand img{aspect-ratio:1330/377;object-fit:contain;object-position:left center}
 .nav{display:flex;gap:var(--s4);margin-left:auto}
 .nav a{
   position:relative;text-decoration:none;font-size:var(--f-sm);font-weight:400;color:var(--on-dark);
@@ -610,7 +617,7 @@ ul{margin:0;padding:0;list-style:none}
 .ftr li{margin-bottom:0.5rem}
 .ftr a{text-decoration:none;font-size:var(--f-sm);color:var(--on-dark);transition:color .25s}
 .ftr a:hover{color:var(--blue)}
-.ftr-brand img{height:28px;margin-bottom:var(--s2)}
+.ftr-brand img{height:28px;width:auto;margin-bottom:var(--s2)}
 /* Eight pages carry .ftr-grid and three carry .grid. .ftr-grid had no rule at
    all, so on those eight the entire footer collapsed into one stacked column.
    Same twelve-column layout as the others, weighted left so the link columns
