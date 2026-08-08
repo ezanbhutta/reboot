@@ -1525,7 +1525,8 @@ body::after{
 /* background-size carries the image's own ratio (width x height of the rendered
    <img>, both multiplied by the same factor), so the zoom magnifies rather than
    stretching to the stage's shape. */
-.lens{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s var(--ease);
+/* sized and placed from JS to sit exactly over the artwork, not the stage */
+.lens{position:absolute;pointer-events:none;opacity:0;transition:opacity .25s var(--ease);
   background-repeat:no-repeat;background-color:var(--surface-0);
   background-size:var(--zw,100%) var(--zh,100%);background-position:var(--bx,0) var(--by,0)}
 .plate-stage.lensing .lens{opacity:1}
@@ -2035,12 +2036,33 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    fixed aspect box, so a finished asset drops in as a src and nothing on the
    page reflows. Empty frames are drawn as reserved slots rather than as grey
    rectangles pretending to be photographs. */
-/* Film left, reel right, on one row. Stacked, the film took half the width
-   and the reel took a quarter of the height, and the other half of the page
-   was empty — and the section ran 300px past the screen. */
-.stories{display:grid;grid-template-columns:minmax(0,46rem) minmax(0,1fr);
-  gap:min(2.5rem,6.25vw);align-items:start}
-@media(max-width:1100px){.stories{grid-template-columns:minmax(0,1fr)}}
+/* Film left, reel right, on one row, both frames the same height — the film's
+   width falls out of that height and its 16:9, and the reel's items out of
+   theirs and 9:16, so the two columns and the header above them all share the
+   same two edges. Stacked, the film took half the width and the reel a quarter
+   of the height, and the other half of the page was empty. */
+.stories,.stories-hd{display:grid;
+  /* The frame height is solved from the row rather than guessed, so the film
+     and the four verticals fill the width exactly:
+       row = 16/9·H + gap + 4·(9/16·H) + 3·gap  =>  H = (row - 4·gap) / 4.0278
+     A fixed vh height left 500px of the row empty at 1920 and overflowed a
+     phone; this fills the row at every width and is capped so it cannot grow
+     taller than the screen it is read on. */
+  --frame-gap:min(2.5rem,6.25vw);
+  --row-w:calc(min(100vw,var(--wrap)) - 2 * var(--pad));
+  --frame-h:min(26rem,calc((var(--row-w) - 4 * var(--frame-gap)) / 4.0278));
+  grid-template-columns:calc(var(--frame-h) * 16 / 9) minmax(0,1fr);
+  gap:var(--frame-gap);align-items:start}
+.stories-hd{align-items:end;margin-bottom:var(--s2)}
+.stories-note{margin-top:var(--s4);max-width:66ch}
+/* Stacked, the row equation no longer applies — there is no row. The film is
+   width-driven at its own 16:9 and the reel goes back to a comfortable fixed
+   height, or solving for a row that does not exist gives 63px frames. */
+@media(max-width:1100px){
+  .stories,.stories-hd{grid-template-columns:minmax(0,1fr);--frame-h:min(30vh,17rem)}
+  .stories-hd{align-items:start;gap:var(--s2)}
+  .story-lead .story-media{height:auto;width:100%}
+}
 .story{margin:0}
 .story-media{
   position:relative;display:grid;place-items:center;gap:.6rem;
@@ -2056,7 +2078,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    share an edge. Bounding it by height instead centred the frame in a
    full-width track and left the caption stranded at the far left. */
 .story-lead{max-width:100%}
-.story-lead .story-media{aspect-ratio:16/9;width:100%}
+.story-lead .story-media{aspect-ratio:16/9;height:var(--frame-h);width:100%}
 /* A reel: fixed-height verticals in a row that scrolls rather than a grid that
    divides the page up. Four fit on a laptop, more can be added without the
    frames getting smaller, and each caption sits under its own frame. */
@@ -2065,7 +2087,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 /* the caption is set to the frame's own width, or a 14rem line of text makes
    each item wider than the 9:16 frame it sits under and four of them stop
    fitting the column */
-.story-rail{--reel-h:min(30vh,17rem)}
+.story-rail{--reel-h:var(--frame-h)}
 .story-rail .story{flex:0 0 auto;scroll-snap-align:start;width:calc(var(--reel-h) * 9 / 16)}
 .story-rail .story-media{aspect-ratio:9/16;height:var(--reel-h);width:100%}
 .story-play svg{width:min(3.375rem,8.44vw);height:min(3.375rem,8.44vw);

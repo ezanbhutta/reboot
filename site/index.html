@@ -227,14 +227,15 @@ var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('j
        nothing reflows. Nothing here claims an endorsement we do not have. -->
   <section class="sec light" id="stories">
     <div class="wrap">
-      <div class="grid rv" style="align-items:end">
-        <div class="c7 s1">
+      <!-- the header sits on the same two columns as the frames below it, so
+           the heading shares an edge with the film and the note shares one
+           with the reel -->
+      <div class="stories stories-hd rv" style="align-items:end">
+        <div>
           <div class="eyeline"><span>In use</span></div>
           <h2 class="t-2xl optical">People, not renders.</h2>
         </div>
-        <div class="c4 s9">
-          <p class="t-sm dim">The film and the creator cuts are being shot. These frames are held at the sizes the finished pieces will be delivered in.</p>
-        </div>
+        <p class="t-sm dim">The film and the creator cuts are being shot. These frames are held at the sizes the finished pieces will be delivered in.</p>
       </div>
 
       <div class="stories" style="margin-top:var(--s4)">
@@ -268,9 +269,7 @@ var d=document.documentElement;d.setAttribute('data-theme',t);d.classList.add('j
         </div>
       </div>
 
-      <div class="grid" style="margin-top:var(--s4)">
-        <div class="c7 s1"><p class="t-sm dim">We will name whoever appears and say plainly whether they were paid. A frame stays empty here until there is something real to put in it.</p></div>
-      </div>
+      <p class="t-sm dim stories-note">We will name whoever appears and say plainly whether they were paid. A frame stays empty here until there is something real to put in it.</p>
     </div>
   </section>
 

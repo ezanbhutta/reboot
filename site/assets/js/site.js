@@ -533,31 +533,43 @@
       });
     });
 
-    /* zoom lens: a background layer at 2.2x, positioned by the pointer */
+    /* Zoom lens.
+       It is laid over the ARTWORK, not the stage. The stage is nearly twice as
+       wide as the photograph standing in it, so a lens sized to the stage had
+       nowhere to pan to: the clamp pinned the magnified image to the left edge
+       and it never moved, which read as a stretched, left-aligned preview.
+       Sizing and positioning against the image's own box means the pointer
+       lands on the same point of the product at 1x and at 2.4x. */
     var stage = plate.closest('.plate-stage');
     var lens = stage && $('.lens', stage);
     if (stage && lens && !coarse && !reduce) {
       var ZOOM = 2.4;
+      var fitLens = function () {
+        var s = stage.getBoundingClientRect(), i = plate.getBoundingClientRect();
+        lens.style.left = (i.left - s.left) + 'px';
+        lens.style.top = (i.top - s.top) + 'px';
+        lens.style.width = i.width + 'px';
+        lens.style.height = i.height + 'px';
+        return i;
+      };
       stage.addEventListener('pointerenter', function () {
         lens.style.backgroundImage = 'url("' + (plate.currentSrc || plate.src) + '")';
+        fitLens();
         stage.classList.add('lensing');
       });
       stage.addEventListener('pointermove', function (e) {
-        /* Size the zoom from the IMAGE's rendered box, not the stage's. The
-           stage is roughly square and the render is 1:4, so scaling to the
-           stage's dimensions stretched the product instead of magnifying it.
-           Offsets are clamped so the pointer never drags past the artwork. */
-        var s = stage.getBoundingClientRect();
-        var i = plate.getBoundingClientRect();
+        var i = fitLens();
+        if (!i.width || !i.height) return;
         var zw = i.width * ZOOM, zh = i.height * ZOOM;
         lens.style.setProperty('--zw', zw + 'px');
         lens.style.setProperty('--zh', zh + 'px');
-        var px = Math.min(1, Math.max(0, (e.clientX - s.left) / s.width));
-        var py = Math.min(1, Math.max(0, (e.clientY - s.top) / s.height));
-        /* keep the magnified image covering the stage at both extremes */
-        var bx = (s.width - zw) * px, by = (s.height - zh) * py;
-        lens.style.setProperty('--bx', Math.min(0, bx) + 'px');
-        lens.style.setProperty('--by', Math.min(0, by) + 'px');
+        /* the pointer as a fraction of the artwork, clamped to it, then the
+           same fraction of the overhang — so the edges of the photograph are
+           reachable and nothing past them ever is */
+        var px = Math.min(1, Math.max(0, (e.clientX - i.left) / i.width));
+        var py = Math.min(1, Math.max(0, (e.clientY - i.top) / i.height));
+        lens.style.setProperty('--bx', (-(zw - i.width) * px) + 'px');
+        lens.style.setProperty('--by', (-(zh - i.height) * py) + 'px');
       });
       stage.addEventListener('pointerleave', function () { stage.classList.remove('lensing'); });
     }
