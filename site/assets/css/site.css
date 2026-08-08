@@ -51,7 +51,11 @@
   /* Dead space at 1920 used to be 304px a side — 240 of centring margin plus a
      64px pad. The container carries most of the change, so the measure of the
      text columns is unchanged and only the empty margin narrows. */
-  --pad:min(2rem,5vw);
+  /* Side air, as a share of the page rather than a fixed inset: 92px at 1920,
+     83 at 1440, 78 at 1366, 23 on a phone. The rem term is what makes it
+     follow the root scale; the vw cap is what keeps a phone from losing its
+     whole screen to margin. */
+  --pad:min(5rem,6vw);
   --wrap:112.5rem;
 
   /* The brand book's ladder, ratio 1.2, read straight off the hierarchy page:
@@ -76,9 +80,12 @@
   /* space — 8pt */
   --s1:.5rem; --s2:1rem; --s3:1.5rem; --s4:2rem; --s5:3rem;
   --s6:4rem; --s7:6rem; --s8:8rem; --s9:12rem;
-  --sec-tight:min(3.5rem,9vw);
-  --sec:min(6.5rem,15vw);
-  --sec-air:min(13.5rem,26vw);
+  /* Section rhythm. Cut so that a section is something you can see all of on
+     a laptop: at 1920 this is 83px of padding a side rather than 120, and the
+     airy step is 129 rather than 249. */
+  --sec-tight:min(2.75rem,7vw);
+  --sec:min(4.5rem,11vw);
+  --sec-air:min(7rem,17vw);
 
   /* the masthead's own height, as a token: the hero, the sticky buy box and
      every scroll-margin offset measure against it */
@@ -418,10 +425,10 @@ ul{margin:0;padding:0;list-style:none}
 /* the three elevations share one scale, so switching reads as turning a sheet */
 .plate-stage{display:flex;align-items:center;justify-content:center;
   padding:min(2rem,5vw) min(2.5rem,6.25vw)}
-.plate-stage img{height:min(62vh,610px);width:auto;max-width:100%;
+.plate-stage img{height:min(46vh,29rem);width:auto;max-width:100%;
   transition:opacity .22s var(--ease)}
 .plate-stage.swap img{opacity:0}
-@media(max-width:820px){.plate-stage img{height:min(42vh,420px)}}
+@media(max-width:820px){.plate-stage img{height:min(40vh,24rem)}}
 @media(prefers-reduced-motion:reduce){.plate-stage img{transition:none}}
 
 .fig-sm{margin:0}
@@ -460,9 +467,9 @@ ul{margin:0;padding:0;list-style:none}
    what stops eleven sections of argument reading as a wall. */
 .moment{background:var(--ink);border-block:1px solid var(--line-dark);
   padding-block:min(4rem,10vw);text-align:center}
-.moment img{height:min(80vh,780px);width:auto;margin-inline:auto}
+.moment img{height:min(52vh,30rem);width:auto;margin-inline:auto}
 .moment-facts{display:flex;flex-wrap:wrap;justify-content:center;
-  gap:min(5.5rem,13.75vw);margin:min(3.5rem,8.75vw) 0 0}
+  gap:min(4rem,10vw);margin:min(2.25rem,6vw) 0 0}
 .moment-facts dt{font-size:var(--f-xs);font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--on-dark-dim);margin-bottom:0.5rem}
 .moment-facts dd{margin:0;font-size:var(--f-lg);font-weight:500;line-height:1.18;
@@ -561,7 +568,7 @@ ul{margin:0;padding:0;list-style:none}
 .step p{font-size:var(--f-sm)}
 
 /* ============ DIAGRAM ============ */
-.diagram{background:var(--ink);border:1px solid var(--line-dark);border-radius:var(--r-lg);padding:min(3.5rem,8.75vw);
+.diagram{background:var(--ink);border:1px solid var(--line-dark);border-radius:var(--r-lg);padding:min(2.5rem,6.25vw);
   height:100%;display:flex;flex-direction:column;justify-content:center}
 .diagram svg{width:100%;height:auto}
 .light .diagram,.paper .diagram{background:var(--surface-0);border-color:transparent}
@@ -666,7 +673,7 @@ ul{margin:0;padding:0;list-style:none}
   font-size:var(--f-xs);color:var(--on-dark-dim)}
 
 /* ============ PDP ============ */
-.pdp{display:grid;grid-template-columns:1.06fr .94fr;gap:min(4.5rem,11.25vw);align-items:start;padding-block:var(--s5)}
+.pdp{display:grid;grid-template-columns:1.06fr .94fr;gap:min(4.5rem,11.25vw);align-items:start;padding-block:var(--s4)}
 .buy h1{font-size:var(--f-2xl);margin-bottom:var(--s2)}
 .buy-rating{display:inline-flex;align-items:center;gap:0.75rem;margin-top:var(--s4);
   text-decoration:none;font-size:var(--f-xs);font-weight:500;letter-spacing:.12em;
@@ -828,7 +835,7 @@ ul{margin:0;padding:0;list-style:none}
 .light .hang-n span,.paper .hang-n span{color:var(--dim-2)}
 
 /* B. full-bleed statement band, used to change tempo between sections */
-.band{background:var(--ink);color:var(--white);padding-block:min(10rem,25vw);
+.band{background:var(--ink);color:var(--white);padding-block:min(6rem,15vw);
   border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
   position:relative;overflow:hidden}
 /* The mark from the wordmark, oversized and run off the right edge. It is
@@ -1461,7 +1468,7 @@ body::after{
 @media(max-width:820px){.sim{grid-template-columns:1fr}}
 .sim-stage{background:var(--surface-0);border:1px solid var(--line-dark);padding:min(1.75rem,4.38vw);
   border-radius:var(--r-lg)}
-.sim-stage svg{width:100%;height:auto;display:block}
+.sim-stage svg{width:100%;height:auto;max-height:min(34vh,19rem);display:block;margin-inline:auto}
 .jet{stroke:var(--blue);stroke-width:3;stroke-linecap:round;
   animation:jetRun var(--rate,.9s) linear infinite}
 @keyframes jetRun{0%{opacity:.15}45%{opacity:.95}100%{opacity:.15}}
@@ -1786,7 +1793,7 @@ a.pc:hover{border-color:var(--acc,var(--blue));transform:translateY(-3px)}
    depended on the image — so it fell back to filling the card's width and made
    the card four times taller than the ones beside it. */
 .pc-fig{position:relative;background:var(--surface-0);display:grid;place-items:center;
-  padding:min(1.6rem,4vw);height:min(18.75rem,46.88vw);overflow:hidden;
+  padding:min(1.6rem,4vw);height:min(15.5rem,42vw);overflow:hidden;
   /* an explicit 1fr track, or the single auto row is sized by the image while
      the image's height:100% is sized by the row — a cycle Chrome resolves in
      favour of the image's intrinsic 2544px */
@@ -1825,9 +1832,17 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
   gap:min(4.5rem,11.25vw);align-items:center}
 @media(max-width:820px){.feat{grid-template-columns:1fr}}
 .feat-fig{background:var(--surface-0);border:1px solid var(--line-dark);border-radius:var(--r-lg);overflow:hidden;
-  display:grid;place-items:center;padding:min(3rem,7.5vw);aspect-ratio:4/5}
+  display:grid;place-items:center;padding:min(2.5rem,6.25vw);
+  /* height, not an aspect ratio: at 5fr of an 1800px container a 4:5 box is
+     975px tall on its own, which is what made this section taller than the
+     screen it is read on */
+  height:min(58vh,33rem);
+  /* explicit tracks: a single auto row is sized by the image while the image's
+     height:100% is sized by the row, and Chrome breaks that cycle in favour of
+     the image's intrinsic 2544px — which overflow:hidden then crops */
+  grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
 .light .feat-fig,.paper .feat-fig{border-color:var(--line-light)}
-.feat-fig img{height:100%;width:auto;object-fit:contain}
+.feat-fig img{width:100%;height:100%;object-fit:contain}
 .feat-pr{display:flex;align-items:baseline;gap:.85rem;margin-top:var(--s3)}
 .feat-pr b{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xl);font-weight:700;
   letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -1902,9 +1917,9 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 .anat-fig{display:grid;place-items:center;padding:var(--s4) 0}
 /* the pins are placed as a percentage of the photograph, so this box has to
    shrink-wrap the image rather than fill the column */
-.anat-img{position:relative;display:block;height:min(64vh,620px)}
+.anat-img{position:relative;display:block;height:min(44vh,25rem)}
 .anat-img>img{height:100%;width:auto}
-@media(max-width:820px){.anat-img{height:min(52vh,460px)}}
+@media(max-width:820px){.anat-img{height:min(46vh,25rem)}}
 .anat-pin{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;cursor:pointer;
   display:grid;place-items:center;border:1px solid var(--line-dark);
   background:var(--glass);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
@@ -1915,7 +1930,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 .anat-pin.on::before{transform:scale(1.5)}
 .anat-list{border-top:1px solid var(--line-dark)}
 .anat-row{display:grid;grid-template-columns:auto 1fr;gap:var(--s3);width:100%;text-align:left;
-  align-items:baseline;cursor:pointer;padding-block:min(1rem,2.5vw);
+  align-items:baseline;cursor:pointer;padding-block:min(.7rem,1.9vw);
   border-bottom:1px solid var(--line-dark);
   transition:transform .35s var(--ease),color .25s var(--ease)}
 .anat-row .n{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);font-weight:500;
@@ -2020,7 +2035,16 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    fixed aspect box, so a finished asset drops in as a src and nothing on the
    page reflows. Empty frames are drawn as reserved slots rather than as grey
    rectangles pretending to be photographs. */
-.stories{display:grid;gap:min(2rem,5vw)}
+.stories{display:grid;grid-template-columns:minmax(0,1fr);gap:min(2rem,5vw)}
+/* Above the fold-out width the frames are bounded by height, so a 16:9 lead
+   cannot be a thousand pixels tall on a wide screen. Below it they are bounded
+   by width instead: a height-led 16:9 box is wider than a phone, and inside a
+   1fr track that min-content width pushes the whole page sideways rather than
+   clamping. */
+@media(min-width:821px){
+  .story-lead .story-media{height:min(31vh,17rem);width:auto;max-width:100%;margin-inline:auto}
+  .story-rail .story-media{height:min(23vh,13rem);width:auto;max-width:100%;margin-inline:auto}
+}
 .story{margin:0}
 .story-media{
   position:relative;display:grid;place-items:center;gap:.6rem;
@@ -2029,6 +2053,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
      would be white on white. --surface-0 is the ground one step away from
      whichever band the section is using, on both themes. */
   background:var(--surface-0);overflow:hidden;
+  grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr);
 }
 .story-media>img,.story-media>video{width:100%;height:100%;object-fit:cover;display:block}
 /* The film sits above a row of four verticals, all one aspect. A 16:9 beside a
