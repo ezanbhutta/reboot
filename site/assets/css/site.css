@@ -2035,16 +2035,12 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
    fixed aspect box, so a finished asset drops in as a src and nothing on the
    page reflows. Empty frames are drawn as reserved slots rather than as grey
    rectangles pretending to be photographs. */
-.stories{display:grid;grid-template-columns:minmax(0,1fr);gap:min(2rem,5vw)}
-/* Above the fold-out width the frames are bounded by height, so a 16:9 lead
-   cannot be a thousand pixels tall on a wide screen. Below it they are bounded
-   by width instead: a height-led 16:9 box is wider than a phone, and inside a
-   1fr track that min-content width pushes the whole page sideways rather than
-   clamping. */
-@media(min-width:821px){
-  .story-lead .story-media{height:min(31vh,17rem);width:auto;max-width:100%;margin-inline:auto}
-  .story-rail .story-media{height:min(23vh,13rem);width:auto;max-width:100%;margin-inline:auto}
-}
+/* Film left, reel right, on one row. Stacked, the film took half the width
+   and the reel took a quarter of the height, and the other half of the page
+   was empty — and the section ran 300px past the screen. */
+.stories{display:grid;grid-template-columns:minmax(0,46rem) minmax(0,1fr);
+  gap:min(2.5rem,6.25vw);align-items:start}
+@media(max-width:1100px){.stories{grid-template-columns:minmax(0,1fr)}}
 .story{margin:0}
 .story-media{
   position:relative;display:grid;place-items:center;gap:.6rem;
@@ -2056,12 +2052,22 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
   grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr);
 }
 .story-media>img,.story-media>video{width:100%;height:100%;object-fit:cover;display:block}
-/* The film sits above a row of four verticals, all one aspect. A 16:9 beside a
-   column of portraits leaves a quarter of the row empty at every width, and
-   mixing 9:16 with 4:5 in one row leaves the row ragged. */
-.story-lead .story-media{aspect-ratio:16/9}
-.story-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:min(2rem,5vw)}
-.story-rail .story-media{aspect-ratio:9/16}
+/* The film is capped by width and left aligned, so the frame and its caption
+   share an edge. Bounding it by height instead centred the frame in a
+   full-width track and left the caption stranded at the far left. */
+.story-lead{max-width:100%}
+.story-lead .story-media{aspect-ratio:16/9;width:100%}
+/* A reel: fixed-height verticals in a row that scrolls rather than a grid that
+   divides the page up. Four fit on a laptop, more can be added without the
+   frames getting smaller, and each caption sits under its own frame. */
+.story-rail{display:flex;gap:min(1.5rem,4vw);overflow-x:auto;
+  scroll-snap-type:x proximity;padding-bottom:.5rem;scrollbar-width:thin}
+/* the caption is set to the frame's own width, or a 14rem line of text makes
+   each item wider than the 9:16 frame it sits under and four of them stop
+   fitting the column */
+.story-rail{--reel-h:min(30vh,17rem)}
+.story-rail .story{flex:0 0 auto;scroll-snap-align:start;width:calc(var(--reel-h) * 9 / 16)}
+.story-rail .story-media{aspect-ratio:9/16;height:var(--reel-h);width:100%}
 .story-play svg{width:min(3.375rem,8.44vw);height:min(3.375rem,8.44vw);
   fill:none;stroke:var(--blue);stroke-width:1.1;stroke-linejoin:round}
 .story-spec{font-family:Azeret,ui-monospace,monospace;font-size:var(--f-xs);
@@ -2070,12 +2076,7 @@ a.pc:hover .pc-fig img{transform:scale(1.04)}
 .story figcaption b{display:block;font-size:var(--f-sm);font-weight:500;letter-spacing:-.01em}
 .story figcaption span{display:block;margin-top:.25rem;font-size:var(--f-xs);
   color:var(--on-dark-dim);line-height:1.55}
-@media(max-width:900px){.story-rail{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){
-  .story-rail{grid-auto-flow:column;grid-template-columns:none;
-    grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;
-    padding-bottom:.5rem;scrollbar-width:thin}
-  .story-rail .story{scroll-snap-align:start}
+
 }
 
 /* ============ HERO GROUND ============
